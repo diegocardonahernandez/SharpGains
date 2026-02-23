@@ -1,8 +1,118 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    Layout = null;
+    ViewData["Title"] = "SharpGains - Gestión de Sobrecarga Progresiva";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        /* Estilos temporales para el boceto */
+        .hero-section {
+            min-height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                        url('/images/gym-background.jpg') center/cover no-repeat;
+            /* TODO: Reemplazar con imagen real de fondo */
+            background-color: #343a40; /* Fallback si no hay imagen */
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section d-flex flex-column">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand fw-bold fs-3" href="#">SHARPGAINS</a>
+                <div class="ms-auto">
+                    <a asp-controller="Account" asp-action="Login" class="btn btn-outline-light me-2">Iniciar Sesión</a>
+                    <a asp-controller="Account" asp-action="Register" class="btn btn-primary">Registrarse</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Content -->
+        <div class="container flex-grow-1 d-flex align-items-center">
+            <div class="row w-100">
+                <div class="col-lg-8 col-md-10 text-white">
+                    <h1 class="display-3 fw-bold mb-4">
+                        Lleva tu entrenamiento al siguiente nivel
+                    </h1>
+                    <p class="lead mb-4">
+                        Gestiona tu sobrecarga progresiva de forma inteligente.
+                        Registra tus entrenamientos, visualiza tu progreso y alcanza tus objetivos.
+                    </p>
+                    <div class="d-flex gap-3">
+                        <a asp-controller="Account" asp-action="Register" class="btn btn-primary btn-lg">
+                            Comenzar Ahora
+                        </a>
+                        <a href="#features" class="btn btn-outline-light btn-lg">
+                            Saber Más
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section (Boceto) -->
+    <section id="features" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5">¿Por qué SharpGains?</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 text-center p-4">
+                        <div class="card-body">
+                            <div class="display-4 mb-3">📈</div>
+                            <h5 class="card-title">Seguimiento de Progreso</h5>
+                            <p class="card-text">Visualiza tu evolución con gráficos detallados de cada ejercicio.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 text-center p-4">
+                        <div class="card-body">
+                            <div class="display-4 mb-3">🏋️</div>
+                            <h5 class="card-title">Sobrecarga Progresiva</h5>
+                            <p class="card-text">El sistema te guía para incrementar peso, repeticiones o series.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 text-center p-4">
+                        <div class="card-body">
+                            <div class="display-4 mb-3">📱</div>
+                            <h5 class="card-title">Acceso Total</h5>
+                            <p class="card-text">Registra tus entrenamientos desde cualquier dispositivo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5 bg-dark text-white text-center">
+        <div class="container">
+            <h2 class="mb-4">¿Listo para empezar?</h2>
+            <p class="lead mb-4">Únete a SharpGains y transforma tu entrenamiento.</p>
+            <a asp-controller="Account" asp-action="Register" class="btn btn-primary btn-lg">
+                Crear Cuenta Gratis
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-4 bg-secondary text-white text-center">
+        <div class="container">
+            <p class="mb-0">&copy; 2026 SharpGains - Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
