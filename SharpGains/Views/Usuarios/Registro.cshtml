@@ -6,7 +6,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Registro">
+        <form method="post" asp-action="Registro">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group" hidden>
                 <label asp-for="Id" class="control-label"></label>
@@ -24,9 +24,13 @@
                 <span asp-validation-for="Apellidos" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Correo" class="control-label"></label>
-                <input asp-for="Correo" class="form-control" />
+                <label asp-for="Correo" class="control-label">Correo Electrónico</label>
+                <input asp-for="Correo" type="email" class="form-control"
+                       hx-get="/Usuarios/ValidarCorreo"
+                       hx-trigger="keyup changed delay:500ms"
+                       hx-target="#correo-feedback" />
                 <span asp-validation-for="Correo" class="text-danger"></span>
+                <div id="correo-feedback"></div>
             </div>
             <div class="form-group">
                 <label asp-for="Contrasena" class="control-label"></label>

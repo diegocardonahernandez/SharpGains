@@ -46,7 +46,7 @@ namespace SharpGains.Repositories
             var usuarioTemporal = new Usuario();
             string hashGenerado = passwordHasher.HashPassword(usuarioTemporal, contrasena);
                 
-            string sql = "SP_REGISTER_USER @nombre, @apellidos, @correo, @contrasena, @peso, @altura";
+            string sql = "SP_REGISTER_USER @nombre, @apellidos, @correo, @contrasena, @altura, @peso";
             SqlParameter pamNombre = new SqlParameter("@nombre", nombre);
             SqlParameter pamApellidos = new SqlParameter("@apellidos", apellidos);
             SqlParameter pamCorreo = new SqlParameter("@correo", correo);
@@ -55,6 +55,13 @@ namespace SharpGains.Repositories
             SqlParameter pamPeso = new SqlParameter("@peso", peso);
             int registros = await this.context.Database.ExecuteSqlRawAsync(sql, pamNombre, pamApellidos, pamCorreo, pamHashContrasena, pamAltura, pamPeso);
             return registros;
+        }
+
+        public async Task<Usuario> BuscarUsuario(string correo)
+        {
+            return await this.context.Usuarios
+                .Where(u => u.Correo == correo)
+                .FirstOrDefaultAsync();
         }
 
     }
