@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using SharpGains.Data;
 using SharpGains.Models;
-using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -12,7 +13,7 @@ namespace SharpGains.Repositories
     public class RepositoryUsuarios
     {
         #region STORED PROCEDURES
-        //REGISTRO DE USUARIO:
+        //REGISTRO:
 
         //        CREATE PROCEDURE SP_REGISTER_USER
         //              (@nombre NVARCHAR(100),
@@ -29,6 +30,14 @@ namespace SharpGains.Repositories
         //          VALUES(@idnuevousuario, @nombre, @apellidos, @correo, @contrasena, @altura, @peso)
         //      GO
         //      ------------------------
+
+        //LOGIN:
+
+ //       CREATE PROCEDURE SP_LOGIN_USUARIO(@correo NVARCHAR(255), @contrasena NVARCHAR(256))
+//          AS
+ //            SELECT* FROM USUARIO
+ //            WHERE correo = @correo AND contrasena = @contrasena
+ //         GO
         #endregion
 
         private SharpGainsContext context;
@@ -62,6 +71,17 @@ namespace SharpGains.Repositories
             return await this.context.Usuarios
                 .Where(u => u.Correo == correo)
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<Usuario> Login(string correo, string contrasena)
+        {
+            string sql = "SP_LOGIN_USUARIO @correo, @contrasena";
+            SqlParameter pamCorreo = new SqlParameter("@correo", correo);
+            SqlParameter pamContrasena = new SqlParameter("@contrasena", contrasena);
+            var consulta = await this.context.Usuarios.FromSqlRaw(sql, correo, contrasena).ToListAsync();
+            Usuario usuario = consulta.FirstOrDefault();
+            return usuario;
+
         }
 
     }
