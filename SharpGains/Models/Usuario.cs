@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace SharpGains.Models;
 
 [Table("USUARIO")]
-[Index("Correo", Name = "UQ__USUARIO__2A586E0B99290F91", IsUnique = true)]
+[Index("Correo", Name = "UQ__USUARIO__2A586E0B568E0E0E", IsUnique = true)]
 public partial class Usuario
 {
     [Key]
@@ -40,4 +40,7 @@ public partial class Usuario
 
     [InverseProperty("IdUsuarioNavigation")]
     public virtual ICollection<Sesion> Sesions { get; set; } = new List<Sesion>();
+
+    [InverseProperty("IdUsuarioNavigation")]
+    public virtual UsuarioSeguridad? UsuarioSeguridad { get; set; }
 }

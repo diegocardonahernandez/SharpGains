@@ -29,8 +29,26 @@
             <div class="container">
                 <a class="navbar-brand fw-bold fs-3" href="#">SHARPGAINS</a>
                 <div class="ms-auto">
-                    <a asp-controller="Usuarios" asp-action="Login" class="btn btn-outline-light me-2">Iniciar Sesión</a>
-                    <a asp-controller="Usuarios" asp-action="Registro" class="btn btn-primary">Registrarse</a>
+                    @if (Context.Session.GetString("IDUSUARIOLOGEADO") != null)
+                    {
+                        <div class="dropdown">
+                            <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                Mi Perfil
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                                <li><a class="dropdown-item" asp-controller="Usuarios" asp-action="Perfil">Ver Perfil</a></li>
+                                <li><a class="dropdown-item" href="#">Mis Entrenamientos</a></li>
+                                <li><a class="dropdown-item" href="#">Configuración</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-controller="Usuarios" asp-action="CerrarSesion">Cerrar Sesión</a></li>
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <a asp-controller="Usuarios" asp-action="Login" class="btn btn-outline-light me-2">Iniciar Sesión</a>
+                        <a asp-controller="Usuarios" asp-action="Registro" class="btn btn-primary">Registrarse</a>
+                    }
                 </div>
             </div>
         </nav>
@@ -47,7 +65,7 @@
                         Registra tus entrenamientos, visualiza tu progreso y alcanza tus objetivos.
                     </p>
                     <div class="d-flex gap-3">
-                        <a asp-controller="Account" asp-action="Register" class="btn btn-primary btn-lg">
+                        <a asp-controller="Account" asp-action="Registro" class="btn btn-primary btn-lg">
                             Comenzar Ahora
                         </a>
                         <a href="#features" class="btn btn-outline-light btn-lg">

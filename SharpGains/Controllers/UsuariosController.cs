@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SharpGains.Models;
 using SharpGains.Repositories;
+using System.Text.RegularExpressions;
 
 namespace SharpGains.Controllers
 {
@@ -47,16 +48,72 @@ namespace SharpGains.Controllers
         }
 
         [HttpGet]
-
         public async Task<IActionResult> ValidarCorreo(string correo)
         {
+            if (string.IsNullOrWhiteSpace(correo))
+            {
+                return Content("", "text/html"); 
+            }
+            string patronRegex = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+
+            if (!Regex.IsMatch(correo, patronRegex))
+            {
+                return Content("<span class='text-warning'>Formato de correo inválido.</span>", "text/html");
+            }
+
             Usuario usuario = await this.repo.BuscarUsuario(correo);
-                if(usuario != null)
+
+            if (usuario != null)
             {
                 return Content("<span class='text-danger'>Este correo ya está en uso.</span>", "text/html");
             }
+
             return Content("<span class='text-success'>Correo disponible.</span>", "text/html");
         }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(string correo, string contrasena)
+        {
+            Usuario usuarioLogeado = await this.repo.Login(correo, contrasena);
+
+                if(usuarioLogeado == null)
+            {
+                ViewBag.ERROR = "Error, el correo o la contraseña no son correctos";
+                return View();
+            }
+            else
+            {
+                string idusuarioLogeado = "";
+                if (HttpContext.Session.GetString("IDUSUARIOLOGEADO") != null)
+                {
+                    idusuarioLogeado = HttpContext.Session.GetString("IDUSUARIOLOGEADO");
+                }
+
+                HttpContext.Session.SetString("IDUSUARIOLOGEADO", usuarioLogeado.Id.ToString());
+            }
+
+            return RedirectToAction("index", "Home");
+
+        }
+
+        public async Task<IActionResult> Perfil()
+        {
+            int idUsuario = int.Parse(HttpContext.Session.GetString("IDUSUARIOLOGEADO"));
+            Usuario usuario = await this.repo.GetUsuario(idUsuario);
+            return View(usuario);
+        }
+
+        public IActionResult CerrarSesion()
+        {
+            HttpContext.Session.Remove("IDUSUARIOLOGEADO");
+            return RedirectToAction("index", "home");
+                
+         }
 
     }
 }

@@ -27,11 +27,14 @@ public partial class SharpGainsContext : DbContext
     public virtual DbSet<Sesion> Sesions { get; set; }
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
+
+    public virtual DbSet<UsuarioSeguridad> UsuarioSeguridad { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Ejercicio>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__EJERCICI__3213E83F48424D8F");
+            entity.HasKey(e => e.Id).HasName("PK__EJERCICI__3213E83F44246CC2");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
         });
@@ -45,7 +48,7 @@ public partial class SharpGainsContext : DbContext
 
         modelBuilder.Entity<Rutina>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__RUTINA__3213E83FD5A0AAFD");
+            entity.HasKey(e => e.Id).HasName("PK__RUTINA__3213E83FD62E03EC");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -54,7 +57,7 @@ public partial class SharpGainsContext : DbContext
 
         modelBuilder.Entity<Serie>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__SERIE__3213E83FE4DF98C0");
+            entity.HasKey(e => e.Id).HasName("PK__SERIE__3213E83F02B91B4C");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -67,7 +70,7 @@ public partial class SharpGainsContext : DbContext
 
         modelBuilder.Entity<Sesion>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__SESION__3213E83F7EEA4E92");
+            entity.HasKey(e => e.Id).HasName("PK__SESION__3213E83F77A73DE7");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
 
@@ -82,9 +85,18 @@ public partial class SharpGainsContext : DbContext
 
         modelBuilder.Entity<Usuario>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__USUARIO__3213E83F3F2C208B");
+            entity.HasKey(e => e.Id).HasName("PK__USUARIO__3213E83FF9D3B1A1");
 
             entity.Property(e => e.Id).ValueGeneratedNever();
+        });
+
+        modelBuilder.Entity<UsuarioSeguridad>(entity =>
+        {
+            entity.HasKey(e => e.IdUsuario).HasName("PK__USUARIO___4E3E04AD4CA96D14");
+
+            entity.Property(e => e.IdUsuario).ValueGeneratedNever();
+
+            entity.HasOne(d => d.IdUsuarioNavigation).WithOne(p => p.UsuarioSeguridad).HasConstraintName("FK_SEGURIDAD_USUARIO");
         });
 
         OnModelCreatingPartial(modelBuilder);

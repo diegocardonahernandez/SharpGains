@@ -1,0 +1,143 @@
+﻿@model SharpGains.Models.Usuario
+
+@{
+    ViewData["Title"] = "Mi Perfil";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Header del Perfil -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-5">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-4" 
+                             style="width: 80px; height: 80px; font-size: 2rem;">
+                            @Model.Nombre?.Substring(0, 1).ToUpper()
+                        </div>
+                        <div>
+                            <h2 class="mb-1 fw-bold">@Model.Nombre @Model.Apellidos</h2>
+                            <p class="text-muted mb-0">@Model.Correo</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Información Personal -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4 class="mb-0 fw-bold">Información Personal</h4>
+                        <button class="btn btn-outline-primary btn-sm">
+                            Editar
+                        </button>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="form-label text-muted small">Nombre</label>
+                            <p class="fw-semibold">@Model.Nombre</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-muted small">Apellidos</label>
+                            <p class="fw-semibold">@(Model.Apellidos ?? "No especificado")</p>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label text-muted small">Correo Electrónico</label>
+                            <p class="fw-semibold">@Model.Correo</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Datos Físicos -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4 class="mb-0 fw-bold">Datos Físicos</h4>
+                        <button class="btn btn-outline-primary btn-sm">
+                            Actualizar
+                        </button>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded">
+                                <label class="form-label text-muted small mb-2">Altura</label>
+                                <p class="h4 mb-0 fw-bold">
+                                    @(Model.Altura?.ToString("0.00") ?? "N/A") 
+                                    @if (Model.Altura != null)
+                                    {
+                                        <span class="text-muted fs-6">cm</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded">
+                                <label class="form-label text-muted small mb-2">Peso</label>
+                                <p class="h4 mb-0 fw-bold">
+                                    @(Model.Peso?.ToString("0.00") ?? "N/A") 
+                                    @if (Model.Peso != null)
+                                    {
+                                        <span class="text-muted fs-6">kg</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                        @if (Model.Altura != null && Model.Peso != null)
+                        {
+                            var imc = Model.Peso / ((Model.Altura / 100) * (Model.Altura / 100));
+                            <div class="col-md-12">
+                                <div class="p-3 bg-light rounded">
+                                    <label class="form-label text-muted small mb-2">Índice de Masa Corporal (IMC)</label>
+                                    <p class="h4 mb-0 fw-bold">
+                                        @imc?.ToString("0.00")
+                                        <span class="text-muted fs-6">kg/m²</span>
+                                    </p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estadísticas Rápidas -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body p-4">
+                    <h4 class="mb-4 fw-bold">Actividad</h4>
+                    <div class="row text-center g-3">
+                        <div class="col-4">
+                            <div class="p-3">
+                                <p class="h3 mb-1 fw-bold text-primary">@Model.Rutinas.Count</p>
+                                <p class="text-muted small mb-0">Rutinas</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="p-3">
+                                <p class="h3 mb-1 fw-bold text-primary">@Model.Sesions.Count</p>
+                                <p class="text-muted small mb-0">Sesiones</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="p-3">
+                                <p class="h3 mb-1 fw-bold text-primary">0</p>
+                                <p class="text-muted small mb-0">Días Activos</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Acciones -->
+            <div class="d-flex gap-2 justify-content-end">
+                <a asp-action="Index" asp-controller="Home" class="btn btn-outline-secondary">
+                    Volver al Inicio
+                </a>
+                <button class="btn btn-danger">
+                    Cerrar Sesión
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

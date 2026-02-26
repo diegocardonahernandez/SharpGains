@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Iniciar Sesión";
+}
+
+<div class="container">
+    <div class="row justify-content-center align-items-center min-vh-100">
+        <div class="col-md-5 col-lg-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <h2 class="fw-bold">SharpGains</h2>
+                        <p class="text-muted">Inicia sesión en tu cuenta</p>
+                    </div>
+
+                    @if (ViewBag.ERROR != null)
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @ViewBag.ERROR
+                        </div>
+                    }
+
+                    <form asp-action="Login" method="post">
+                        <div class="mb-3">
+                            <label for="correo" class="form-label">Correo electrónico</label>
+                            <input type="email"
+                                   class="form-control"
+                                   id="correo"
+                                   name="correo"
+                                   placeholder="usuario@ejemplo.com"
+                                   required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="contrasena" class="form-label">Contraseña</label>
+                            <input type="password"
+                                   class="form-control"
+                                   id="contrasena"
+                                   name="contrasena"
+                                   placeholder="••••••••"
+                                   required>
+                        </div>
+
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                Iniciar Sesión
+                            </button>
+                        </div>
+
+                        <div class="text-center">
+                            <small class="text-muted">
+                                ¿No tienes cuenta?
+                                <a asp-action="Registro" class="text-decoration-none">Regístrate aquí</a>
+                            </small>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .min-vh-100 {
+        min-height: 100vh;
+    }
+
+    .card {
+        border-radius: 1rem;
+    }
+</style>
