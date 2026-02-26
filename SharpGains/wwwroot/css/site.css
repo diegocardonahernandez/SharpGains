@@ -1,31 +1,490 @@
+/* ============================================
+   SHARPGAINS — "Elite Discipline" Design System
+   ============================================ */
+
+/* ---------- CSS Variables (Paleta) ---------- */
+:root {
+    --sg-bg-primary: #0A0A0A;
+    --sg-bg-surface: #1A1A1A;
+    --sg-border: #333333;
+    --sg-accent: #2ECC71;
+    --sg-accent-hover: #27AE60;
+    --sg-text-primary: #FFFFFF;
+    --sg-text-secondary: #999999;
+    --sg-radius: 10px;
+    --sg-font-heading: 'Oswald', 'Inter', sans-serif;
+    --sg-font-body: 'Inter', 'Roboto', sans-serif;
+    --sg-danger: #E74C3C;
+    --sg-danger-hover: #C0392B;
+    --sg-warning: #F39C12;
+}
+
+/* ---------- Reset & Base ---------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    html {
+        font-size: 16px;
+    }
 }
 
 body {
-  margin-bottom: 60px;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 60px;
+    background-color: var(--sg-bg-primary);
+    color: var(--sg-text-primary);
+    font-family: var(--sg-font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+/* ---------- Typography ---------- */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--sg-font-heading);
+    font-weight: 700;
+    color: var(--sg-text-primary);
+    letter-spacing: 0.5px;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+
+p {
+    color: var(--sg-text-secondary);
+    line-height: 1.7;
+}
+
+a {
+    color: var(--sg-accent);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--sg-accent-hover);
+}
+
+/* ---------- Navbar ---------- */
+.sg-navbar {
+    background-color: var(--sg-bg-surface);
+    border-bottom: 1px solid var(--sg-border);
+    padding: 0.75rem 0;
+}
+
+.sg-navbar .navbar-brand {
+    font-family: var(--sg-font-heading);
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--sg-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.sg-navbar .navbar-brand:hover {
+    color: var(--sg-accent);
+}
+
+.sg-navbar .nav-link {
+    color: var(--sg-text-secondary);
+    font-family: var(--sg-font-body);
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.5rem 1rem;
+    transition: color 0.2s ease;
+}
+
+.sg-navbar .nav-link:hover,
+.sg-navbar .nav-link.active {
+    color: var(--sg-accent);
+}
+
+.sg-navbar .navbar-toggler {
+    border-color: var(--sg-border);
+}
+
+.sg-navbar .navbar-toggler-icon {
+    filter: invert(1);
+}
+
+/* ---------- Footer ---------- */
+.sg-footer {
+    background-color: var(--sg-bg-surface);
+    border-top: 1px solid var(--sg-border);
+    color: var(--sg-text-secondary);
+    padding: 1.25rem 0;
+    font-size: 0.85rem;
+}
+
+.sg-footer a {
+    color: var(--sg-text-secondary);
+}
+
+.sg-footer a:hover {
+    color: var(--sg-accent);
+}
+
+/* ---------- Focus Override ---------- */
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem var(--sg-bg-primary), 0 0 0 0.25rem var(--sg-accent);
+}
+
+/* ---------- Scrollbar (Chromium) ---------- */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--sg-bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--sg-border);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--sg-text-secondary);
+}
+
+/* ---------- Selection ---------- */
+::selection {
+    background-color: var(--sg-accent);
+    color: var(--sg-bg-primary);
+}
+
+/* ============================================
+   STEP 2 — COMPONENTS (Buttons, Inputs, Cards)
+   ============================================ */
+
+/* ---------- Buttons: Shared Base ---------- */
+.btn-sg {
+    font-family: var(--sg-font-body);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.7rem 1.75rem;
+    border-radius: var(--sg-radius);
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: background-color 0.25s ease,
+                border-color 0.25s ease,
+                color 0.25s ease,
+                transform 0.15s ease,
+                box-shadow 0.25s ease;
+}
+
+.btn-sg:active {
+    transform: scale(0.97);
+}
+
+/* -- Primary (Verde acento, relleno) -- */
+.btn-sg-primary {
+    background-color: var(--sg-accent);
+    border-color: var(--sg-accent);
+    color: var(--sg-bg-primary);
+}
+
+.btn-sg-primary:hover {
+    background-color: var(--sg-accent-hover);
+    border-color: var(--sg-accent-hover);
+    color: var(--sg-bg-primary);
+    box-shadow: 0 0 16px rgba(46, 204, 113, 0.3);
+}
+
+/* -- Secondary (Outline verde) -- */
+.btn-sg-secondary {
+    background-color: transparent;
+    border-color: var(--sg-accent);
+    color: var(--sg-accent);
+}
+
+.btn-sg-secondary:hover {
+    background-color: var(--sg-accent);
+    color: var(--sg-bg-primary);
+    box-shadow: 0 0 16px rgba(46, 204, 113, 0.25);
+}
+
+/* -- Ghost (Sin borde, sutil) -- */
+.btn-sg-ghost {
+    background-color: transparent;
+    border-color: var(--sg-border);
+    color: var(--sg-text-secondary);
+}
+
+.btn-sg-ghost:hover {
+    border-color: var(--sg-text-secondary);
+    color: var(--sg-text-primary);
+    background-color: rgba(255, 255, 255, 0.04);
+}
+
+/* -- Danger (Rojo, para acciones destructivas) -- */
+.btn-sg-danger {
+    background-color: var(--sg-danger);
+    border-color: var(--sg-danger);
+    color: var(--sg-text-primary);
+}
+
+.btn-sg-danger:hover {
+    background-color: var(--sg-danger-hover);
+    border-color: var(--sg-danger-hover);
+    box-shadow: 0 0 16px rgba(231, 76, 60, 0.3);
+}
+
+/* -- Sizes -- */
+.btn-sg-sm {
+    padding: 0.45rem 1rem;
+    font-size: 0.8rem;
+}
+
+.btn-sg-lg {
+    padding: 0.9rem 2.25rem;
+    font-size: 1rem;
+}
+
+/* ---------- Form Inputs ---------- */
+.form-control-sg {
+    width: 100%;
+    background-color: var(--sg-bg-surface);
+    border: 1px solid var(--sg-border);
+    border-radius: var(--sg-radius);
+    color: var(--sg-text-primary);
+    font-family: var(--sg-font-body);
+    font-size: 0.95rem;
+    padding: 0.7rem 1rem;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.form-control-sg::placeholder {
+    color: var(--sg-text-secondary);
+    opacity: 0.7;
+}
+
+.form-control-sg:focus {
+    outline: none;
+    border-color: var(--sg-accent);
+    box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2);
+    background-color: var(--sg-bg-surface);
+    color: var(--sg-text-primary);
+}
+
+.form-control-sg:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* -- Select override -- */
+select.form-control-sg {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999999' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+}
+
+/* -- Textarea override -- */
+textarea.form-control-sg {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* ---------- Labels ---------- */
+.form-label-sg {
+    font-family: var(--sg-font-body);
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--sg-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.4rem;
+    display: inline-block;
+}
+
+/* ---------- Validation ---------- */
+.form-control-sg.input-validation-error {
+    border-color: var(--sg-danger);
+}
+
+.form-control-sg.input-validation-error:focus {
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.25);
+}
+
+.field-validation-error {
+    color: var(--sg-danger);
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+/* ---------- Cards ---------- */
+.sg-card {
+    background-color: var(--sg-bg-surface);
+    border: 1px solid var(--sg-border);
+    border-radius: var(--sg-radius);
+    padding: 2rem;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.sg-card:hover {
+    border-color: rgba(46, 204, 113, 0.3);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+.sg-card-header {
+    font-family: var(--sg-font-heading);
+    font-weight: 700;
+    font-size: 1.35rem;
+    color: var(--sg-text-primary);
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--sg-border);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* -- Card sin hover effect (para forms estáticos) -- */
+.sg-card-static {
+    background-color: var(--sg-bg-surface);
+    border: 1px solid var(--sg-border);
+    border-radius: var(--sg-radius);
+    padding: 2rem;
+}
+
+/* ---------- Dividers ---------- */
+.sg-divider {
+    border: none;
+    border-top: 1px solid var(--sg-border);
+    margin: 1.5rem 0;
+}
+
+/* ---------- Badges / Tags ---------- */
+.sg-badge {
+    display: inline-block;
+    font-family: var(--sg-font-body);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.3rem 0.75rem;
+    border-radius: 20px;
+    background-color: rgba(46, 204, 113, 0.15);
+    color: var(--sg-accent);
+    border: 1px solid rgba(46, 204, 113, 0.3);
+}
+
+.sg-badge-warning {
+    background-color: rgba(243, 156, 18, 0.15);
+    color: var(--sg-warning);
+    border-color: rgba(243, 156, 18, 0.3);
+}
+
+.sg-badge-danger {
+    background-color: rgba(231, 76, 60, 0.15);
+    color: var(--sg-danger);
+    border-color: rgba(231, 76, 60, 0.3);
+}
+
+/* ============================================
+   STEP 3 — AUTH PAGES & ALERTS
+   ============================================ */
+
+/* ---------- Auth Page Wrapper ---------- */
+.sg-auth-wrapper {
+    min-height: calc(100vh - 140px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
+}
+
+.sg-auth-card {
+    background-color: var(--sg-bg-surface);
+    border: 1px solid var(--sg-border);
+    border-radius: 12px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 480px;
+}
+
+.sg-auth-title {
+    font-family: var(--sg-font-heading);
+    font-weight: 700;
+    font-size: 1.75rem;
+    color: var(--sg-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.sg-auth-subtitle {
+    color: var(--sg-text-secondary);
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+}
+
+.sg-auth-accent {
+    color: var(--sg-accent);
+}
+
+/* ---------- Form Group Spacing ---------- */
+.sg-form-group {
+    margin-bottom: 1.25rem;
+}
+
+/* ---------- Alerts ---------- */
+.sg-alert {
+    padding: 0.85rem 1rem;
+    border-radius: var(--sg-radius);
+    font-size: 0.875rem;
+    font-family: var(--sg-font-body);
+    margin-bottom: 1.25rem;
+    border: 1px solid transparent;
+}
+
+.sg-alert-danger {
+    background-color: rgba(231, 76, 60, 0.12);
+    border-color: rgba(231, 76, 60, 0.3);
+    color: var(--sg-danger);
+}
+
+.sg-alert-success {
+    background-color: rgba(46, 204, 113, 0.12);
+    border-color: rgba(46, 204, 113, 0.3);
+    color: var(--sg-accent);
+}
+
+.sg-alert-warning {
+    background-color: rgba(243, 156, 18, 0.12);
+    border-color: rgba(243, 156, 18, 0.3);
+    color: var(--sg-warning);
+}
+
+/* ---------- HTMX Feedback (Correo validation) ---------- */
+.sg-feedback-available {
+    color: var(--sg-accent);
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+}
+
+.sg-feedback-taken {
+    color: var(--sg-danger);
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+}
+
+.sg-feedback-invalid {
+    color: var(--sg-warning);
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
 }

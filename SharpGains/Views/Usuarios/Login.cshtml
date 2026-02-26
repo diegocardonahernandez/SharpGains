@@ -2,69 +2,158 @@
     ViewData["Title"] = "Iniciar Sesión";
 }
 
-<div class="container">
-    <div class="row justify-content-center align-items-center min-vh-100">
-        <div class="col-md-5 col-lg-4">
-            <div class="card shadow-sm border-0">
-                <div class="card-body p-5">
-                    <div class="text-center mb-4">
-                        <h2 class="fw-bold">SharpGains</h2>
-                        <p class="text-muted">Inicia sesión en tu cuenta</p>
-                    </div>
-
-                    @if (ViewBag.ERROR != null)
-                    {
-                        <div class="alert alert-danger" role="alert">
-                            @ViewBag.ERROR
-                        </div>
-                    }
-
-                    <form asp-action="Login" method="post">
-                        <div class="mb-3">
-                            <label for="correo" class="form-label">Correo electrónico</label>
-                            <input type="email"
-                                   class="form-control"
-                                   id="correo"
-                                   name="correo"
-                                   placeholder="usuario@ejemplo.com"
-                                   required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="contrasena" class="form-label">Contraseña</label>
-                            <input type="password"
-                                   class="form-control"
-                                   id="contrasena"
-                                   name="contrasena"
-                                   placeholder="••••••••"
-                                   required>
-                        </div>
-
-                        <div class="d-grid mb-3">
-                            <button type="submit" class="btn btn-primary btn-lg">
-                                Iniciar Sesión
-                            </button>
-                        </div>
-
-                        <div class="text-center">
-                            <small class="text-muted">
-                                ¿No tienes cuenta?
-                                <a asp-action="Registro" class="text-decoration-none">Regístrate aquí</a>
-                            </small>
-                        </div>
-                    </form>
-                </div>
-            </div>
+<div class="sg-auth-wrapper">
+    <div class="sg-auth-card">
+        <div class="text-center mb-4">
+            <h2 class="sg-auth-title">Sharp<span class="sg-auth-accent">Gains</span></h2>
+            <p class="sg-auth-subtitle">Inicia sesión en tu cuenta</p>
         </div>
+
+        @if (ViewBag.ERROR != null)
+        {
+            <div class="sg-alert sg-alert-danger" role="alert">
+                @ViewBag.ERROR
+            </div>
+        }
+
+        <form asp-action="Login" method="post">
+            <div class="sg-form-group">
+                <label for="correo" class="form-label-sg">Correo electrónico</label>
+                <input type="email"
+                       class="form-control-sg"
+                       id="correo"
+                       name="correo"
+                       placeholder="usuario@ejemplo.com"
+                       required />
+            </div>
+
+            <div class="sg-form-group">
+                <label for="contrasena" class="form-label-sg">Contraseña</label>
+                <input type="password"
+                       class="form-control-sg"
+                       id="contrasena"
+                       name="contrasena"
+                       placeholder="••••••••"
+                       required />
+            </div>
+
+            <div class="d-grid mt-4">
+                <button type="submit" class="btn-sg btn-sg-primary btn-sg-lg">
+                    Iniciar Sesión
+                </button>
+            </div>
+
+            <hr class="sg-divider" />
+
+            <div class="text-center">
+                <p class="sg-auth-subtitle">
+                    ¿No tienes cuenta?
+                    <a asp-action="Registro">Regístrate aquí</a>
+                </p>
+            </div>
+        </form>
     </div>
 </div>
 
 <style>
-    .min-vh-100 {
+    .sg-auth-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         min-height: 100vh;
+        background-color: #f8f9fa;
     }
 
-    .card {
+    .sg-auth-card {
+        background-color: #ffffff;
         border-radius: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        width: 100%;
+        max-width: 400px;
+        margin: 1rem;
     }
+
+    .sg-auth-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .sg-auth-accent {
+        color: #007bff;
+    }
+
+    .sg-auth-subtitle {
+        color: #6c757d;
+    }
+
+    .sg-alert {
+        border-radius: 0.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .sg-alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    .sg-form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label-sg {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    .form-control-sg {
+        display: block;
+        width: 100%;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        transition: border-color 0.2s ease-in-out;
+    }
+
+    .form-control-sg:focus {
+        border-color: #007bff;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+    }
+
+    .btn-sg {
+        display: inline-block;
+        width: 100%;
+        padding: 0.5rem 1rem;
+        font-size: 1.25rem;
+        font-weight: 500;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 0.25rem;
+        transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+
+    .btn-sg-primary {
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+    }
+
+    .btn-sg-primary:hover {
+        background-color: #0056b3;
+        box-shadow: 0 4px 8px rgba(0, 91, 171, 0.2);
+    }
+
+    .sg-divider {
+        height: 1px;
+        margin: 1.5rem 0;
+        background-color: #e9ecef;
+        border: none;
+    }
+
 </style>

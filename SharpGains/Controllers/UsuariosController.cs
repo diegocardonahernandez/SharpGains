@@ -52,23 +52,23 @@ namespace SharpGains.Controllers
         {
             if (string.IsNullOrWhiteSpace(correo))
             {
-                return Content("", "text/html"); 
+                return Content("", "text/html");
             }
             string patronRegex = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
 
             if (!Regex.IsMatch(correo, patronRegex))
             {
-                return Content("<span class='text-warning'>Formato de correo inválido.</span>", "text/html");
+                return Content("<span class='sg-feedback-invalid'>Formato de correo inválido.</span>", "text/html");
             }
 
             Usuario usuario = await this.repo.BuscarUsuario(correo);
 
             if (usuario != null)
             {
-                return Content("<span class='text-danger'>Este correo ya está en uso.</span>", "text/html");
+                return Content("<span class='sg-feedback-taken'>Este correo ya está en uso.</span>", "text/html");
             }
 
-            return Content("<span class='text-success'>Correo disponible.</span>", "text/html");
+            return Content("<span class='sg-feedback-available'>Correo disponible.</span>", "text/html");
         }
 
         public IActionResult Login()
@@ -112,7 +112,7 @@ namespace SharpGains.Controllers
         {
             HttpContext.Session.Remove("IDUSUARIOLOGEADO");
             return RedirectToAction("index", "home");
-                
+
          }
 
     }

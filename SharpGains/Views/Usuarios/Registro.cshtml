@@ -1,70 +1,104 @@
 ﻿@model SharpGains.Models.Usuario
+@{
+    ViewData["Title"] = "Registro";
+}
 
-<h1>Registro</h1>
+<div class="sg-auth-wrapper">
+    <div class="sg-auth-card">
+        <div class="text-center mb-4">
+            <h2 class="sg-auth-title">Crear <span class="sg-auth-accent">Cuenta</span></h2>
+            <p class="sg-auth-subtitle">Únete a SharpGains y empieza a progresar</p>
+        </div>
 
-<h4>Usuario</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+        @if (ViewBag.ERROR != null)
+        {
+            <div class="sg-alert sg-alert-danger" role="alert">
+                @ViewBag.ERROR
+            </div>
+        }
+        else if (ViewBag.MENSAJE != null)
+        {
+            <div class="sg-alert sg-alert-success" role="alert">
+                @ViewBag.MENSAJE
+            </div>
+        }
+
         <form method="post" asp-action="Registro">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group" hidden>
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
+            <div asp-validation-summary="ModelOnly" class="sg-alert sg-alert-danger"></div>
+            <input asp-for="Id" type="hidden" />
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="sg-form-group">
+                        <label asp-for="Nombre" class="form-label-sg"></label>
+                        <input asp-for="Nombre" class="form-control-sg" placeholder="Tu nombre" />
+                        <span asp-validation-for="Nombre" class="field-validation-error"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="sg-form-group">
+                        <label asp-for="Apellidos" class="form-label-sg"></label>
+                        <input asp-for="Apellidos" class="form-control-sg" placeholder="Tus apellidos" />
+                        <span asp-validation-for="Apellidos" class="field-validation-error"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Apellidos" class="control-label"></label>
-                <input asp-for="Apellidos" class="form-control" />
-                <span asp-validation-for="Apellidos" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Correo" class="control-label">Correo Electrónico</label>
-                <input asp-for="Correo" type="email" class="form-control"
+
+            <div class="sg-form-group">
+                <label asp-for="Correo" class="form-label-sg">Correo Electrónico</label>
+                <input asp-for="Correo"
+                       type="email"
+                       class="form-control-sg"
+                       placeholder="usuario@ejemplo.com"
                        hx-get="/Usuarios/ValidarCorreo"
                        hx-trigger="keyup changed delay:500ms"
                        hx-target="#correo-feedback" />
-                <span asp-validation-for="Correo" class="text-danger"></span>
+                <span asp-validation-for="Correo" class="field-validation-error"></span>
                 <div id="correo-feedback"></div>
             </div>
-            <div class="form-group">
-                <label asp-for="Contrasena" class="control-label"></label>
-                <input asp-for="Contrasena" class="form-control" />
-                <span asp-validation-for="Contrasena" class="text-danger"></span>
+
+            <div class="sg-form-group">
+                <label asp-for="Contrasena" class="form-label-sg">Contraseña</label>
+                <input asp-for="Contrasena" type="password" class="form-control-sg" placeholder="••••••••" />
+                <span asp-validation-for="Contrasena" class="field-validation-error"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Altura" class="control-label"></label>
-                <input asp-for="Altura" class="form-control" />
-                <span asp-validation-for="Altura" class="text-danger"></span>
+
+            <hr class="sg-divider" />
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="sg-form-group">
+                        <label asp-for="Altura" class="form-label-sg">Altura (cm)</label>
+                        <input asp-for="Altura" class="form-control-sg" placeholder="175.50" />
+                        <span asp-validation-for="Altura" class="field-validation-error"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="sg-form-group">
+                        <label asp-for="Peso" class="form-label-sg">Peso (kg)</label>
+                        <input asp-for="Peso" class="form-control-sg" placeholder="80.00" />
+                        <span asp-validation-for="Peso" class="field-validation-error"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Peso" class="control-label"></label>
-                <input asp-for="Peso" class="form-control" />
-                <span asp-validation-for="Peso" class="text-danger"></span>
+
+            <div class="d-grid mt-3">
+                <button type="submit" class="btn-sg btn-sg-primary btn-sg-lg">
+                    Crear Cuenta
+                </button>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+
+            <hr class="sg-divider" />
+
+            <div class="text-center">
+                <p class="sg-auth-subtitle">
+                    ¿Ya tienes cuenta?
+                    <a asp-action="Login">Inicia sesión aquí</a>
+                </p>
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@if (ViewBag.ERROR != null)
-{
-    <p class="text-danger">@ViewBag.ERROR</p>
-}else if(ViewBag.MENSAJE != null)
-{
-    <p class="text-success">@ViewBag.MENSAJE</p>
-}
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

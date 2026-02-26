@@ -1,0 +1,364 @@
+﻿/* ============================================
+   SHARPGAINS — Landing Page
+   ============================================ */
+
+/* ---------- Landing Body Override ---------- */
+.sg-landing {
+    margin-bottom: 0;
+    overflow-x: hidden;
+}
+
+/* ---------- Landing Navbar (Transparent) ---------- */
+.sg-landing-navbar {
+    background-color: transparent;
+    padding: 1.25rem 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+.sg-landing-navbar .navbar-brand {
+    font-family: var(--sg-font-heading);
+    font-weight: 700;
+    font-size: 1.75rem;
+    color: var(--sg-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.sg-landing-navbar .navbar-brand:hover {
+    color: var(--sg-accent);
+}
+
+/* ---------- Hero Section ---------- */
+.sg-hero {
+    min-height: 100vh;
+    background:
+        linear-gradient(
+            160deg,
+            rgba(10, 10, 10, 0.92) 0%,
+            rgba(10, 10, 10, 0.75) 50%,
+            rgba(46, 204, 113, 0.08) 100%
+        ),
+        url('/images/gym-background.jpg') center/cover no-repeat;
+    background-color: var(--sg-bg-primary);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.sg-hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+    background: linear-gradient(to bottom, transparent, var(--sg-bg-primary));
+    pointer-events: none;
+}
+
+.sg-hero-content {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+
+.sg-hero-badge {
+    display: inline-block;
+    font-family: var(--sg-font-body);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    background-color: rgba(46, 204, 113, 0.12);
+    color: var(--sg-accent);
+    border: 1px solid rgba(46, 204, 113, 0.25);
+    margin-bottom: 1.5rem;
+}
+
+.sg-hero-title {
+    font-family: var(--sg-font-heading);
+    font-weight: 700;
+    font-size: 3.5rem;
+    line-height: 1.1;
+    color: var(--sg-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+}
+
+.sg-hero-title .sg-highlight {
+    color: var(--sg-accent);
+}
+
+.sg-hero-text {
+    font-size: 1.15rem;
+    color: var(--sg-text-secondary);
+    line-height: 1.8;
+    max-width: 540px;
+    margin-bottom: 2rem;
+}
+
+/* ---------- Stats Bar ---------- */
+.sg-stats-bar {
+    border-top: 1px solid var(--sg-border);
+    margin-top: 3rem;
+    padding-top: 2rem;
+}
+
+.sg-stat-item {
+    text-align: center;
+}
+
+.sg-stat-number {
+    font-family: var(--sg-font-heading);
+    font-weight: 700;
+    font-size: 2rem;
+    color: var(--sg-accent);
+    display: block;
+    line-height: 1;
+    margin-bottom: 0.35rem;
+}
+
+.sg-stat-label {
+    font-family: var(--sg-font-body);
+    font-size: 0.8rem;
+    color: var(--sg-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ---------- Features Section ---------- */
+.sg-features {
+    background-color: var(--sg-bg-primary);
+    padding: 6rem 0;
+}
+
+.sg-section-badge {
+    display: inline-block;
+    font-family: var(--sg-font-body);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--sg-accent);
+    margin-bottom: 0.75rem;
+}
+
+.sg-section-title {
+    font-family: var(--sg-font-heading);
+    font-weight: 700;
+    font-size: 2.25rem;
+    color: var(--sg-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+.sg-section-subtitle {
+    color: var(--sg-text-secondary);
+    font-size: 1rem;
+    max-width: 560px;
+    margin: 0 auto 3.5rem auto;
+}
+
+.sg-feature-card {
+    background-color: var(--sg-bg-surface);
+    border: 1px solid var(--sg-border);
+    border-radius: 12px;
+    padding: 2.25rem;
+    text-align: center;
+    height: 100%;
+    transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sg-feature-card:hover {
+    border-color: var(--sg-accent);
+    transform: translateY(-6px);
+    box-shadow: 0 8px 32px rgba(46, 204, 113, 0.1);
+}
+
+.sg-feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1.25rem;
+    display: block;
+}
+
+.sg-feature-title {
+    font-family: var(--sg-font-heading);
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--sg-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.75rem;
+}
+
+.sg-feature-text {
+    color: var(--sg-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin-bottom: 0;
+}
+
+/* ---------- How It Works ---------- */
+.sg-how-it-works {
+    background-color: var(--sg-bg-surface);
+    padding: 6rem 0;
+    border-top: 1px solid var(--sg-border);
+    border-bottom: 1px solid var(--sg-border);
+}
+
+.sg-step {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.sg-step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: rgba(46, 204, 113, 0.12);
+    border: 2px solid var(--sg-accent);
+    color: var(--sg-accent);
+    font-family: var(--sg-font-heading);
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.sg-step-title {
+    font-family: var(--sg-font-heading);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--sg-text-primary);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.sg-step-text {
+    color: var(--sg-text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.7;
+}
+
+/* ---------- CTA Section ---------- */
+.sg-cta {
+    background-color: var(--sg-bg-primary);
+    padding: 6rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.sg-cta::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(46, 204, 113, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.sg-cta-title {
+    font-family: var(--sg-font-heading);
+    font-weight: 700;
+    font-size: 2.5rem;
+    color: var(--sg-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.sg-cta-text {
+    color: var(--sg-text-secondary);
+    font-size: 1.05rem;
+    max-width: 500px;
+    margin: 0 auto 2.5rem auto;
+    position: relative;
+}
+
+/* ---------- Landing Footer ---------- */
+.sg-landing-footer {
+    background-color: var(--sg-bg-surface);
+    border-top: 1px solid var(--sg-border);
+    padding: 1.5rem 0;
+    text-align: center;
+    color: var(--sg-text-secondary);
+    font-size: 0.8rem;
+}
+
+.sg-landing-footer a {
+    color: var(--sg-text-secondary);
+    transition: color 0.2s ease;
+}
+
+.sg-landing-footer a:hover {
+    color: var(--sg-accent);
+}
+
+/* ---------- Dropdown Dark Override ---------- */
+.sg-landing .dropdown-menu {
+    background-color: var(--sg-bg-surface);
+    border: 1px solid var(--sg-border);
+    border-radius: var(--sg-radius);
+}
+
+.sg-landing .dropdown-item {
+    color: var(--sg-text-secondary);
+    font-family: var(--sg-font-body);
+    font-size: 0.875rem;
+    padding: 0.5rem 1.25rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.sg-landing .dropdown-item:hover {
+    background-color: rgba(46, 204, 113, 0.1);
+    color: var(--sg-accent);
+}
+
+.sg-landing .dropdown-divider {
+    border-color: var(--sg-border);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 991px) {
+    .sg-hero-title {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .sg-hero-title {
+        font-size: 2rem;
+    }
+
+    .sg-hero-text {
+        font-size: 1rem;
+    }
+
+    .sg-section-title {
+        font-size: 1.75rem;
+    }
+
+    .sg-cta-title {
+        font-size: 2rem;
+    }
+
+    .sg-stats-bar .col {
+        margin-bottom: 1.5rem;
+    }
+}
