@@ -1,0 +1,300 @@
+﻿/* ============================================
+   EJERCICIOS — Page-specific Styles
+   ============================================ */
+
+/* ---------- Hero Section ---------- */
+.sg-ejercicios-hero {
+    padding: 2.5rem 0 1.5rem;
+    border-bottom: 1px solid var(--sg-border);
+    margin-bottom: 2rem;
+}
+
+.sg-ejercicios-title {
+    font-family: var(--sg-font-heading);
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+}
+
+.sg-ejercicios-accent {
+    margin-right: 0.25rem;
+}
+
+.sg-ejercicios-subtitle {
+    color: var(--sg-text-secondary);
+    font-size: 1rem;
+    max-width: 600px;
+    margin-bottom: 0;
+}
+
+/* ---------- Stats Row ---------- */
+.sg-ejercicios-stats-row {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.sg-ejercicios-stat {
+    background-color: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--sg-border);
+    border-radius: var(--sg-radius);
+    padding: 1rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    min-width: 140px;
+}
+
+.sg-ejercicios-stat-value {
+    font-family: var(--sg-font-heading);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--sg-accent);
+    line-height: 1;
+}
+
+.sg-ejercicios-stat-label {
+    font-size: 0.75rem;
+    color: var(--sg-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 0.35rem;
+}
+
+/* ---------- Filter Bar ---------- */
+.sg-ejercicios-filter {
+    margin-bottom: 2rem;
+}
+
+.sg-filter-bar {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.sg-filter-input {
+    flex: 1;
+    min-width: 250px;
+}
+
+.sg-filter-select {
+    min-width: 220px;
+    max-width: 280px;
+}
+
+/* ---------- Grupo Sections ---------- */
+.sg-grupo-section {
+    margin-bottom: 2.5rem;
+}
+
+.sg-grupo-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--sg-border);
+}
+
+.sg-grupo-indicator {
+    width: 4px;
+    height: 28px;
+    background-color: var(--sg-accent);
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.sg-grupo-title {
+    font-family: var(--sg-font-heading);
+    font-size: 1.35rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0;
+    flex-grow: 1;
+}
+
+/* ---------- Ejercicios Grid ---------- */
+.sg-ejercicios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1rem;
+}
+
+/* ---------- Ejercicio Card ---------- */
+.sg-ejercicio-card {
+    background-color: var(--sg-bg-surface);
+    border: 1px solid var(--sg-border);
+    border-radius: var(--sg-radius);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: border-color 0.25s ease,
+                box-shadow 0.25s ease,
+                transform 0.2s ease;
+    cursor: pointer;
+}
+
+.sg-ejercicio-card:hover {
+    border-color: rgba(46, 204, 113, 0.4);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(46, 204, 113, 0.1);
+    transform: translateY(-2px);
+}
+
+/* -- Icon -- */
+.sg-ejercicio-icon {
+    width: 48px;
+    height: 48px;
+    background-color: rgba(46, 204, 113, 0.1);
+    border: 1px solid rgba(46, 204, 113, 0.2);
+    border-radius: var(--sg-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    transition: background-color 0.25s ease;
+}
+
+.sg-ejercicio-card:hover .sg-ejercicio-icon {
+    background-color: rgba(46, 204, 113, 0.18);
+}
+
+/* -- Info -- */
+.sg-ejercicio-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.sg-ejercicio-nombre {
+    font-family: var(--sg-font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--sg-text-primary);
+    margin-bottom: 0.35rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sg-ejercicio-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.sg-ejercicio-grupo,
+.sg-ejercicio-equip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.8rem;
+    color: var(--sg-text-secondary);
+}
+
+.sg-ejercicio-grupo svg,
+.sg-ejercicio-equip svg {
+    opacity: 0.6;
+}
+
+.sg-ejercicio-bodyweight {
+    color: var(--sg-accent);
+    opacity: 0.8;
+}
+
+/* -- Arrow -- */
+.sg-ejercicio-arrow {
+    flex-shrink: 0;
+    color: var(--sg-border);
+    transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.sg-ejercicio-card:hover .sg-ejercicio-arrow {
+    color: var(--sg-accent);
+    transform: translateX(3px);
+}
+
+/* ---------- Empty State ---------- */
+.sg-ejercicios-empty {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    min-height: 300px;
+}
+
+.sg-empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.sg-ejercicios-empty h3 {
+    font-family: var(--sg-font-heading);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.sg-ejercicios-empty p {
+    color: var(--sg-text-secondary);
+    max-width: 400px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    .sg-ejercicios-title {
+        font-size: 1.75rem;
+    }
+
+    .sg-ejercicios-stats-row {
+        gap: 0.75rem;
+    }
+
+    .sg-ejercicios-stat {
+        min-width: 100px;
+        padding: 0.75rem 1rem;
+    }
+
+    .sg-ejercicios-stat-value {
+        font-size: 1.5rem;
+    }
+
+    .sg-filter-bar {
+        flex-direction: column;
+    }
+
+    .sg-filter-select {
+        max-width: 100%;
+    }
+
+    .sg-ejercicios-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sg-ejercicio-card {
+        padding: 1rem 1.25rem;
+    }
+
+    .sg-ejercicio-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .sg-ejercicios-hero {
+        padding: 1.5rem 0 1rem;
+    }
+
+    .sg-ejercicio-arrow {
+        display: none;
+    }
+}

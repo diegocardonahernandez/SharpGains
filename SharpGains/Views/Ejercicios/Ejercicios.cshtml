@@ -1,0 +1,178 @@
+﻿@model List<SharpGains.Models.Ejercicio>
+@{
+    ViewData["Title"] = "Ejercicios";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Ejercicios/Ejercicios.css" asp-append-version="true" />
+}
+
+<!-- Hero Section -->
+<section class="sg-ejercicios-hero">
+    <div class="sg-ejercicios-hero-content">
+        <h1 class="sg-ejercicios-title">
+            <span class="sg-ejercicios-accent">💪</span> Ejercicios
+        </h1>
+        <p class="sg-ejercicios-subtitle">
+            Explora el catálogo completo de ejercicios disponibles para tus rutinas de entrenamiento.
+        </p>
+    </div>
+    <div class="sg-ejercicios-stats-row">
+        <div class="sg-ejercicios-stat">
+            <span class="sg-ejercicios-stat-value">@Model.Count</span>
+            <span class="sg-ejercicios-stat-label">Ejercicios</span>
+        </div>
+        <div class="sg-ejercicios-stat">
+            <span class="sg-ejercicios-stat-value">@Model.Select(e => e.GrupoMuscular).Distinct().Count()</span>
+            <span class="sg-ejercicios-stat-label">Grupos Musculares</span>
+        </div>
+        <div class="sg-ejercicios-stat">
+            <span class="sg-ejercicios-stat-value">@Model.Where(e => e.Equipamiento != null).Select(e => e.Equipamiento).Distinct().Count()</span>
+            <span class="sg-ejercicios-stat-label">Equipamientos</span>
+        </div>
+    </div>
+</section>
+
+<!-- Filtro rápido -->
+<section class="sg-ejercicios-filter">
+    <div class="sg-filter-bar">
+        <input type="text"
+               id="searchEjercicios"
+               class="form-control-sg sg-filter-input"
+               placeholder="🔍 Buscar ejercicio por nombre..." />
+        <select id="filterGrupo" class="form-control-sg sg-filter-select">
+            <option value="">Todos los grupos</option>
+            @foreach (var grupo in Model.Select(e => e.GrupoMuscular).Distinct().OrderBy(g => g))
+            {
+                <option value="@grupo">@grupo</option>
+            }
+        </select>
+    </div>
+</section>
+
+<!-- Grid de Ejercicios agrupados por grupo muscular -->
+<section class="sg-ejercicios-content">
+    @foreach (var grupo in Model.GroupBy(e => e.GrupoMuscular).OrderBy(g => g.Key))
+    {
+        <div class="sg-grupo-section" data-grupo="@grupo.Key">
+            <div class="sg-grupo-header">
+                <div class="sg-grupo-indicator"></div>
+                <h2 class="sg-grupo-title">@grupo.Key</h2>
+                <span class="sg-badge">@grupo.Count() ejercicios</span>
+            </div>
+
+            <div class="sg-ejercicios-grid">
+                @foreach (var ejercicio in grupo.OrderBy(e => e.Nombre))
+                {
+                    <div class="sg-ejercicio-card" data-nombre="@ejercicio.Nombre.ToLower()">
+                        <div class="sg-ejercicio-icon">
+                            🏋️
+                        </div>
+                        <div class="sg-ejercicio-info">
+                            <h3 class="sg-ejercicio-nombre">@ejercicio.Nombre</h3>
+                            <div class="sg-ejercicio-meta">
+                                <span class="sg-ejercicio-grupo">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <line x1="12" y1="8" x2="12" y2="16" />
+                                        <line x1="8" y1="12" x2="16" y2="12" />
+                                    </svg>
+                                    @ejercicio.GrupoMuscular
+                                </span>
+                                @if (!string.IsNullOrEmpty(ejercicio.Equipamiento))
+                                {
+                                    <span class="sg-ejercicio-equip">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <rect x="2" y="7" width="20" height="10" rx="2" />
+                                            <line x1="12" y1="7" x2="12" y2="17" />
+                                        </svg>
+                                        @ejercicio.Equipamiento
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="sg-ejercicio-equip sg-ejercicio-bodyweight">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                            <circle cx="12" cy="7" r="4" />
+                                        </svg>
+                                        Peso corporal
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                        <div class="sg-ejercicio-arrow">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="9 18 15 12 9 6" />
+                            </svg>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</section>
+
+<!-- Empty state -->
+<div id="emptyState" class="sg-ejercicios-empty" style="display: none;">
+    <div class="sg-empty-icon">🔍</div>
+    <h3>Sin resultados</h3>
+    <p>No se encontraron ejercicios con los filtros seleccionados.</p>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('searchEjercicios');
+            const filterGrupo = document.getElementById('filterGrupo');
+            const cards = document.querySelectorAll('.sg-ejercicio-card');
+            const grupos = document.querySelectorAll('.sg-grupo-section');
+            const emptyState = document.getElementById('emptyState');
+            const content = document.querySelector('.sg-ejercicios-content');
+
+            function applyFilters() {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                const selectedGrupo = filterGrupo.value;
+                let visibleCount = 0;
+
+                grupos.forEach(function (grupo) {
+                    const grupoName = grupo.getAttribute('data-grupo');
+                    const grupoCards = grupo.querySelectorAll('.sg-ejercicio-card');
+                    let grupoVisible = 0;
+
+                    if (selectedGrupo && grupoName !== selectedGrupo) {
+                        grupo.style.display = 'none';
+                        return;
+                    }
+
+                    grupo.style.display = '';
+
+                    grupoCards.forEach(function (card) {
+                        const nombre = card.getAttribute('data-nombre');
+                        const matchSearch = !searchTerm || nombre.includes(searchTerm);
+
+                        if (matchSearch) {
+                            card.style.display = '';
+                            grupoVisible++;
+                            visibleCount++;
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+
+                    grupo.style.display = grupoVisible > 0 ? '' : 'none';
+                });
+
+                emptyState.style.display = visibleCount === 0 ? 'flex' : 'none';
+                content.style.display = visibleCount === 0 ? 'none' : '';
+            }
+
+            searchInput.addEventListener('input', applyFilters);
+            filterGrupo.addEventListener('change', applyFilters);
+        });
+    </script>
+}

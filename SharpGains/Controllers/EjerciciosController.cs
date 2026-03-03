@@ -1,12 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SharpGains.Models;
+using SharpGains.Repositories;
 
 namespace SharpGains.Controllers
 {
     public class EjerciciosController : Controller
     {
-        public IActionResult Index()
+        private RepositoryEjercicios repo;
+
+        public EjerciciosController(RepositoryEjercicios repo)
         {
-            return View();
+            this.repo = repo;
+        }
+        public async Task<IActionResult> Ejercicios()
+        {
+            List<Ejercicio> ejercicios = await this.repo.GetEjercicios();
+            return View(ejercicios);
         }
     }
 }

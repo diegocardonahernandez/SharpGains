@@ -206,6 +206,36 @@
     margin-bottom: 0;
 }
 
+/* ---------- Feature Card as Link ---------- */
+a.sg-feature-card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+a.sg-feature-card-link:hover {
+    border-color: rgba(46, 204, 113, 0.5);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(46, 204, 113, 0.15);
+    transform: translateY(-3px);
+}
+
+.sg-feature-cta {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-family: var(--sg-font-body);
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--sg-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: color 0.2s ease;
+}
+
+a.sg-feature-card-link:hover .sg-feature-cta {
+    color: var(--sg-accent-hover);
+}
+
 /* ---------- How It Works ---------- */
 .sg-how-it-works {
     background-color: var(--sg-bg-surface);

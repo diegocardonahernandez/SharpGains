@@ -4,126 +4,121 @@
     ViewData["Title"] = "Mi Perfil";
 }
 
+@section Styles {
+    <link rel="stylesheet" href="~/css/Usuarios/Perfil.css" asp-append-version="true" />
+}
+
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <!-- Header del Perfil -->
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-body p-5">
-                    <div class="d-flex align-items-center mb-4">
-                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-4" 
-                             style="width: 80px; height: 80px; font-size: 2rem;">
-                            @Model.Nombre?.Substring(0, 1).ToUpper()
-                        </div>
-                        <div>
-                            <h2 class="mb-1 fw-bold">@Model.Nombre @Model.Apellidos</h2>
-                            <p class="text-muted mb-0">@Model.Correo</p>
-                        </div>
+            <div class="sg-profile-section">
+                <div class="d-flex align-items-center">
+                    <div class="sg-profile-avatar me-4">
+                        @Model.Nombre?.Substring(0, 1).ToUpper()
+                    </div>
+                    <div>
+                        <h2 class="mb-1">@Model.Nombre @Model.Apellidos</h2>
+                        <p class="mb-0" style="color: var(--sg-text-secondary);">@Model.Correo</p>
                     </div>
                 </div>
             </div>
 
             <!-- Información Personal -->
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h4 class="mb-0 fw-bold">Información Personal</h4>
-                        <button class="btn btn-outline-primary btn-sm">
-                            Editar
-                        </button>
-                    </div>
+            <div class="sg-profile-section">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="sg-profile-section-title">Información Personal</h4>
+                    <button class="btn-sg btn-sg-secondary btn-sg-sm">
+                        Editar
+                    </button>
+                </div>
 
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <label class="form-label text-muted small">Nombre</label>
-                            <p class="fw-semibold">@Model.Nombre</p>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label text-muted small">Apellidos</label>
-                            <p class="fw-semibold">@(Model.Apellidos ?? "No especificado")</p>
-                        </div>
-                        <div class="col-md-12">
-                            <label class="form-label text-muted small">Correo Electrónico</label>
-                            <p class="fw-semibold">@Model.Correo</p>
-                        </div>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <p class="sg-profile-label">Nombre</p>
+                        <p class="sg-profile-value">@Model.Nombre</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="sg-profile-label">Apellidos</p>
+                        <p class="sg-profile-value">@(Model.Apellidos ?? "No especificado")</p>
+                    </div>
+                    <div class="col-md-12">
+                        <p class="sg-profile-label">Correo Electrónico</p>
+                        <p class="sg-profile-value">@Model.Correo</p>
                     </div>
                 </div>
             </div>
 
             <!-- Datos Físicos -->
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h4 class="mb-0 fw-bold">Datos Físicos</h4>
-                        <button class="btn btn-outline-primary btn-sm">
-                            Actualizar
-                        </button>
-                    </div>
+            <div class="sg-profile-section">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="sg-profile-section-title">Datos Físicos</h4>
+                    <button class="btn-sg btn-sg-secondary btn-sg-sm">
+                        Actualizar
+                    </button>
+                </div>
 
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <div class="p-3 bg-light rounded">
-                                <label class="form-label text-muted small mb-2">Altura</label>
-                                <p class="h4 mb-0 fw-bold">
-                                    @(Model.Altura?.ToString("0.00") ?? "N/A") 
-                                    @if (Model.Altura != null)
-                                    {
-                                        <span class="text-muted fs-6">cm</span>
-                                    }
-                                </p>
-                            </div>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="sg-stat-box">
+                            <p class="sg-profile-label mb-2">Altura</p>
+                            <p class="sg-stat-value">
+                                @(Model.Altura?.ToString("0.00") ?? "N/A")
+                                @if (Model.Altura != null)
+                                {
+                                    <span class="sg-stat-unit">cm</span>
+                                }
+                            </p>
                         </div>
-                        <div class="col-md-6">
-                            <div class="p-3 bg-light rounded">
-                                <label class="form-label text-muted small mb-2">Peso</label>
-                                <p class="h4 mb-0 fw-bold">
-                                    @(Model.Peso?.ToString("0.00") ?? "N/A") 
-                                    @if (Model.Peso != null)
-                                    {
-                                        <span class="text-muted fs-6">kg</span>
-                                    }
-                                </p>
-                            </div>
-                        </div>
-                        @if (Model.Altura != null && Model.Peso != null)
-                        {
-                            var imc = Model.Peso / ((Model.Altura / 100) * (Model.Altura / 100));
-                            <div class="col-md-12">
-                                <div class="p-3 bg-light rounded">
-                                    <label class="form-label text-muted small mb-2">Índice de Masa Corporal (IMC)</label>
-                                    <p class="h4 mb-0 fw-bold">
-                                        @imc?.ToString("0.00")
-                                        <span class="text-muted fs-6">kg/m²</span>
-                                    </p>
-                                </div>
-                            </div>
-                        }
                     </div>
+                    <div class="col-md-6">
+                        <div class="sg-stat-box">
+                            <p class="sg-profile-label mb-2">Peso</p>
+                            <p class="sg-stat-value">
+                                @(Model.Peso?.ToString("0.00") ?? "N/A")
+                                @if (Model.Peso != null)
+                                {
+                                    <span class="sg-stat-unit">kg</span>
+                                }
+                            </p>
+                        </div>
+                    </div>
+                    @if (Model.Altura != null && Model.Peso != null)
+                    {
+                        var imc = Model.Peso / ((Model.Altura / 100) * (Model.Altura / 100));
+                        <div class="col-md-12">
+                            <div class="sg-stat-box">
+                                <p class="sg-profile-label mb-2">Índice de Masa Corporal (IMC)</p>
+                                <p class="sg-stat-value">
+                                    @imc?.ToString("0.00")
+                                    <span class="sg-stat-unit">kg/m²</span>
+                                </p>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
 
             <!-- Estadísticas Rápidas -->
-            <div class="card shadow-sm border-0 mb-4">
-                <div class="card-body p-4">
-                    <h4 class="mb-4 fw-bold">Actividad</h4>
-                    <div class="row text-center g-3">
-                        <div class="col-4">
-                            <div class="p-3">
-                                <p class="h3 mb-1 fw-bold text-primary">@Model.Rutinas.Count</p>
-                                <p class="text-muted small mb-0">Rutinas</p>
-                            </div>
+            <div class="sg-profile-section">
+                <h4 class="sg-profile-section-title mb-4">Actividad</h4>
+                <div class="row text-center g-3">
+                    <div class="col-4">
+                        <div class="sg-stat-box">
+                            <p class="sg-stat-value">@Model.Rutinas.Count</p>
+                            <p class="sg-stat-label">Rutinas</p>
                         </div>
-                        <div class="col-4">
-                            <div class="p-3">
-                                <p class="h3 mb-1 fw-bold text-primary">@Model.Sesions.Count</p>
-                                <p class="text-muted small mb-0">Sesiones</p>
-                            </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="sg-stat-box">
+                            <p class="sg-stat-value">@Model.Sesions.Count</p>
+                            <p class="sg-stat-label">Sesiones</p>
                         </div>
-                        <div class="col-4">
-                            <div class="p-3">
-                                <p class="h3 mb-1 fw-bold text-primary">0</p>
-                                <p class="text-muted small mb-0">Días Activos</p>
-                            </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="sg-stat-box">
+                            <p class="sg-stat-value">0</p>
+                            <p class="sg-stat-label">Días Activos</p>
                         </div>
                     </div>
                 </div>
@@ -131,10 +126,10 @@
 
             <!-- Acciones -->
             <div class="d-flex gap-2 justify-content-end">
-                <a asp-action="Index" asp-controller="Home" class="btn btn-outline-secondary">
+                <a asp-action="Index" asp-controller="Home" class="btn-sg btn-sg-ghost">
                     Volver al Inicio
                 </a>
-                <button class="btn btn-danger">
+                <button class="btn-sg btn-sg-danger">
                     Cerrar Sesión
                 </button>
             </div>

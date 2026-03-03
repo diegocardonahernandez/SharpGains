@@ -32,7 +32,8 @@
                 <div>
                     @if (Context.Session.GetString("IDUSUARIOLOGEADO") != null)
                     {
-                        <div class="dropdown">
+                        <a asp-controller="Ejercicios" asp-action="Ejercicios" class="btn-sg btn-sg-ghost me-2">Ejercicios</a>
+                        <div class="dropdown d-inline-block">
                             <button class="btn-sg btn-sg-secondary dropdown-toggle"
                                     type="button"
                                     id="dropdownMenuButton"
@@ -42,6 +43,7 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                                 <li><a class="dropdown-item" asp-controller="Usuarios" asp-action="Perfil">Ver Perfil</a></li>
+                                <li><a class="dropdown-item" asp-controller="Ejercicios" asp-action="Ejercicios">Ejercicios</a></li>
                                 <li><a class="dropdown-item" href="#">Mis Entrenamientos</a></li>
                                 <li><a class="dropdown-item" href="#">Configuración</a></li>
                                 <li><hr class="dropdown-divider" /></li>
@@ -133,14 +135,15 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="sg-feature-card">
+                    <a asp-controller="Ejercicios" asp-action="Ejercicios" class="sg-feature-card sg-feature-card-link">
                         <span class="sg-feature-icon">🏋️</span>
-                        <h5 class="sg-feature-title">Sobrecarga Progresiva</h5>
+                        <h5 class="sg-feature-title">Catálogo de Ejercicios</h5>
                         <p class="sg-feature-text">
-                            El sistema te guía para incrementar peso, repeticiones o series
-                            de forma calculada.
+                            Explora todos los ejercicios disponibles organizados por grupo
+                            muscular y equipamiento.
                         </p>
-                    </div>
+                        <span class="sg-feature-cta">Ver ejercicios →</span>
+                    </a>
                 </div>
                 <div class="col-md-4">
                     <div class="sg-feature-card">

@@ -1,0 +1,67 @@
+﻿/* ============================================
+   LOGIN — Page-specific Styles
+   ============================================ */
+
+/* ---------- Auth Page Wrapper ---------- */
+.sg-auth-wrapper {
+    min-height: calc(100vh - 140px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
+}
+
+.sg-auth-card {
+    background-color: var(--sg-bg-surface);
+    border: 1px solid var(--sg-border);
+    border-radius: 12px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 480px;
+}
+
+.sg-auth-title {
+    font-family: var(--sg-font-heading);
+    font-weight: 700;
+    font-size: 1.75rem;
+    color: var(--sg-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.sg-auth-subtitle {
+    color: var(--sg-text-secondary);
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+}
+
+.sg-auth-accent {
+    color: var(--sg-accent);
+}
+
+/* ---------- Form Group Spacing ---------- */
+.sg-form-group {
+    margin-bottom: 1.25rem;
+}
+
+/* ---------- Alerts ---------- */
+.sg-alert {
+    padding: 0.85rem 1rem;
+    border-radius: var(--sg-radius);
+    font-size: 0.875rem;
+    font-family: var(--sg-font-body);
+    margin-bottom: 1.25rem;
+    border: 1px solid transparent;
+}
+
+.sg-alert-danger {
+    background-color: rgba(231, 76, 60, 0.12);
+    border-color: rgba(231, 76, 60, 0.3);
+    color: var(--sg-danger);
+}
+
+.sg-alert-success {
+    background-color: rgba(46, 204, 113, 0.12);
+    border-color: rgba(46, 204, 113, 0.3);
+    color: var(--sg-accent);
+}

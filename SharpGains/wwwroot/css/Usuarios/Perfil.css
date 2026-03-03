@@ -1,0 +1,82 @@
+﻿/* ============================================
+   PERFIL — Page-specific Styles
+   ============================================ */
+
+/* ---------- Profile Header ---------- */
+.sg-profile-avatar {
+    width: 80px;
+    height: 80px;
+    font-size: 2rem;
+    background-color: var(--sg-accent);
+    color: var(--sg-bg-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--sg-font-heading);
+    font-weight: 700;
+}
+
+/* ---------- Profile Sections ---------- */
+.sg-profile-section {
+    background-color: var(--sg-bg-surface);
+    border: 1px solid var(--sg-border);
+    border-radius: var(--sg-radius);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.sg-profile-section-title {
+    font-family: var(--sg-font-heading);
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--sg-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0;
+}
+
+/* ---------- Data Labels & Values ---------- */
+.sg-profile-label {
+    font-size: 0.8rem;
+    color: var(--sg-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.25rem;
+}
+
+.sg-profile-value {
+    font-weight: 600;
+    color: var(--sg-text-primary);
+    margin-bottom: 0;
+}
+
+/* ---------- Stat Boxes ---------- */
+.sg-stat-box {
+    background-color: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--sg-border);
+    border-radius: var(--sg-radius);
+    padding: 1.25rem;
+}
+
+.sg-stat-value {
+    font-family: var(--sg-font-heading);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--sg-accent);
+    margin-bottom: 0.25rem;
+}
+
+.sg-stat-label {
+    font-size: 0.8rem;
+    color: var(--sg-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0;
+}
+
+.sg-stat-unit {
+    font-size: 0.85rem;
+    color: var(--sg-text-secondary);
+    font-weight: 400;
+}
