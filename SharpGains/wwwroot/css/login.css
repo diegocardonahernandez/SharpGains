@@ -1,0 +1,21 @@
+.sg-auth-wrapper {
+    min-height: calc(100vh - 132px);
+    padding: 1.25rem 0;
+}
+
+.sg-auth-card {
+    max-width: 460px;
+    margin: 0 auto;
+    background: linear-gradient(180deg, var(--sg-surface-2), var(--sg-surface-1));
+    border: var(--sg-glass-border);
+    border-radius: 16px;
+    box-shadow: var(--shadow-elevated);
+    padding: 1.4rem;
+}
+
+.sg-auth-title { letter-spacing: 1.6px; }
+.sg-form-group { margin-bottom: 0.95rem; }
+
+@media (min-width: 768px) {
+    .sg-auth-card { padding: 2rem; }
+}

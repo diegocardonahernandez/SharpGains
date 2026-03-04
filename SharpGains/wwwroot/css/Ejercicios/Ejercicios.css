@@ -1,66 +1,68 @@
 ﻿/* ============================================
-   EJERCICIOS — Page-specific Styles
+   EJERCICIOS — "Dark Premium & Industrial v2"
+   Solo estilos exclusivos de esta página.
    ============================================ */
 
 /* ---------- Hero Section ---------- */
 .sg-ejercicios-hero {
-    padding: 2.5rem 0 1.5rem;
+    padding: 2.5rem 0 1.75rem;
     border-bottom: 1px solid var(--sg-border);
     margin-bottom: 2rem;
 }
 
 .sg-ejercicios-title {
     font-family: var(--sg-font-heading);
-    font-size: 2.5rem;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-bottom: 0.5rem;
-}
-
-.sg-ejercicios-accent {
-    margin-right: 0.25rem;
+    color: var(--sg-text-primary);
 }
 
 .sg-ejercicios-subtitle {
     color: var(--sg-text-secondary);
-    font-size: 1rem;
+    font-size: 0.95rem;
     max-width: 600px;
     margin-bottom: 0;
+    line-height: 1.7;
 }
 
 /* ---------- Stats Row ---------- */
 .sg-ejercicios-stats-row {
     display: flex;
-    gap: 1.5rem;
+    gap: 0.75rem;
     margin-top: 1.5rem;
     flex-wrap: wrap;
 }
 
 .sg-ejercicios-stat {
-    background-color: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--sg-border);
+    background-color: var(--sg-surface-1);
+    border: var(--sg-glass-border);
     border-radius: var(--sg-radius);
-    padding: 1rem 1.5rem;
+    padding: 0.9rem 1.25rem;
     display: flex;
     flex-direction: column;
-    min-width: 140px;
+    min-width: 120px;
 }
 
 .sg-ejercicios-stat-value {
-    font-family: var(--sg-font-heading);
-    font-size: 2rem;
+    font-family: var(--sg-font-mono);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+    font-size: 1.75rem;
     font-weight: 700;
     color: var(--sg-accent);
     line-height: 1;
 }
 
 .sg-ejercicios-stat-label {
-    font-size: 0.75rem;
-    color: var(--sg-text-secondary);
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--sg-text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-top: 0.35rem;
+    letter-spacing: 0.8px;
+    margin-top: 0.3rem;
 }
 
 /* ---------- Filter Bar ---------- */
@@ -70,18 +72,18 @@
 
 .sg-filter-bar {
     display: flex;
-    gap: 1rem;
+    gap: 0.75rem;
     flex-wrap: wrap;
 }
 
 .sg-filter-input {
     flex: 1;
-    min-width: 250px;
+    min-width: 220px;
 }
 
 .sg-filter-select {
-    min-width: 220px;
-    max-width: 280px;
+    min-width: 200px;
+    max-width: 260px;
 }
 
 /* ---------- Grupo Sections ---------- */
@@ -93,75 +95,75 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
     padding-bottom: 0.75rem;
     border-bottom: 1px solid var(--sg-border);
 }
 
 .sg-grupo-indicator {
-    width: 4px;
-    height: 28px;
-    background-color: var(--sg-accent);
-    border-radius: 2px;
+    width: 3px;
+    height: 22px;
+    background: linear-gradient(to bottom, var(--sg-accent), var(--sg-accent-hover));
+    border-radius: var(--sg-radius-pill);
     flex-shrink: 0;
 }
 
 .sg-grupo-title {
     font-family: var(--sg-font-heading);
-    font-size: 1.35rem;
+    font-size: 1.15rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     margin-bottom: 0;
+    color: var(--sg-text-primary);
     flex-grow: 1;
 }
 
-/* ---------- Ejercicios Grid ---------- */
+/* ---------- Grid ---------- */
 .sg-ejercicios-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 0.65rem;
 }
 
-/* ---------- Ejercicio Card ---------- */
+/* ---------- Ejercicio Card (Horizontal, delgada) ---------- */
 .sg-ejercicio-card {
-    background-color: var(--sg-bg-surface);
-    border: 1px solid var(--sg-border);
+    background-color: var(--sg-surface-1);
+    border: var(--sg-glass-border);
     border-radius: var(--sg-radius);
-    padding: 1.25rem 1.5rem;
+    padding: 0.9rem 1.1rem;
     display: flex;
     align-items: center;
-    gap: 1rem;
-    transition: border-color 0.25s ease,
-                box-shadow 0.25s ease,
-                transform 0.2s ease;
+    gap: 0.9rem;
     cursor: pointer;
+    transition: border-color var(--sg-transition-base), box-shadow var(--sg-transition-base), transform var(--sg-transition-fast), background-color var(--sg-transition-fast);
 }
 
-.sg-ejercicio-card:hover {
-    border-color: rgba(46, 204, 113, 0.4);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4),
-                0 0 0 1px rgba(46, 204, 113, 0.1);
-    transform: translateY(-2px);
-}
+    .sg-ejercicio-card:hover {
+        border-color: rgba(46, 204, 113, 0.3);
+        background-color: rgba(18, 18, 18, 0.95);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(46, 204, 113, 0.06);
+        transform: translateY(-1px);
+    }
 
-/* -- Icon -- */
+/* -- Icono izquierda -- */
 .sg-ejercicio-icon {
-    width: 48px;
-    height: 48px;
-    background-color: rgba(46, 204, 113, 0.1);
-    border: 1px solid rgba(46, 204, 113, 0.2);
-    border-radius: var(--sg-radius);
+    width: 40px;
+    height: 40px;
+    background-color: rgba(46, 204, 113, 0.08);
+    border: 1px solid rgba(46, 204, 113, 0.15);
+    border-radius: var(--sg-radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     flex-shrink: 0;
-    transition: background-color 0.25s ease;
+    transition: background-color var(--sg-transition-base), border-color var(--sg-transition-base);
 }
 
 .sg-ejercicio-card:hover .sg-ejercicio-icon {
-    background-color: rgba(46, 204, 113, 0.18);
+    background-color: rgba(46, 204, 113, 0.14);
+    border-color: rgba(46, 204, 113, 0.28);
 }
 
 /* -- Info -- */
@@ -172,10 +174,10 @@
 
 .sg-ejercicio-nombre {
     font-family: var(--sg-font-heading);
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 700;
     color: var(--sg-text-primary);
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.25rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     white-space: nowrap;
@@ -186,38 +188,49 @@
 .sg-ejercicio-meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
+    gap: 0.5rem;
+    align-items: center;
 }
 
+/* Badges redondeados para músculo y equipamiento */
 .sg-ejercicio-grupo,
 .sg-ejercicio-equip {
     display: inline-flex;
     align-items: center;
-    gap: 0.3rem;
-    font-size: 0.8rem;
-    color: var(--sg-text-secondary);
+    gap: 0.25rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--sg-text-muted);
+    background-color: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--sg-border);
+    padding: 0.15rem 0.55rem;
+    border-radius: var(--sg-radius-pill);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
 }
 
-.sg-ejercicio-grupo svg,
-.sg-ejercicio-equip svg {
-    opacity: 0.6;
-}
+    .sg-ejercicio-grupo svg,
+    .sg-ejercicio-equip svg {
+        opacity: 0.5;
+        flex-shrink: 0;
+    }
 
 .sg-ejercicio-bodyweight {
     color: var(--sg-accent);
-    opacity: 0.8;
+    background-color: var(--sg-accent-subtle);
+    border-color: rgba(46, 204, 113, 0.2);
 }
 
-/* -- Arrow -- */
+/* -- Flecha derecha -- */
 .sg-ejercicio-arrow {
     flex-shrink: 0;
-    color: var(--sg-border);
-    transition: color 0.25s ease, transform 0.25s ease;
+    color: var(--sg-border-solid);
+    transition: color var(--sg-transition-base), transform var(--sg-transition-base);
 }
 
 .sg-ejercicio-card:hover .sg-ejercicio-arrow {
     color: var(--sg-accent);
-    transform: translateX(3px);
+    transform: translateX(4px);
 }
 
 /* ---------- Empty State ---------- */
@@ -227,43 +240,43 @@
     justify-content: center;
     text-align: center;
     padding: 4rem 2rem;
-    min-height: 300px;
+    min-height: 280px;
 }
 
 .sg-empty-icon {
-    font-size: 3rem;
+    font-size: 2.5rem;
     margin-bottom: 1rem;
-    opacity: 0.5;
+    opacity: 0.3;
 }
 
 .sg-ejercicios-empty h3 {
     font-family: var(--sg-font-heading);
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     margin-bottom: 0.5rem;
+    color: var(--sg-text-primary);
 }
 
 .sg-ejercicios-empty p {
-    color: var(--sg-text-secondary);
-    max-width: 400px;
+    color: var(--sg-text-muted);
+    font-size: 0.875rem;
+    max-width: 360px;
 }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 768px) {
-    .sg-ejercicios-title {
-        font-size: 1.75rem;
-    }
-
     .sg-ejercicios-stats-row {
-        gap: 0.75rem;
+        gap: 0.5rem;
     }
 
     .sg-ejercicios-stat {
-        min-width: 100px;
-        padding: 0.75rem 1rem;
+        min-width: 90px;
+        padding: 0.7rem 1rem;
     }
 
     .sg-ejercicios-stat-value {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
 
     .sg-filter-bar {
@@ -276,16 +289,7 @@
 
     .sg-ejercicios-grid {
         grid-template-columns: 1fr;
-    }
-
-    .sg-ejercicio-card {
-        padding: 1rem 1.25rem;
-    }
-
-    .sg-ejercicio-icon {
-        width: 40px;
-        height: 40px;
-        font-size: 1.1rem;
+        gap: 0.5rem;
     }
 }
 
@@ -296,5 +300,9 @@
 
     .sg-ejercicio-arrow {
         display: none;
+    }
+
+    .sg-ejercicio-card {
+        padding: 0.85rem 1rem;
     }
 }

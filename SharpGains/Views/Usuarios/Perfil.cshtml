@@ -2,137 +2,144 @@
 
 @{
     ViewData["Title"] = "Mi Perfil";
+
+    decimal? imc = null;
+    string imcLabel = "—";
+    if (Model.Altura != null && Model.Peso != null && Model.Altura > 0)
+    {
+        var alturaM = Model.Altura / 100m;
+        imc = Model.Peso / (alturaM * alturaM);
+        imcLabel = imc?.ToString("0.0") ?? "—";
+    }
 }
 
 @section Styles {
     <link rel="stylesheet" href="~/css/Usuarios/Perfil.css" asp-append-version="true" />
 }
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <!-- Header del Perfil -->
-            <div class="sg-profile-section">
-                <div class="d-flex align-items-center">
-                    <div class="sg-profile-avatar me-4">
-                        @Model.Nombre?.Substring(0, 1).ToUpper()
+<div class="container py-4">
+
+    <!-- Header del Perfil -->
+    <div class="sg-profile-header">
+        <div class="sg-profile-avatar">
+            @Model.Nombre?.Substring(0, 1).ToUpper()
+        </div>
+        <div>
+            <p class="sg-profile-name">@Model.Nombre @Model.Apellidos</p>
+            <p class="sg-profile-email">@Model.Correo</p>
+        </div>
+    </div>
+
+    <!-- Grid de Estadísticas Rápidas (4 columnas) -->
+    <div class="sg-stats-grid">
+        <div class="sg-stat-card">
+            <span class="sg-stat-card__label">Peso</span>
+            <span class="sg-stat-card__value sg-stat-card__value--accent">
+                @(Model.Peso?.ToString("0.0") ?? "—")<span class="sg-stat-card__unit"> kg</span>
+            </span>
+        </div>
+        <div class="sg-stat-card">
+            <span class="sg-stat-card__label">IMC</span>
+            <span class="sg-stat-card__value sg-stat-card__value--accent">
+                @imcLabel<span class="sg-stat-card__unit"> kg/m²</span>
+            </span>
+        </div>
+        <div class="sg-stat-card">
+            <span class="sg-stat-card__label">Racha</span>
+            <span class="sg-stat-card__value">
+                0<span class="sg-stat-card__unit"> días</span>
+            </span>
+        </div>
+        <div class="sg-stat-card">
+            <span class="sg-stat-card__label">Total kg</span>
+            <span class="sg-stat-card__value">
+                0<span class="sg-stat-card__unit"> kg</span>
+            </span>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-lg-6">
+            <!-- Panel: Información Personal -->
+            <div class="sg-panel">
+                <div class="sg-panel__header">
+                    <h4 class="sg-panel__title">Información Personal</h4>
+                    <button class="btn-sg btn-sg-ghost btn-sg-sm" type="button">Editar</button>
+                </div>
+                <div class="sg-info-row">
+                    <div class="sg-info-item">
+                        <p class="sg-info-item__label">Nombre</p>
+                        <p class="sg-info-item__value">@Model.Nombre</p>
                     </div>
-                    <div>
-                        <h2 class="mb-1">@Model.Nombre @Model.Apellidos</h2>
-                        <p class="mb-0" style="color: var(--sg-text-secondary);">@Model.Correo</p>
+                    <div class="sg-info-item">
+                        <p class="sg-info-item__label">Apellidos</p>
+                        <p class="sg-info-item__value">@(Model.Apellidos ?? "—")</p>
+                    </div>
+                    <div class="sg-info-item sg-info-item--full">
+                        <p class="sg-info-item__label">Correo Electrónico</p>
+                        <p class="sg-info-item__value">@Model.Correo</p>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Información Personal -->
-            <div class="sg-profile-section">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="sg-profile-section-title">Información Personal</h4>
-                    <button class="btn-sg btn-sg-secondary btn-sg-sm">
-                        Editar
-                    </button>
+        <div class="col-lg-6">
+            <!-- Panel: Datos Físicos -->
+            <div class="sg-panel">
+                <div class="sg-panel__header">
+                    <h4 class="sg-panel__title">Datos Físicos</h4>
+                    <button class="btn-sg btn-sg-ghost btn-sg-sm" type="button">Actualizar</button>
                 </div>
-
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <p class="sg-profile-label">Nombre</p>
-                        <p class="sg-profile-value">@Model.Nombre</p>
+                <div class="sg-info-row">
+                    <div class="sg-info-item">
+                        <p class="sg-info-item__label">Altura</p>
+                        <p class="sg-info-item__value">
+                            @(Model.Altura?.ToString("0.0") ?? "—")
+                            @if (Model.Altura != null) { <span class="sg-stat-card__unit">cm</span> }
+                        </p>
                     </div>
-                    <div class="col-md-6">
-                        <p class="sg-profile-label">Apellidos</p>
-                        <p class="sg-profile-value">@(Model.Apellidos ?? "No especificado")</p>
+                    <div class="sg-info-item">
+                        <p class="sg-info-item__label">Peso</p>
+                        <p class="sg-info-item__value">
+                            @(Model.Peso?.ToString("0.0") ?? "—")
+                            @if (Model.Peso != null) { <span class="sg-stat-card__unit">kg</span> }
+                        </p>
                     </div>
-                    <div class="col-md-12">
-                        <p class="sg-profile-label">Correo Electrónico</p>
-                        <p class="sg-profile-value">@Model.Correo</p>
+                    <div class="sg-info-item">
+                        <p class="sg-info-item__label">IMC</p>
+                        <p class="sg-info-item__value">@imcLabel <span class="sg-stat-card__unit">kg/m²</span></p>
                     </div>
-                </div>
-            </div>
-
-            <!-- Datos Físicos -->
-            <div class="sg-profile-section">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h4 class="sg-profile-section-title">Datos Físicos</h4>
-                    <button class="btn-sg btn-sg-secondary btn-sg-sm">
-                        Actualizar
-                    </button>
-                </div>
-
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <div class="sg-stat-box">
-                            <p class="sg-profile-label mb-2">Altura</p>
-                            <p class="sg-stat-value">
-                                @(Model.Altura?.ToString("0.00") ?? "N/A")
-                                @if (Model.Altura != null)
-                                {
-                                    <span class="sg-stat-unit">cm</span>
-                                }
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="sg-stat-box">
-                            <p class="sg-profile-label mb-2">Peso</p>
-                            <p class="sg-stat-value">
-                                @(Model.Peso?.ToString("0.00") ?? "N/A")
-                                @if (Model.Peso != null)
-                                {
-                                    <span class="sg-stat-unit">kg</span>
-                                }
-                            </p>
-                        </div>
-                    </div>
-                    @if (Model.Altura != null && Model.Peso != null)
-                    {
-                        var imc = Model.Peso / ((Model.Altura / 100) * (Model.Altura / 100));
-                        <div class="col-md-12">
-                            <div class="sg-stat-box">
-                                <p class="sg-profile-label mb-2">Índice de Masa Corporal (IMC)</p>
-                                <p class="sg-stat-value">
-                                    @imc?.ToString("0.00")
-                                    <span class="sg-stat-unit">kg/m²</span>
-                                </p>
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
-
-            <!-- Estadísticas Rápidas -->
-            <div class="sg-profile-section">
-                <h4 class="sg-profile-section-title mb-4">Actividad</h4>
-                <div class="row text-center g-3">
-                    <div class="col-4">
-                        <div class="sg-stat-box">
-                            <p class="sg-stat-value">@Model.Rutinas.Count</p>
-                            <p class="sg-stat-label">Rutinas</p>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="sg-stat-box">
-                            <p class="sg-stat-value">@Model.Sesions.Count</p>
-                            <p class="sg-stat-label">Sesiones</p>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="sg-stat-box">
-                            <p class="sg-stat-value">0</p>
-                            <p class="sg-stat-label">Días Activos</p>
-                        </div>
+                    <div class="sg-info-item">
+                        <p class="sg-info-item__label">Sesiones</p>
+                        <p class="sg-info-item__value">@Model.Sesions.Count</p>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Acciones -->
-            <div class="d-flex gap-2 justify-content-end">
-                <a asp-action="Index" asp-controller="Home" class="btn-sg btn-sg-ghost">
-                    Volver al Inicio
-                </a>
-                <button class="btn-sg btn-sg-danger">
-                    Cerrar Sesión
-                </button>
+        <!-- Panel: Gráfico de Progreso (placeholder) -->
+        <div class="col-12">
+            <div class="sg-panel">
+                <div class="sg-panel__header">
+                    <h4 class="sg-panel__title">Progreso</h4>
+                    <span class="sg-badge sg-badge-neutral">Próximamente</span>
+                </div>
+                <div class="sg-chart-placeholder">
+                    <span class="sg-chart-placeholder__icon">📊</span>
+                    <p class="sg-chart-placeholder__text">El gráfico de progreso estará disponible pronto</p>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Acciones -->
+    <div class="sg-profile-actions">
+        <a asp-action="Index" asp-controller="Home" class="btn-sg btn-sg-ghost">
+            Inicio
+        </a>
+        <a asp-action="CerrarSesion" asp-controller="Usuarios" class="btn-sg btn-sg-danger">
+            Cerrar Sesión
+        </a>
+    </div>
+
 </div>

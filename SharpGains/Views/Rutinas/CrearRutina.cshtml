@@ -1,0 +1,208 @@
+﻿@model List<SharpGains.Models.Ejercicio>
+@{
+    ViewData["Title"] = "Crear Rutina";
+    bool usuarioLogeado = Context.Session.GetString("IDUSUARIOLOGEADO") != null;
+    var gruposMusculares = Model
+        .GroupBy(e => e.GrupoMuscular)
+        .OrderBy(g => g.Key)
+        .ToList();
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Rutinas/CrearRutina.css" asp-append-version="true" />
+}
+
+@if (!usuarioLogeado)
+{
+    <section class="sg-rutina-guest">
+        <div class="sg-rutina-guest-card">
+            <p class="sg-rutina-guest-badge">Área privada</p>
+            <h1 class="sg-rutina-guest-title">Crea tu propia rutina</h1>
+            <p class="sg-rutina-guest-text">
+                Inicia sesión para diseñar y personalizar tu rutina de entrenamiento con tus ejercicios favoritos.
+            </p>
+            <a asp-controller="Usuarios" asp-action="Login" class="btn-sg btn-sg-primary">
+                Iniciar sesión
+            </a>
+        </div>
+    </section>
+}
+else
+{
+    <section class="sg-rutina-hero">
+        <div>
+            <h1 class="sg-rutina-title">Crear rutina</h1>
+            <p class="sg-rutina-subtitle">
+                Configura una rutina personalizada y selecciona los ejercicios que quieres entrenar hoy.
+            </p>
+        </div>
+
+        <div class="sg-rutina-stats">
+            <div class="sg-rutina-stat">
+                <span class="sg-rutina-stat-value">@Model.Count</span>
+                <span class="sg-rutina-stat-label">Ejercicios disponibles</span>
+            </div>
+            <div class="sg-rutina-stat">
+                <span class="sg-rutina-stat-value">@gruposMusculares.Count</span>
+                <span class="sg-rutina-stat-label">Grupos musculares</span>
+            </div>
+            <div class="sg-rutina-stat">
+                <span id="selectedCount" class="sg-rutina-stat-value">0</span>
+                <span class="sg-rutina-stat-label">Seleccionados</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="sg-rutina-layout">
+        <form class="sg-rutina-form-card" autocomplete="off">
+            <header class="sg-card-header">
+                <h2 class="sg-card-title">Configuración general</h2>
+                <p class="sg-card-subtitle">Define los datos principales de la rutina.</p>
+            </header>
+
+            <div class="sg-form-grid">
+                <div class="sg-field sg-field-full">
+                    <label for="nombreRutina" class="sg-label">Nombre de la rutina</label>
+                    <input id="nombreRutina" name="nombreRutina" class="form-control-sg" type="text" placeholder="Ej: Push Pull Legs - Intermedio" />
+                </div>
+
+                <div class="sg-field">
+                    <label for="objetivoRutina" class="sg-label">Objetivo</label>
+                    <select id="objetivoRutina" name="objetivoRutina" class="form-control-sg">
+                        <option value="hipertrofia">Hipertrofia</option>
+                        <option value="fuerza">Fuerza</option>
+                        <option value="resistencia">Resistencia</option>
+                        <option value="movilidad">Movilidad</option>
+                    </select>
+                </div>
+
+                <div class="sg-field">
+                    <label for="nivelRutina" class="sg-label">Nivel</label>
+                    <select id="nivelRutina" name="nivelRutina" class="form-control-sg">
+                        <option value="principiante">Principiante</option>
+                        <option value="intermedio" selected>Intermedio</option>
+                        <option value="avanzado">Avanzado</option>
+                    </select>
+                </div>
+
+                <div class="sg-field">
+                    <label for="duracion" class="sg-label">Duración estimada (min)</label>
+                    <input id="duracion" name="duracion" class="form-control-sg" type="number" min="20" max="180" value="60" />
+                </div>
+
+                <div class="sg-field">
+                    <label for="diasSemana" class="sg-label">Días por semana</label>
+                    <input id="diasSemana" name="diasSemana" class="form-control-sg" type="number" min="1" max="7" value="4" />
+                </div>
+
+                <div class="sg-field sg-field-full">
+                    <label for="notasRutina" class="sg-label">Notas</label>
+                    <textarea id="notasRutina" name="notasRutina" class="form-control-sg sg-textarea" rows="4" placeholder="Añade indicaciones, tempo, descansos o recomendaciones..."></textarea>
+                </div>
+            </div>
+
+            <footer class="sg-form-footer">
+                <p class="sg-demo-note">Vista demo: esta pantalla aún no persiste datos en base de datos.</p>
+                <button id="btnGuardarDemo" type="button" class="btn-sg btn-sg-primary" disabled>
+                    Guardar rutina (demo)
+                </button>
+            </footer>
+        </form>
+
+        <aside class="sg-rutina-ejercicios-card">
+            <header class="sg-card-header">
+                <h2 class="sg-card-title">Biblioteca de ejercicios</h2>
+                <p class="sg-card-subtitle">Marca los ejercicios que quieres añadir a la rutina.</p>
+            </header>
+
+            @if (!Model.Any())
+            {
+                <div class="sg-empty-state">
+                    <p>No hay ejercicios disponibles en este momento.</p>
+                </div>
+            }
+            else
+            {
+                <div class="sg-ejercicios-scroll">
+                    @foreach (var grupo in gruposMusculares)
+                    {
+                        <section class="sg-grupo-block">
+                            <h3 class="sg-grupo-title">@grupo.Key</h3>
+
+                            <div class="sg-ejercicios-list">
+                                @foreach (var ejercicio in grupo)
+                                {
+                                    <label class="sg-ejercicio-item" for="ej-@ejercicio.Id">
+                                        <div class="sg-ejercicio-main">
+                                            <input id="ej-@ejercicio.Id"
+                                                   class="sg-ejercicio-check js-ejercicio-check"
+                                                   type="checkbox"
+                                                   name="ejerciciosSeleccionados"
+                                                   value="@ejercicio.Id" />
+                                            <div class="sg-ejercicio-info">
+                                                <span class="sg-ejercicio-nombre">@ejercicio.Nombre</span>
+                                                <span class="sg-ejercicio-meta">
+                                                    @(string.IsNullOrWhiteSpace(ejercicio.Equipamiento) ? "Peso corporal" : ejercicio.Equipamiento)
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="sg-ejercicio-config">
+                                            <div class="sg-mini-field">
+                                                <span>SERIES</span>
+                                                <input type="number" min="1" max="10" value="3" />
+                                            </div>
+                                            <div class="sg-mini-field">
+                                                <span>REPS</span>
+                                                <input type="number" min="1" max="30" value="10" />
+                                            </div>
+                                            <div class="sg-mini-field">
+                                                <span>DESC. (s)</span>
+                                                <input type="number" min="15" max="300" value="90" />
+                                            </div>
+                                        </div>
+                                    </label>
+                                }
+                            </div>
+                        </section>
+                    }
+                </div>
+            }
+        </aside>
+    </section>
+}
+
+@section Scripts {
+    <script>
+        (() => {
+            const checks = document.querySelectorAll('.js-ejercicio-check');
+            const selectedCount = document.getElementById('selectedCount');
+            const btnGuardarDemo = document.getElementById('btnGuardarDemo');
+
+            const updateUI = () => {
+                let total = 0;
+
+                checks.forEach(check => {
+                    const card = check.closest('.sg-ejercicio-item');
+                    if (check.checked) {
+                        total++;
+                        card?.classList.add('is-selected');
+                    } else {
+                        card?.classList.remove('is-selected');
+                    }
+                });
+
+                if (selectedCount) {
+                    selectedCount.textContent = total.toString();
+                }
+
+                if (btnGuardarDemo) {
+                    btnGuardarDemo.disabled = total === 0;
+                }
+            };
+
+            checks.forEach(check => check.addEventListener('change', updateUI));
+            updateUI();
+        })();
+    </script>
+}

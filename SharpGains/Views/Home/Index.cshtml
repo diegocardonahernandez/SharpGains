@@ -10,10 +10,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Oswald:wght@500;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;700&family=JetBrains+Mono:wght@400;700&display=swap"
           rel="stylesheet" />
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -22,19 +21,18 @@
 </head>
 <body class="sg-landing">
 
-    <!-- ========== HERO SECTION ========== -->
+    <!-- ========== HERO ========== -->
     <section class="sg-hero">
 
-        <!-- Navbar -->
-        <nav class="sg-landing-navbar">
+        <nav class="sg-landing-navbar" id="landingNav">
             <div class="container d-flex justify-content-between align-items-center">
-                <a class="navbar-brand" href="#">SHARPGAINS</a>
-                <div>
+                <a class="navbar-brand" href="#">SHARP<span class="sg-brand-accent">GAINS</span></a>
+                <div class="d-flex align-items-center gap-2">
                     @if (Context.Session.GetString("IDUSUARIOLOGEADO") != null)
                     {
-                        <a asp-controller="Ejercicios" asp-action="Ejercicios" class="btn-sg btn-sg-ghost me-2">Ejercicios</a>
-                        <div class="dropdown d-inline-block">
-                            <button class="btn-sg btn-sg-secondary dropdown-toggle"
+                        <a asp-controller="Ejercicios" asp-action="Ejercicios" class="btn-sg btn-sg-ghost btn-sg-sm d-none d-sm-inline-flex">Ejercicios</a>
+                        <div class="dropdown">
+                            <button class="btn-sg btn-sg-secondary btn-sg-sm dropdown-toggle"
                                     type="button"
                                     id="dropdownMenuButton"
                                     data-bs-toggle="dropdown"
@@ -45,7 +43,6 @@
                                 <li><a class="dropdown-item" asp-controller="Usuarios" asp-action="Perfil">Ver Perfil</a></li>
                                 <li><a class="dropdown-item" asp-controller="Ejercicios" asp-action="Ejercicios">Ejercicios</a></li>
                                 <li><a class="dropdown-item" href="#">Mis Entrenamientos</a></li>
-                                <li><a class="dropdown-item" href="#">Configuración</a></li>
                                 <li><hr class="dropdown-divider" /></li>
                                 <li><a class="dropdown-item" asp-controller="Usuarios" asp-action="CerrarSesion">Cerrar Sesión</a></li>
                             </ul>
@@ -53,8 +50,8 @@
                     }
                     else
                     {
-                        <a asp-controller="Usuarios" asp-action="Login" class="btn-sg btn-sg-ghost me-2">Iniciar Sesión</a>
-                        <a asp-controller="Usuarios" asp-action="Registro" class="btn-sg btn-sg-primary">Registrarse</a>
+                        <a asp-controller="Usuarios" asp-action="Login" class="btn-sg btn-sg-ghost btn-sg-sm">Iniciar Sesión</a>
+                        <a asp-controller="Usuarios" asp-action="Registro" class="btn-sg btn-sg-primary btn-sg-sm">Registrarse</a>
                     }
                 </div>
             </div>
@@ -64,28 +61,29 @@
         <div class="sg-hero-content">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-8 col-md-10">
-                        <span class="sg-hero-badge">Sobrecarga Progresiva Inteligente</span>
+                    <div class="col-lg-7 col-md-9">
+                        <span class="sg-hero-badge">Sobrecarga Progresiva con IA</span>
                         <h1 class="sg-hero-title">
-                            Lleva tu entrenamiento<br />
-                            al <span class="sg-highlight">siguiente nivel</span>
+                            Entrena con<br />
+                            datos.<br />
+                            Progresa con <span class="sg-highlight">precisión.</span>
                         </h1>
                         <p class="sg-hero-text">
-                            Registra tus entrenamientos, visualiza tu progreso y deja que
-                            SharpGains calcule tu sobrecarga progresiva de forma automática.
+                            SharpGains registra tus sesiones, analiza tus patrones y calcula
+                            automáticamente la sobrecarga progresiva óptima para cada entrenamiento.
                         </p>
                         <div class="d-flex gap-3 flex-wrap">
                             <a asp-controller="Usuarios" asp-action="Registro" class="btn-sg btn-sg-primary btn-sg-lg">
-                                Comenzar Ahora
+                                Empezar Gratis
                             </a>
-                            <a href="#features" class="btn-sg btn-sg-secondary btn-sg-lg">
-                                Saber Más
+                            <a href="#features" class="btn-sg btn-sg-ghost btn-sg-lg">
+                                Ver Funcionalidades
                             </a>
                         </div>
 
-                        <!-- Stats -->
+                        <!-- Stats Bar -->
                         <div class="sg-stats-bar">
-                            <div class="row">
+                            <div class="row g-0">
                                 <div class="col-4">
                                     <div class="sg-stat-item">
                                         <span class="sg-stat-number">100%</span>
@@ -95,7 +93,7 @@
                                 <div class="col-4">
                                     <div class="sg-stat-item">
                                         <span class="sg-stat-number">24/7</span>
-                                        <span class="sg-stat-label">Acceso Total</span>
+                                        <span class="sg-stat-label">Acceso</span>
                                     </div>
                                 </div>
                                 <div class="col-4">
@@ -106,52 +104,56 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ========== FEATURES ========== -->
+    <!-- ========== FEATURES (Glassmorphism) ========== -->
     <section id="features" class="sg-features">
         <div class="container">
-            <div class="text-center">
-                <span class="sg-section-badge">Características</span>
+            <div class="text-center mb-2">
+                <span class="sg-section-badge">Funcionalidades</span>
                 <h2 class="sg-section-title">¿Por qué SharpGains?</h2>
                 <p class="sg-section-subtitle">
                     Herramientas diseñadas para atletas que se toman en serio su progreso.
                 </p>
             </div>
             <div class="row g-4">
+                <!-- Card IA (destacada) -->
                 <div class="col-md-4">
-                    <div class="sg-feature-card">
+                    <div class="sg-feature-card sg-feature-card--ai h-100">
+                        <span class="sg-ai-tag">✦ Inteligencia Artificial</span>
+                        <span class="sg-feature-icon">🧠</span>
+                        <h5 class="sg-feature-title">Sobrecarga Progresiva con IA</h5>
+                        <p class="sg-feature-text">
+                            Nuestro algoritmo analiza tu historial de entrenamiento y calcula
+                            el peso y las repeticiones exactas para tu próxima sesión,
+                            maximizando la adaptación muscular.
+                        </p>
+                    </div>
+                </div>
+                <!-- Card Catálogo -->
+                <div class="col-md-4">
+                    <a asp-controller="Ejercicios" asp-action="Ejercicios" class="sg-feature-card sg-feature-card-link h-100">
+                        <span class="sg-feature-icon">🏋️</span>
+                        <h5 class="sg-feature-title">Catálogo de Ejercicios</h5>
+                        <p class="sg-feature-text">
+                            Explora todos los ejercicios disponibles, filtrados por grupo
+                            muscular y equipamiento. Añade los que necesites a tu rutina.
+                        </p>
+                        <span class="sg-feature-cta">Explorar catálogo →</span>
+                    </a>
+                </div>
+                <!-- Card Progreso -->
+                <div class="col-md-4">
+                    <div class="sg-feature-card h-100">
                         <span class="sg-feature-icon">📈</span>
                         <h5 class="sg-feature-title">Seguimiento de Progreso</h5>
                         <p class="sg-feature-text">
                             Visualiza tu evolución con gráficos detallados de cada ejercicio,
-                            serie y repetición.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <a asp-controller="Ejercicios" asp-action="Ejercicios" class="sg-feature-card sg-feature-card-link">
-                        <span class="sg-feature-icon">🏋️</span>
-                        <h5 class="sg-feature-title">Catálogo de Ejercicios</h5>
-                        <p class="sg-feature-text">
-                            Explora todos los ejercicios disponibles organizados por grupo
-                            muscular y equipamiento.
-                        </p>
-                        <span class="sg-feature-cta">Ver ejercicios →</span>
-                    </a>
-                </div>
-                <div class="col-md-4">
-                    <div class="sg-feature-card">
-                        <span class="sg-feature-icon">📱</span>
-                        <h5 class="sg-feature-title">Acceso Total</h5>
-                        <p class="sg-feature-text">
-                            Registra tus entrenamientos desde cualquier dispositivo,
-                            en cualquier lugar.
+                            serie and repetición a lo largo del tiempo.
                         </p>
                     </div>
                 </div>
@@ -166,31 +168,31 @@
                 <span class="sg-section-badge">Cómo Funciona</span>
                 <h2 class="sg-section-title">3 pasos para empezar</h2>
             </div>
-            <div class="row g-4 mt-3">
+            <div class="row g-4 mt-2">
                 <div class="col-md-4">
                     <div class="sg-step">
-                        <div class="sg-step-number">1</div>
+                        <div class="sg-step-number">01</div>
                         <h5 class="sg-step-title">Crea tu cuenta</h5>
                         <p class="sg-step-text">
-                            Regístrate gratis en segundos con tu correo y datos básicos.
+                            Regístrate gratis en segundos con tu correo y datos básicos de perfil.
                         </p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="sg-step">
-                        <div class="sg-step-number">2</div>
+                        <div class="sg-step-number">02</div>
                         <h5 class="sg-step-title">Registra tus sesiones</h5>
                         <p class="sg-step-text">
-                            Añade tus ejercicios, series, repeticiones y peso en cada entrenamiento.
+                            Añade ejercicios, series, repeticiones y carga en cada entrenamiento.
                         </p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="sg-step">
-                        <div class="sg-step-number">3</div>
+                        <div class="sg-step-number">03</div>
                         <h5 class="sg-step-title">Observa tu progreso</h5>
                         <p class="sg-step-text">
-                            SharpGains calcula tu sobrecarga y te muestra cómo avanzas sesión a sesión.
+                            SharpGains calcula tu sobrecarga y te guía sesión a sesión hacia tus metas.
                         </p>
                     </div>
                 </div>
@@ -203,7 +205,7 @@
         <div class="container">
             <h2 class="sg-cta-title">¿Listo para <span class="sg-highlight">empezar</span>?</h2>
             <p class="sg-cta-text">
-                Únete a SharpGains y transforma tu entrenamiento con datos reales.
+                Únete a SharpGains y transforma tus entrenamientos con datos reales y sobrecarga inteligente.
             </p>
             <a asp-controller="Usuarios" asp-action="Registro" class="btn-sg btn-sg-primary btn-sg-lg">
                 Crear Cuenta Gratis
@@ -223,5 +225,12 @@
     </footer>
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Navbar glass on scroll
+        const nav = document.getElementById('landingNav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('is-scrolled', window.scrollY > 40);
+        }, { passive: true });
+    </script>
 </body>
 </html>
