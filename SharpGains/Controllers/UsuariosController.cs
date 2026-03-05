@@ -104,7 +104,20 @@ namespace SharpGains.Controllers
         public async Task<IActionResult> Perfil()
         {
             int idUsuario = int.Parse(HttpContext.Session.GetString("IDUSUARIOLOGEADO"));
-            Usuario usuario = await this.repo.GetUsuario(idUsuario);
+            Usuario usuario = await this.repo.GetUsuarioConDatos(idUsuario);
+
+            int totalRutinas = usuario.Rutinas.Count;
+            int totalSesiones = usuario.Sesions.Count;
+            int totalSeries = usuario.Sesions.SelectMany(s => s.Series).Count();
+            decimal volumenTotal = usuario.Sesions
+                .SelectMany(s => s.Series)
+                .Sum(s => s.Peso * s.Repeticiones);
+
+            ViewBag.TotalRutinas = totalRutinas;
+            ViewBag.TotalSesiones = totalSesiones;
+            ViewBag.TotalSeries = totalSeries;
+            ViewBag.VolumenTotal = volumenTotal;
+
             return View(usuario);
         }
 

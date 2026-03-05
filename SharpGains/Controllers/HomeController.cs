@@ -1,13 +1,27 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using SharpGains.Models;
+using SharpGains.Repositories;
 
 namespace SharpGains.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private RepositoryUsuarios repo;
+
+        public HomeController(RepositoryUsuarios repo)
         {
+            this.repo = repo;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            string idUsuario = HttpContext.Session.GetString("IDUSUARIOLOGEADO");
+            if (idUsuario != null)
+            {
+                Usuario usuario = await this.repo.GetUsuario(int.Parse(idUsuario));
+                ViewBag.USUARIO = usuario;
+            }
             return View();
         }
 

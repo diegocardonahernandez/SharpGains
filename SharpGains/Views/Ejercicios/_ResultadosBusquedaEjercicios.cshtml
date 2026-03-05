@@ -1,78 +1,63 @@
 ﻿@model List<SharpGains.Models.Ejercicio>
+@{
+    static string GetGrupoIcon(string grupo)
+    {
+        return grupo.ToLowerInvariant() switch
+        {
+            var g when g.Contains("pecho")                              => "bi-heart-pulse",
+            var g when g.Contains("espalda")                            => "bi-layout-sidebar-reverse",
+            var g when g.Contains("hombro") || g.Contains("deltoid")    => "bi-arrows-fullscreen",
+            var g when g.Contains("b" + "ícep") || g.Contains("bicep")  => "bi-lightning-charge",
+            var g when g.Contains("tr" + "ícep") || g.Contains("tricep")=> "bi-lightning-charge-fill",
+            var g when g.Contains("pierna") || g.Contains("cuádr") || g.Contains("quadr") || g.Contains("femoral") => "bi-person-walking",
+            var g when g.Contains("glúteo") || g.Contains("gluteo") || g.Contains("cadera") => "bi-person-standing",
+            var g when g.Contains("gemelo") || g.Contains("pantorrilla") => "bi-arrow-down-square",
+            var g when g.Contains("abdomen") || g.Contains("core") || g.Contains("abdom") => "bi-circle-half",
+            var g when g.Contains("antebrazo")                          => "bi-wrench",
+            var g when g.Contains("trapecio")                           => "bi-triangle",
+            var g when g.Contains("lumbar") || g.Contains("espalda baja")=> "bi-align-bottom",
+            _                                                            => "bi-activity"
+        };
+    }
 
-@if (Model == null || !Model.Any())
+    var index = 0;
+}
+
+@if (!Model.Any())
 {
-    <div class="sg-grupo-section">
-        <div class="sg-grupo-header">
-            <div class="sg-grupo-indicator"></div>
-            <h2 class="sg-grupo-title">Sin resultados</h2>
-            <span class="sg-badge">0 ejercicios</span>
-        </div>
-        <p>No se encontraron ejercicios para la búsqueda.</p>
+    <div class="ej-empty">
+        <i class="bi bi-search ej-empty-icon"></i>
+        <p class="ej-empty-title">Sin resultados</p>
+        <p class="ej-empty-text">Prueba con otro nombre o borra el filtro.</p>
     </div>
 }
 else
 {
-    @foreach (var grupo in Model.GroupBy(e => e.GrupoMuscular).OrderBy(g => g.Key))
-    {
-        <div class="sg-grupo-section" data-grupo="@grupo.Key">
-            <div class="sg-grupo-header">
-                <div class="sg-grupo-indicator"></div>
-                <h2 class="sg-grupo-title">@grupo.Key</h2>
-                <span class="sg-badge">@grupo.Count() ejercicios</span>
-            </div>
-
-            <div class="sg-ejercicios-grid">
-                @foreach (var ejercicio in grupo.OrderBy(e => e.Nombre))
-                {
-                    <div class="sg-ejercicio-card" data-nombre="@ejercicio.Nombre.ToLower()">
-                        <div class="sg-ejercicio-icon">🏋️</div>
-                        <div class="sg-ejercicio-info">
-                            <h3 class="sg-ejercicio-nombre">@ejercicio.Nombre</h3>
-                            <div class="sg-ejercicio-meta">
-                                <span class="sg-ejercicio-grupo">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <circle cx="12" cy="12" r="10" />
-                                        <line x1="12" y1="8" x2="12" y2="16" />
-                                        <line x1="8" y1="12" x2="16" y2="12" />
-                                    </svg>
-                                    @ejercicio.GrupoMuscular
-                                </span>
-
-                                @if (!string.IsNullOrEmpty(ejercicio.Equipamiento))
-                                {
-                                    <span class="sg-ejercicio-equip">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <rect x="2" y="7" width="20" height="10" rx="2" />
-                                            <line x1="12" y1="7" x2="12" y2="17" />
-                                        </svg>
-                                        @ejercicio.Equipamiento
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span class="sg-ejercicio-equip sg-ejercicio-bodyweight">
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                                            <circle cx="12" cy="7" r="4" />
-                                        </svg>
-                                        Peso corporal
-                                    </span>
-                                }
-                            </div>
-                        </div>
-                        <div class="sg-ejercicio-arrow">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="9 18 15 12 9 6" />
-                            </svg>
-                        </div>
+    <div class="ej-grid">
+        @foreach (var ejercicio in Model)
+        {
+            <div class="ej-ex-card"
+                 data-grupo="@ejercicio.GrupoMuscular.ToLower()"
+                 style="animation-delay: @(index * 0.03)s">
+                <div class="ej-ex-icon">
+                    <i class="bi @GetGrupoIcon(ejercicio.GrupoMuscular)"></i>
+                </div>
+                <div class="ej-ex-body">
+                    <p class="ej-ex-name">@ejercicio.Nombre</p>
+                    <div class="ej-ex-meta">
+                        <span class="ej-ex-tag ej-ex-tag-grupo">
+                            @ejercicio.GrupoMuscular
+                        </span>
+                        @if (!string.IsNullOrWhiteSpace(ejercicio.Equipamiento))
+                        {
+                            <span class="ej-ex-tag ej-ex-tag-equip">
+                                <i class="bi bi-tools"></i> @ejercicio.Equipamiento
+                            </span>
+                        }
                     </div>
-                }
+                </div>
             </div>
-        </div>
-    }
+            index++;
+        }
+    </div>
 }

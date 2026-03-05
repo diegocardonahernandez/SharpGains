@@ -1,6 +1,8 @@
 ﻿@{
     Layout = null;
-    ViewData["Title"] = "SharpGains - Gestión de Sobrecarga Progresiva";
+    bool isLogged = Context.Session.GetString("IDUSUARIOLOGEADO") != null;
+    SharpGains.Models.Usuario usuario = ViewBag.USUARIO;
+    string nombreUsuario = usuario?.Nombre ?? "";
 }
 
 <!DOCTYPE html>
@@ -8,229 +10,310 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"]</title>
+    <title>SharpGains — Tu entrenamiento, tu progreso</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;700&family=JetBrains+Mono:wght@400;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Oswald:wght@400;500;600;700&display=swap"
           rel="stylesheet" />
 
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
     <link rel="stylesheet" href="~/css/landing.css" asp-append-version="true" />
 </head>
-<body class="sg-landing">
+<body class="landing-body">
 
-    <!-- ========== HERO ========== -->
-    <section class="sg-hero">
-
-        <nav class="sg-landing-navbar" id="landingNav">
-            <div class="container d-flex justify-content-between align-items-center">
-                <a class="navbar-brand" href="#">SHARP<span class="sg-brand-accent">GAINS</span></a>
-                <div class="d-flex align-items-center gap-2">
-                    @if (Context.Session.GetString("IDUSUARIOLOGEADO") != null)
-                    {
-                        <a asp-controller="Ejercicios" asp-action="Ejercicios" class="btn-sg btn-sg-ghost btn-sg-sm d-none d-sm-inline-flex">Ejercicios</a>
-                        <div class="dropdown">
-                            <button class="btn-sg btn-sg-secondary btn-sg-sm dropdown-toggle"
-                                    type="button"
-                                    id="dropdownMenuButton"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                Mi Perfil
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                                <li><a class="dropdown-item" asp-controller="Usuarios" asp-action="Perfil">Ver Perfil</a></li>
-                                <li><a class="dropdown-item" asp-controller="Ejercicios" asp-action="Ejercicios">Ejercicios</a></li>
-                                <li><a class="dropdown-item" href="#">Mis Entrenamientos</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" asp-controller="Usuarios" asp-action="CerrarSesion">Cerrar Sesión</a></li>
-                            </ul>
-                        </div>
-                    }
-                    else
-                    {
-                        <a asp-controller="Usuarios" asp-action="Login" class="btn-sg btn-sg-ghost btn-sg-sm">Iniciar Sesión</a>
-                        <a asp-controller="Usuarios" asp-action="Registro" class="btn-sg btn-sg-primary btn-sg-sm">Registrarse</a>
-                    }
-                </div>
+    <!-- ============================== -->
+    <!-- NAV -->
+    <!-- ============================== -->
+    <nav class="l-nav">
+        <div class="l-container l-nav-inner">
+            <a class="l-logo" asp-controller="Home" asp-action="Index">
+                SHARP<span class="l-logo-accent">GAINS</span>
+            </a>
+            <div class="l-nav-links">
+                <a class="l-nav-link" asp-controller="Ejercicios" asp-action="Ejercicios">Ejercicios</a>
+                @if (isLogged)
+                {
+                    <a class="l-nav-link" asp-controller="Rutinas" asp-action="CrearRutina">Mis Rutinas</a>
+                    <a class="l-nav-link" asp-controller="Usuarios" asp-action="Perfil">
+                        <i class="bi bi-person-circle"></i> @nombreUsuario
+                    </a>
+                    <a class="l-btn l-btn-outline l-btn-sm"
+                       asp-controller="Usuarios" asp-action="CerrarSesion">Salir</a>
+                }
+                else
+                {
+                    <a class="l-nav-link" asp-controller="Usuarios" asp-action="Login">Iniciar Sesión</a>
+                    <a class="l-btn l-btn-accent l-btn-sm"
+                       asp-controller="Usuarios" asp-action="Registro">Crear Cuenta</a>
+                }
             </div>
-        </nav>
-
-        <!-- Hero Content -->
-        <div class="sg-hero-content">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-7 col-md-9">
-                        <span class="sg-hero-badge">Sobrecarga Progresiva con IA</span>
-                        <h1 class="sg-hero-title">
-                            Entrena con<br />
-                            datos.<br />
-                            Progresa con <span class="sg-highlight">precisión.</span>
-                        </h1>
-                        <p class="sg-hero-text">
-                            SharpGains registra tus sesiones, analiza tus patrones y calcula
-                            automáticamente la sobrecarga progresiva óptima para cada entrenamiento.
-                        </p>
-                        <div class="d-flex gap-3 flex-wrap">
-                            <a asp-controller="Usuarios" asp-action="Registro" class="btn-sg btn-sg-primary btn-sg-lg">
-                                Empezar Gratis
-                            </a>
-                            <a href="#features" class="btn-sg btn-sg-ghost btn-sg-lg">
-                                Ver Funcionalidades
-                            </a>
-                        </div>
-
-                        <!-- Stats Bar -->
-                        <div class="sg-stats-bar">
-                            <div class="row g-0">
-                                <div class="col-4">
-                                    <div class="sg-stat-item">
-                                        <span class="sg-stat-number">100%</span>
-                                        <span class="sg-stat-label">Gratuito</span>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="sg-stat-item">
-                                        <span class="sg-stat-number">24/7</span>
-                                        <span class="sg-stat-label">Acceso</span>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="sg-stat-item">
-                                        <span class="sg-stat-number">∞</span>
-                                        <span class="sg-stat-label">Ejercicios</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <button class="l-nav-toggle" aria-label="Abrir menú" id="navToggle">
+                <i class="bi bi-list"></i>
+            </button>
         </div>
-    </section>
+    </nav>
 
-    <!-- ========== FEATURES (Glassmorphism) ========== -->
-    <section id="features" class="sg-features">
-        <div class="container">
-            <div class="text-center mb-2">
-                <span class="sg-section-badge">Funcionalidades</span>
-                <h2 class="sg-section-title">¿Por qué SharpGains?</h2>
-                <p class="sg-section-subtitle">
-                    Herramientas diseñadas para atletas que se toman en serio su progreso.
+    <!-- Mobile menu -->
+    <div class="l-mobile-menu" id="mobileMenu">
+        <div class="l-mobile-inner">
+            <button class="l-mobile-close" id="mobileClose" aria-label="Cerrar menú">
+                <i class="bi bi-x-lg"></i>
+            </button>
+            <a class="l-mobile-link" asp-controller="Ejercicios" asp-action="Ejercicios">Ejercicios</a>
+            @if (isLogged)
+            {
+                <a class="l-mobile-link" asp-controller="Rutinas" asp-action="CrearRutina">Mis Rutinas</a>
+                <a class="l-mobile-link" asp-controller="Usuarios" asp-action="Perfil">Mi Perfil</a>
+                <a class="l-btn l-btn-outline l-btn-block"
+                   asp-controller="Usuarios" asp-action="CerrarSesion">Cerrar Sesión</a>
+            }
+            else
+            {
+                <a class="l-mobile-link" asp-controller="Usuarios" asp-action="Login">Iniciar Sesión</a>
+                <a class="l-btn l-btn-accent l-btn-block"
+                   asp-controller="Usuarios" asp-action="Registro">Crear Cuenta</a>
+            }
+        </div>
+    </div>
+
+    <!-- ============================== -->
+    <!-- HERO -->
+    <!-- ============================== -->
+    <section class="l-hero">
+        <div class="l-container">
+            @if (isLogged)
+            {
+                <p class="l-hero-eyebrow">Bienvenido de vuelta</p>
+                <h1 class="l-hero-title">
+                    Qué pasa,<br />
+                    <span class="l-hero-accent">@nombreUsuario</span>.
+                </h1>
+                <p class="l-hero-sub">
+                    Tu constancia habla por ti. Revisa tus rutinas,
+                    registra tu sesión y sigue rompiendo límites. 💪
                 </p>
-            </div>
-            <div class="row g-4">
-                <!-- Card IA (destacada) -->
-                <div class="col-md-4">
-                    <div class="sg-feature-card sg-feature-card--ai h-100">
-                        <span class="sg-ai-tag">✦ Inteligencia Artificial</span>
-                        <span class="sg-feature-icon">🧠</span>
-                        <h5 class="sg-feature-title">Sobrecarga Progresiva con IA</h5>
-                        <p class="sg-feature-text">
-                            Nuestro algoritmo analiza tu historial de entrenamiento y calcula
-                            el peso y las repeticiones exactas para tu próxima sesión,
-                            maximizando la adaptación muscular.
-                        </p>
-                    </div>
-                </div>
-                <!-- Card Catálogo -->
-                <div class="col-md-4">
-                    <a asp-controller="Ejercicios" asp-action="Ejercicios" class="sg-feature-card sg-feature-card-link h-100">
-                        <span class="sg-feature-icon">🏋️</span>
-                        <h5 class="sg-feature-title">Catálogo de Ejercicios</h5>
-                        <p class="sg-feature-text">
-                            Explora todos los ejercicios disponibles, filtrados por grupo
-                            muscular y equipamiento. Añade los que necesites a tu rutina.
-                        </p>
-                        <span class="sg-feature-cta">Explorar catálogo →</span>
+                <div class="l-hero-actions">
+                    <a class="l-btn l-btn-accent l-btn-lg"
+                       asp-controller="Rutinas" asp-action="CrearRutina">
+                        Ir a mis rutinas <i class="bi bi-arrow-right"></i>
+                    </a>
+                    <a class="l-btn l-btn-ghost l-btn-lg"
+                       asp-controller="Ejercicios" asp-action="Ejercicios">
+                        Explorar ejercicios
                     </a>
                 </div>
-                <!-- Card Progreso -->
-                <div class="col-md-4">
-                    <div class="sg-feature-card h-100">
-                        <span class="sg-feature-icon">📈</span>
-                        <h5 class="sg-feature-title">Seguimiento de Progreso</h5>
-                        <p class="sg-feature-text">
-                            Visualiza tu evolución con gráficos detallados de cada ejercicio,
-                            serie and repetición a lo largo del tiempo.
-                        </p>
-                    </div>
+            }
+            else
+            {
+                <p class="l-hero-eyebrow">Tu entreno, tus reglas</p>
+                <h1 class="l-hero-title">
+                    Entrena.<br />
+                    Registra.<br />
+                    <span class="l-hero-accent">Progresa</span>.
+                </h1>
+                <p class="l-hero-sub">
+                    Rutinas personalizadas, registro de cada serie
+                    y estadísticas de progreso. Sin excusas.
+                </p>
+                <div class="l-hero-actions">
+                    <a class="l-btn l-btn-accent l-btn-lg"
+                       asp-controller="Usuarios" asp-action="Registro">
+                        Empezar gratis <i class="bi bi-arrow-right"></i>
+                    </a>
+                    <a class="l-btn l-btn-ghost l-btn-lg"
+                       asp-controller="Usuarios" asp-action="Login">
+                        Ya tengo cuenta
+                    </a>
+                </div>
+            }
+
+            <!-- Scrolling marquee -->
+            <div class="l-marquee" aria-hidden="true">
+                <div class="l-marquee-track">
+                    <span>SHARPGAINS</span><span>·</span>
+                    <span>ENTRENA CON PROPÓSITO</span><span>·</span>
+                    <span>100% GRATIS</span><span>·</span>
+                    <span>RUTINAS</span><span>·</span>
+                    <span>PROGRESO</span><span>·</span>
+                    <span>ESTADÍSTICAS</span><span>·</span>
+                    <span>SHARPGAINS</span><span>·</span>
+                    <span>ENTRENA CON PROPÓSITO</span><span>·</span>
+                    <span>100% GRATIS</span><span>·</span>
+                    <span>RUTINAS</span><span>·</span>
+                    <span>PROGRESO</span><span>·</span>
+                    <span>ESTADÍSTICAS</span><span>·</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ========== HOW IT WORKS ========== -->
-    <section class="sg-how-it-works">
-        <div class="container">
-            <div class="text-center">
-                <span class="sg-section-badge">Cómo Funciona</span>
-                <h2 class="sg-section-title">3 pasos para empezar</h2>
-            </div>
-            <div class="row g-4 mt-2">
-                <div class="col-md-4">
-                    <div class="sg-step">
-                        <div class="sg-step-number">01</div>
-                        <h5 class="sg-step-title">Crea tu cuenta</h5>
-                        <p class="sg-step-text">
-                            Regístrate gratis en segundos con tu correo y datos básicos de perfil.
-                        </p>
+    <!-- ============================== -->
+    <!-- BENTO GRID -->
+    <!-- ============================== -->
+    <section class="l-bento">
+        <div class="l-container">
+            <!-- Row 1 -->
+            <div class="l-bento-grid">
+                <!-- Feature big -->
+                <div class="l-bento-card l-bento-wide">
+                    <div class="l-bento-card-head">
+                        <span class="l-bento-icon"><i class="bi bi-journal-plus"></i></span>
+                        <span class="l-bento-tag">Rutinas</span>
                     </div>
+                    <h3 class="l-bento-title">Crea rutinas a tu medida</h3>
+                    <p class="l-bento-text">
+                        Push, pull, legs o lo que te mole. Elige ejercicios,
+                        define series y monta planes que de verdad te funcionen.
+                    </p>
                 </div>
-                <div class="col-md-4">
-                    <div class="sg-step">
-                        <div class="sg-step-number">02</div>
-                        <h5 class="sg-step-title">Registra tus sesiones</h5>
-                        <p class="sg-step-text">
-                            Añade ejercicios, series, repeticiones y carga en cada entrenamiento.
-                        </p>
-                    </div>
+
+                <!-- Stat card -->
+                <div class="l-bento-card l-bento-stat-card">
+                    <span class="l-bento-stat-number">∞</span>
+                    <span class="l-bento-stat-label">Rutinas ilimitadas</span>
                 </div>
-                <div class="col-md-4">
-                    <div class="sg-step">
-                        <div class="sg-step-number">03</div>
-                        <h5 class="sg-step-title">Observa tu progreso</h5>
-                        <p class="sg-step-text">
-                            SharpGains calcula tu sobrecarga y te guía sesión a sesión hacia tus metas.
-                        </p>
+
+                <!-- Feature -->
+                <div class="l-bento-card">
+                    <div class="l-bento-card-head">
+                        <span class="l-bento-icon"><i class="bi bi-pencil-square"></i></span>
+                        <span class="l-bento-tag">Registro</span>
                     </div>
+                    <h3 class="l-bento-title">Registra al vuelo</h3>
+                    <p class="l-bento-text">
+                        Peso, reps, sensaciones. En segundos.
+                        Sin complicaciones, directo al grano.
+                    </p>
+                </div>
+
+                <!-- Feature -->
+                <div class="l-bento-card">
+                    <div class="l-bento-card-head">
+                        <span class="l-bento-icon"><i class="bi bi-graph-up-arrow"></i></span>
+                        <span class="l-bento-tag">Progreso</span>
+                    </div>
+                    <h3 class="l-bento-title">Visualiza tu evolución</h3>
+                    <p class="l-bento-text">
+                        Gráficos de volumen, 1RM y tendencias.
+                        Que los datos hablen por ti.
+                    </p>
+                </div>
+
+                <!-- Stat card -->
+                <div class="l-bento-card l-bento-stat-card l-bento-stat-accent">
+                    <span class="l-bento-stat-number">24/7</span>
+                    <span class="l-bento-stat-label">Acceso total</span>
+                </div>
+
+                <!-- Feature wide -->
+                <div class="l-bento-card l-bento-wide">
+                    <div class="l-bento-card-head">
+                        <span class="l-bento-icon"><i class="bi bi-rocket-takeoff"></i></span>
+                        <span class="l-bento-tag">Inteligente</span>
+                    </div>
+                    <h3 class="l-bento-title">Sobrecarga progresiva</h3>
+                    <p class="l-bento-text">
+                        Métricas inteligentes para subir peso en el momento justo.
+                        Crecer con cabeza, no a lo loco.
+                    </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ========== CTA ========== -->
-    <section class="sg-cta">
-        <div class="container">
-            <h2 class="sg-cta-title">¿Listo para <span class="sg-highlight">empezar</span>?</h2>
-            <p class="sg-cta-text">
-                Únete a SharpGains y transforma tus entrenamientos con datos reales y sobrecarga inteligente.
-            </p>
-            <a asp-controller="Usuarios" asp-action="Registro" class="btn-sg btn-sg-primary btn-sg-lg">
-                Crear Cuenta Gratis
-            </a>
+    <!-- ============================== -->
+    <!-- QUOTE + CTA -->
+    <!-- ============================== -->
+    <section class="l-quote-cta">
+        <div class="l-container">
+            <!-- Quote -->
+            <div class="l-quote">
+                <span class="l-quote-mark">"</span>
+                <blockquote class="l-quote-text">
+                    Nunca cambiarás tu vida hasta que cambies algo
+                    que haces a diario. El secreto del éxito está
+                    en tu rutina.
+                </blockquote>
+                <cite class="l-quote-author">— John C. Maxwell</cite>
+            </div>
+
+            <!-- CTA -->
+            <div class="l-cta">
+                @if (isLogged)
+                {
+                    <h2 class="l-cta-title">
+                        Venga, @nombreUsuario.<br />
+                        Tu PR no se va a batir solo. 🔥
+                    </h2>
+                    <a class="l-btn l-btn-accent l-btn-lg"
+                       asp-controller="Rutinas" asp-action="CrearRutina">
+                        Ir a entrenar <i class="bi bi-arrow-right"></i>
+                    </a>
+                }
+                else
+                {
+                    <h2 class="l-cta-title">
+                        ¿Primera vez aquí?<br />
+                        Empieza gratis. Ahora.
+                    </h2>
+                    <p class="l-cta-sub">
+                        Sin compromisos. Sin tarjeta. Solo tú y tus pesas.
+                    </p>
+                    <div class="l-cta-actions">
+                        <a class="l-btn l-btn-accent l-btn-lg"
+                           asp-controller="Usuarios" asp-action="Registro">
+                            Crear cuenta <i class="bi bi-arrow-right"></i>
+                        </a>
+                        <a class="l-btn l-btn-ghost l-btn-lg"
+                           asp-controller="Usuarios" asp-action="Login">
+                            Iniciar sesión
+                        </a>
+                    </div>
+                }
+            </div>
         </div>
     </section>
 
-    <!-- ========== FOOTER ========== -->
-    <footer class="sg-landing-footer">
-        <div class="container">
-            <p class="mb-0">
-                &copy; 2026 SharpGains — Todos los derechos reservados
-                &nbsp;·&nbsp;
-                <a asp-controller="Home" asp-action="Privacy">Privacidad</a>
-            </p>
+    <!-- ============================== -->
+    <!-- FOOTER -->
+    <!-- ============================== -->
+    <footer class="l-footer">
+        <div class="l-container l-footer-inner">
+            <div class="l-footer-left">
+                <a class="l-logo" asp-controller="Home" asp-action="Index">
+                    SHARP<span class="l-logo-accent">GAINS</span>
+                </a>
+                <p class="l-footer-tagline">Tu entrenamiento. Tus datos. Tu progreso.</p>
+            </div>
+            <div class="l-footer-right">
+                <a class="l-footer-link" asp-controller="Ejercicios" asp-action="Ejercicios">Ejercicios</a>
+                <a class="l-footer-link" asp-controller="Home" asp-action="Privacy">Privacidad</a>
+                @if (!isLogged)
+                {
+                    <a class="l-footer-link" asp-controller="Usuarios" asp-action="Registro">Crear cuenta</a>
+                }
+            </div>
+        </div>
+        <div class="l-container">
+            <div class="l-footer-bottom">
+                <p>&copy; 2026 SharpGains</p>
+            </div>
         </div>
     </footer>
 
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Navbar glass on scroll
-        const nav = document.getElementById('landingNav');
-        window.addEventListener('scroll', () => {
-            nav.classList.toggle('is-scrolled', window.scrollY > 40);
-        }, { passive: true });
+        (function () {
+            const toggle = document.getElementById('navToggle');
+            const menu = document.getElementById('mobileMenu');
+            const close = document.getElementById('mobileClose');
+            toggle?.addEventListener('click', () => menu?.classList.add('is-open'));
+            close?.addEventListener('click', () => menu?.classList.remove('is-open'));
+            menu?.querySelectorAll('a').forEach(l =>
+                l.addEventListener('click', () => menu.classList.remove('is-open')));
+        })();
     </script>
 </body>
 </html>

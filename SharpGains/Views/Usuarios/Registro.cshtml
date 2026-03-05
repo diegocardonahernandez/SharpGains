@@ -1,109 +1,213 @@
 ﻿@model SharpGains.Models.Usuario
 @{
-    ViewData["Title"] = "Registro";
+    ViewData["Title"] = "Crear Cuenta";
+    Layout = null;
 }
 
-@section Styles {
-    <link rel="stylesheet" href="~/css/Usuarios/Registro.css" asp-append-version="true" />
-}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crear Cuenta — SharpGains</title>
 
-<div class="sg-auth-wrapper">
-    <div class="sg-auth-card">
-        <div class="text-center mb-4">
-            <h2 class="sg-auth-title">Crear <span class="sg-auth-accent">Cuenta</span></h2>
-            <p class="sg-auth-subtitle">Únete a SharpGains y empieza a progresar</p>
-        </div>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Oswald:wght@400;500;700&display=swap"
+          rel="stylesheet" />
 
-        @if (ViewBag.ERROR != null)
-        {
-            <div class="sg-alert sg-alert-danger" role="alert">
-                @ViewBag.ERROR
-            </div>
-        }
-        else if (ViewBag.MENSAJE != null)
-        {
-            <div class="sg-alert sg-alert-success" role="alert">
-                @ViewBag.MENSAJE
-            </div>
-        }
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 
-        <form method="post" asp-action="Registro">
-            <div asp-validation-summary="ModelOnly" class="sg-alert sg-alert-danger"></div>
-            <input asp-for="Id" type="hidden" />
+    <link rel="stylesheet" href="~/css/register.css" asp-append-version="true" />
+</head>
+<body class="reg-body">
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="sg-form-group">
-                        <label asp-for="Nombre" class="form-label-sg"></label>
-                        <input asp-for="Nombre" class="form-control-sg" placeholder="Tu nombre" />
-                        <span asp-validation-for="Nombre" class="field-validation-error"></span>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="sg-form-group">
-                        <label asp-for="Apellidos" class="form-label-sg"></label>
-                        <input asp-for="Apellidos" class="form-control-sg" placeholder="Tus apellidos" />
-                        <span asp-validation-for="Apellidos" class="field-validation-error"></span>
-                    </div>
-                </div>
-            </div>
+    <div class="reg-wrapper">
 
-            <div class="sg-form-group">
-                <label asp-for="Correo" class="form-label-sg">Correo Electrónico</label>
-                <input asp-for="Correo"
-                       type="email"
-                       class="form-control-sg"
-                       placeholder="usuario@ejemplo.com"
-                       hx-get="/Usuarios/ValidarCorreo"
-                       hx-trigger="keyup changed delay:500ms"
-                       hx-target="#correo-feedback" />
-                <span asp-validation-for="Correo" class="field-validation-error"></span>
-                <div id="correo-feedback"></div>
-            </div>
+        <div class="reg-card">
 
-            <div class="sg-form-group">
-                <label asp-for="Contrasena" class="form-label-sg">Contraseña</label>
-                <input asp-for="Contrasena" type="password" class="form-control-sg" placeholder="••••••••" />
-                <span asp-validation-for="Contrasena" class="field-validation-error"></span>
-            </div>
-
-            <hr class="sg-divider" />
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="sg-form-group">
-                        <label asp-for="Altura" class="form-label-sg">Altura (cm)</label>
-                        <input asp-for="Altura" class="form-control-sg" placeholder="175.50" />
-                        <span asp-validation-for="Altura" class="field-validation-error"></span>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="sg-form-group">
-                        <label asp-for="Peso" class="form-label-sg">Peso (kg)</label>
-                        <input asp-for="Peso" class="form-control-sg" placeholder="80.00" />
-                        <span asp-validation-for="Peso" class="field-validation-error"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="d-grid mt-3">
-                <button type="submit" class="btn-sg btn-sg-primary btn-sg-lg">
-                    Crear Cuenta
-                </button>
-            </div>
-
-            <hr class="sg-divider" />
-
-            <div class="text-center">
-                <p class="sg-auth-subtitle">
-                    ¿Ya tienes cuenta?
-                    <a asp-action="Login">Inicia sesión aquí</a>
+            <!-- Header -->
+            <div class="reg-header">
+                <h1 class="reg-title">Crea tu cuenta</h1>
+                <p class="reg-subtitle">
+                    Empieza a entrenar con datos. Es gratis, rápido y sin compromisos.
                 </p>
             </div>
-        </form>
-    </div>
-</div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+            <!-- Motivational banner -->
+            <div class="reg-banner">
+                <i class="bi bi-trophy-fill reg-banner-icon"></i>
+                <p class="reg-banner-text">
+                    <strong>Tu primer paso hacia tu mejor versión.</strong>
+                    Rutinas, sets y estadísticas — todo lo que necesitas.
+                </p>
+            </div>
+
+            <!-- Alerts -->
+            @if (ViewBag.ERROR != null)
+            {
+                <div class="reg-alert reg-alert-error">
+                    <i class="bi bi-exclamation-circle"></i>
+                    <span>@ViewBag.ERROR</span>
+                </div>
+            }
+
+            @if (ViewBag.MENSAJE != null)
+            {
+                <div class="reg-alert reg-alert-success">
+                    <i class="bi bi-check-circle"></i>
+                    <span>@ViewBag.MENSAJE</span>
+                    <a class="reg-alert-link" asp-controller="Usuarios" asp-action="Login">
+                        Iniciar sesión <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            }
+
+            <!-- Form -->
+            <form method="post" asp-controller="Usuarios" asp-action="Registro" class="reg-form">
+
+                <!-- Row: Nombre + Apellidos -->
+                <div class="reg-row">
+                    <div class="reg-field">
+                        <label class="reg-label" for="Nombre">Nombre</label>
+                        <input class="reg-input"
+                               type="text"
+                               id="Nombre"
+                               name="Nombre"
+                               placeholder="Tu nombre"
+                               value="@Model?.Nombre"
+                               autocomplete="given-name"
+                               required />
+                    </div>
+                    <div class="reg-field">
+                        <label class="reg-label" for="Apellidos">Apellidos</label>
+                        <input class="reg-input"
+                               type="text"
+                               id="Apellidos"
+                               name="Apellidos"
+                               placeholder="Tus apellidos"
+                               value="@Model?.Apellidos"
+                               autocomplete="family-name"
+                               required />
+                    </div>
+                </div>
+
+                <!-- Row: Correo + Contraseña -->
+                <div class="reg-row">
+                    <div class="reg-field">
+                        <label class="reg-label" for="Correo">Correo electrónico</label>
+                        <input class="reg-input"
+                               type="email"
+                               id="Correo"
+                               name="Correo"
+                               placeholder="tu@email.com"
+                               value="@Model?.Correo"
+                               autocomplete="email"
+                               hx-get="/Usuarios/ValidarCorreo"
+                               hx-trigger="keyup changed delay:400ms"
+                               hx-target="#correo-feedback"
+                               hx-params="correo"
+                               hx-vals='{"correo": ""}'
+                               hx-include="#Correo"
+                               required />
+                        <div id="correo-feedback" class="reg-feedback"></div>
+                    </div>
+                    <div class="reg-field">
+                        <label class="reg-label" for="Contrasena">Contraseña</label>
+                        <div class="reg-input-wrap">
+                            <input class="reg-input reg-input-pw"
+                                   type="password"
+                                   id="Contrasena"
+                                   name="Contrasena"
+                                   placeholder="Mínimo 6 caracteres"
+                                   autocomplete="new-password"
+                                   minlength="6"
+                                   required />
+                            <button type="button"
+                                    class="reg-toggle-pw"
+                                    aria-label="Mostrar contraseña">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row: Altura + Peso -->
+                <div class="reg-row">
+                    <div class="reg-field">
+                        <label class="reg-label" for="Altura">Altura (cm)</label>
+                        <input class="reg-input"
+                               type="number"
+                               id="Altura"
+                               name="Altura"
+                               placeholder="175"
+                               value="@Model?.Altura"
+                               step="0.01"
+                               min="100"
+                               max="250"
+                               autocomplete="off"
+                               required />
+                    </div>
+                    <div class="reg-field">
+                        <label class="reg-label" for="Peso">Peso (kg)</label>
+                        <input class="reg-input"
+                               type="number"
+                               id="Peso"
+                               name="Peso"
+                               placeholder="75"
+                               value="@Model?.Peso"
+                               step="0.01"
+                               min="30"
+                               max="300"
+                               autocomplete="off"
+                               required />
+                    </div>
+                </div>
+
+                <button type="submit" class="reg-btn-submit">
+                    Crear cuenta
+                </button>
+            </form>
+
+            <!-- Footer -->
+            <div class="reg-card-footer">
+                <p class="reg-footer-text">
+                    ¿Ya tienes cuenta? &nbsp;·&nbsp;
+                    <a class="reg-link" asp-controller="Usuarios" asp-action="Login">Iniciar sesión</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Back link -->
+        <a class="reg-back" asp-controller="Home" asp-action="Index">
+            <i class="bi bi-arrow-left"></i> Volver al inicio
+        </a>
+    </div>
+
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+
+    <script>
+        (function () {
+            const correoInput = document.getElementById('Correo');
+            if (correoInput) {
+                correoInput.addEventListener('htmx:configRequest', (e) => {
+                    e.detail.parameters['correo'] = correoInput.value;
+                });
+            }
+
+            const btn = document.querySelector('.reg-toggle-pw');
+            const input = document.getElementById('Contrasena');
+            if (btn && input) {
+                btn.addEventListener('click', () => {
+                    const isHidden = input.type === 'password';
+                    input.type = isHidden ? 'text' : 'password';
+                    btn.querySelector('i').className =
+                        isHidden ? 'bi bi-eye-slash' : 'bi bi-eye';
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

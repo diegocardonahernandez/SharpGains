@@ -93,37 +93,47 @@ namespace SharpGains.Repositories
                 .FirstOrDefaultAsync();
         }
 
-public async Task<Usuario> Login(string correo, string contrasena)
-    {
-        string sql = "SP_LOGIN_USUARIO @correo";
-        SqlParameter pamCorreo = new SqlParameter("@correo", correo);
-
-        var consulta = await this.context.Usuarios.FromSqlRaw(sql, pamCorreo).ToListAsync();
-        Usuario usuario = consulta.FirstOrDefault();
-
-        if (usuario != null)
+        public async Task<Usuario> Login(string correo, string contrasena)
         {
-            var seguridad = await this.context.UsuarioSeguridad
-                                      .FirstOrDefaultAsync(us => us.IdUsuario == usuario.Id);
+            string sql = "SP_LOGIN_USUARIO @correo";
+            SqlParameter pamCorreo = new SqlParameter("@correo", correo);
 
-            if (seguridad != null)
+            var consulta = await this.context.Usuarios.FromSqlRaw(sql, pamCorreo).ToListAsync();
+            Usuario usuario = consulta.FirstOrDefault();
+
+            if (usuario != null)
             {
-                var hasher = new PasswordHasher<Usuario>();
+                var seguridad = await this.context.UsuarioSeguridad
+                                          .FirstOrDefaultAsync(us => us.IdUsuario == usuario.Id);
 
-                var resultado = hasher.VerifyHashedPassword(usuario, seguridad.PasswordHash, contrasena);
-
-                if (resultado == PasswordVerificationResult.Success)
+                if (seguridad != null)
                 {
-                    return usuario;
+                    var hasher = new PasswordHasher<Usuario>();
+
+                    var resultado = hasher.VerifyHashedPassword(usuario, seguridad.PasswordHash, contrasena);
+
+                    if (resultado == PasswordVerificationResult.Success)
+                    {
+                        return usuario;
+                    }
                 }
             }
-        }
             return null;
-    }
+        }
 
         public async Task<Usuario> GetUsuario(int id)
         {
             return await this.context.Usuarios
+                .Where(u => u.Id == id)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<Usuario> GetUsuarioConDatos(int id)
+        {
+            return await this.context.Usuarios
+                .Include(u => u.Rutinas)
+                .Include(u => u.Sesions)
+                    .ThenInclude(s => s.Series)
                 .Where(u => u.Id == id)
                 .FirstOrDefaultAsync();
         }

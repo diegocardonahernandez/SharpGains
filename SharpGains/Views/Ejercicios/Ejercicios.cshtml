@@ -1,53 +1,270 @@
 ﻿@model List<SharpGains.Models.Ejercicio>
 @{
-    ViewData["Title"] = "Ejercicios";
+    Layout = null;
+    bool isLogged = Context.Session.GetString("IDUSUARIOLOGEADO") != null;
+    SharpGains.Models.Usuario? usuario = ViewBag.USUARIO;
+    string nombreUsuario = usuario?.Nombre ?? "";
+
+    static string GetGrupoIcon(string grupo)
+    {
+        return grupo.ToLowerInvariant() switch
+        {
+            var g when g.Contains("pecho")                          => "bi-heart-pulse",
+            var g when g.Contains("espalda")                        => "bi-layout-sidebar-reverse",
+            var g when g.Contains("hombro") || g.Contains("deltoid")=> "bi-arrows-fullscreen",
+            var g when g.Contains("b" + "ícep") || g.Contains("bicep") => "bi-lightning-charge",
+            var g when g.Contains("tr" + "ícep") || g.Contains("tricep") => "bi-lightning-charge-fill",
+            var g when g.Contains("pierna") || g.Contains("cuádr") || g.Contains("quadr") || g.Contains("femoral") => "bi-person-walking",
+            var g when g.Contains("glúteo") || g.Contains("gluteo") || g.Contains("cadera") => "bi-person-standing",
+            var g when g.Contains("gemelo") || g.Contains("pantorrilla") => "bi-arrow-down-square",
+            var g when g.Contains("abdomen") || g.Contains("core") || g.Contains("abdom") => "bi-circle-half",
+            var g when g.Contains("antebrazo")                      => "bi-wrench",
+            var g when g.Contains("trapecio")                       => "bi-triangle",
+            var g when g.Contains("lumbar") || g.Contains("espalda baja") => "bi-align-bottom",
+            _                                                        => "bi-activity"
+        };
+    }
+
+    var grupos = Model
+        .GroupBy(e => e.GrupoMuscular)
+        .OrderBy(g => g.Key)
+        .ToList();
+
+    var totalEjercicios = Model.Count;
+    var totalGrupos = grupos.Count;
 }
 
-@section Styles {
-    <link rel="stylesheet" href="~/css/Ejercicios/Ejercicios.css" asp-append-version="true" />
-}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejercicios — SharpGains</title>
 
-<!-- Hero Section -->
-<section class="sg-ejercicios-hero">
-    <div class="sg-ejercicios-hero-content">
-        <h1 class="sg-ejercicios-title">
-            <span class="sg-ejercicios-accent">💪</span> Ejercicios
-        </h1>
-        <p class="sg-ejercicios-subtitle">
-            Explora el catálogo completo de ejercicios disponibles para tus rutinas de entrenamiento.
-        </p>
-    </div>
-    <div class="sg-ejercicios-stats-row">
-        <div class="sg-ejercicios-stat">
-            <span class="sg-ejercicios-stat-value">@Model.Count</span>
-            <span class="sg-ejercicios-stat-label">Ejercicios</span>
-        </div>
-        <div class="sg-ejercicios-stat">
-            <span class="sg-ejercicios-stat-value">@Model.Select(e => e.GrupoMuscular).Distinct().Count()</span>
-            <span class="sg-ejercicios-stat-label">Grupos Musculares</span>
-        </div>
-        <div class="sg-ejercicios-stat">
-            <span class="sg-ejercicios-stat-value">@Model.Where(e => e.Equipamiento != null).Select(e => e.Equipamiento).Distinct().Count()</span>
-            <span class="sg-ejercicios-stat-label">Equipamientos</span>
-        </div>
-    </div>
-</section>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Oswald:wght@400;500;700&display=swap"
+          rel="stylesheet" />
 
-<!-- Buscador simple con HTMX -->
-<section class="sg-ejercicios-filter">
-    <div class="sg-filter-bar">
-        <input type="text"
-               id="searchEjercicios"
-               name="busqueda"
-               class="form-control-sg sg-filter-input"
-               placeholder="🔍 Buscar ejercicio por nombre..."
-               hx-get="@Url.Action("Buscar", "Ejercicios")"
-               hx-trigger="keyup changed delay:300ms"
-               hx-target="#contenedor-ejercicios"
-               hx-swap="innerHTML" />
-    </div>
-</section>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 
-<section id="contenedor-ejercicios" class="sg-ejercicios-content">
-    <partial name="_ResultadosBusquedaEjercicios" model="Model" />
-</section>
+    <link rel="stylesheet" href="~/css/ejercicios.css" asp-append-version="true" />
+</head>
+<body class="ej-body">
+
+    <!-- ============================== -->
+    <!-- NAV -->
+    <!-- ============================== -->
+    <nav class="ej-nav">
+        <div class="ej-container ej-nav-inner">
+            <a class="ej-logo" asp-controller="Home" asp-action="Index">
+                SHARP<span class="ej-logo-accent">GAINS</span>
+            </a>
+            <div class="ej-nav-links">
+                <a class="ej-nav-link" asp-controller="Ejercicios" asp-action="Ejercicios">Ejercicios</a>
+                @if (isLogged)
+                {
+                    <a class="ej-nav-link" asp-controller="Rutinas" asp-action="CrearRutina">Mis Rutinas</a>
+                    <a class="ej-nav-link" asp-controller="Usuarios" asp-action="Perfil">
+                        <i class="bi bi-person-circle"></i> @nombreUsuario
+                    </a>
+                    <a class="ej-nav-btn ej-nav-btn-outline"
+                       asp-controller="Usuarios" asp-action="CerrarSesion">Salir</a>
+                }
+                else
+                {
+                    <a class="ej-nav-link" asp-controller="Usuarios" asp-action="Login">Iniciar Sesión</a>
+                    <a class="ej-nav-btn ej-nav-btn-primary"
+                       asp-controller="Usuarios" asp-action="Registro">Crear Cuenta</a>
+                }
+            </div>
+            <button class="ej-nav-toggle" id="ejNavToggle" aria-label="Abrir menú">
+                <i class="bi bi-list"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile menu overlay -->
+    <div class="ej-mobile-menu" id="ejMobileMenu">
+        <div class="ej-mobile-menu-inner">
+            <button class="ej-mobile-close" id="ejMobileClose" aria-label="Cerrar menú">
+                <i class="bi bi-x-lg"></i>
+            </button>
+            <a class="ej-mobile-link" asp-controller="Ejercicios" asp-action="Ejercicios">Ejercicios</a>
+            @if (isLogged)
+            {
+                <a class="ej-mobile-link" asp-controller="Rutinas" asp-action="CrearRutina">Mis Rutinas</a>
+                <a class="ej-mobile-link" asp-controller="Usuarios" asp-action="Perfil">Mi Perfil</a>
+                <a class="ej-nav-btn ej-nav-btn-outline ej-nav-btn-block"
+                   asp-controller="Usuarios" asp-action="CerrarSesion">Cerrar Sesión</a>
+            }
+            else
+            {
+                <a class="ej-mobile-link" asp-controller="Usuarios" asp-action="Login">Iniciar Sesión</a>
+                <a class="ej-nav-btn ej-nav-btn-primary ej-nav-btn-block"
+                   asp-controller="Usuarios" asp-action="Registro">Crear Cuenta</a>
+            }
+        </div>
+    </div>
+
+    <!-- ============================== -->
+    <!-- MAIN CONTENT -->
+    <!-- ============================== -->
+    <main class="ej-page">
+        <div class="ej-container">
+
+            <!-- ── Page header ── -->
+            <div class="ej-page-header">
+                <div class="ej-page-header-left">
+                    <div class="ej-eyebrow">
+                        <span class="ej-eyebrow-line"></span>
+                        <span class="ej-eyebrow-text">Biblioteca</span>
+                    </div>
+                    <h1 class="ej-page-title">Ejercicios</h1>
+                    <p class="ej-page-subtitle">
+                        Explora el catálogo completo. Filtra por nombre o grupo muscular
+                        y encuentra exactamente lo que necesitas para tu entreno.
+                    </p>
+                </div>
+                <div class="ej-page-stats">
+                    <div class="ej-stat">
+                        <span class="ej-stat-value">@totalEjercicios</span>
+                        <span class="ej-stat-label">Ejercicios</span>
+                    </div>
+                    <div class="ej-stat-divider"></div>
+                    <div class="ej-stat">
+                        <span class="ej-stat-value">@totalGrupos</span>
+                        <span class="ej-stat-label">Grupos</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Search bar ── -->
+            <div class="ej-search-wrap">
+                <div class="ej-search-inner">
+                    <i class="bi bi-search ej-search-icon"></i>
+                    <input class="ej-search-input"
+                           type="search"
+                           id="busqueda"
+                           name="busqueda"
+                           placeholder="Buscar ejercicio por nombre..."
+                           autocomplete="off"
+                           hx-get="/Ejercicios/Buscar"
+                           hx-trigger="keyup changed delay:300ms, search"
+                           hx-target="#ej-results"
+                           hx-include="#busqueda"
+                           hx-indicator="#ej-spinner" />
+                    <span class="ej-search-spinner" id="ej-spinner">
+                        <i class="bi bi-arrow-repeat"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- ── Muscle group filter chips ── -->
+            <div class="ej-chips" id="ej-chips">
+                <button class="ej-chip ej-chip-active" data-grupo="all">
+                    <i class="bi bi-grid-3x3-gap"></i> Todos
+                </button>
+                @foreach (var grupo in grupos)
+                {
+                    <button class="ej-chip" data-grupo="@grupo.Key.ToLower()">
+                        <i class="bi @GetGrupoIcon(grupo.Key)"></i>
+                        @grupo.Key
+                        <span class="ej-chip-count">@grupo.Count()</span>
+                    </button>
+                }
+            </div>
+
+            <!-- ── Results container ── -->
+            <div id="ej-results" class="ej-results">
+                @await Html.PartialAsync("_ResultadosBusquedaEjercicios", Model)
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ============================== -->
+    <!-- FOOTER -->
+    <!-- ============================== -->
+    <footer class="ej-footer">
+        <div class="ej-container ej-footer-inner">
+            <div class="ej-footer-left">
+                <a class="ej-logo" asp-controller="Home" asp-action="Index">
+                    SHARP<span class="ej-logo-accent">GAINS</span>
+                </a>
+                <p class="ej-footer-tagline">Tu entrenamiento. Tus datos. Tu progreso.</p>
+            </div>
+            <div class="ej-footer-right">
+                <a class="ej-footer-link" asp-controller="Home" asp-action="Index">Inicio</a>
+                <a class="ej-footer-link" asp-controller="Home" asp-action="Privacy">Privacidad</a>
+            </div>
+        </div>
+        <div class="ej-container">
+            <div class="ej-footer-bottom">
+                <p>&copy; 2026 SharpGains</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+
+    <script>
+        (function () {
+            // ── Mobile menu toggle ──
+            const toggle = document.getElementById('ejNavToggle');
+            const menu = document.getElementById('ejMobileMenu');
+            const close = document.getElementById('ejMobileClose');
+            if (toggle && menu) {
+                toggle.addEventListener('click', () => menu.classList.add('is-open'));
+            }
+            if (close && menu) {
+                close.addEventListener('click', () => menu.classList.remove('is-open'));
+            }
+            menu?.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => menu.classList.remove('is-open'));
+            });
+
+            // ── Chip filter ──
+            const chips = document.querySelectorAll('.ej-chip');
+            const resultsContainer = document.getElementById('ej-results');
+
+            function filterCards(grupo) {
+                const cards = resultsContainer.querySelectorAll('.ej-ex-card');
+                cards.forEach(card => {
+                    if (grupo === 'all' || card.dataset.grupo === grupo) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+            chips.forEach(chip => {
+                chip.addEventListener('click', () => {
+                    chips.forEach(c => c.classList.remove('ej-chip-active'));
+                    chip.classList.add('ej-chip-active');
+                    filterCards(chip.dataset.grupo);
+                });
+            });
+
+            // Re-apply active chip filter after HTMX search swap
+            document.body.addEventListener('htmx:afterSwap', (e) => {
+                if (e.detail.target.id === 'ej-results') {
+                    const activeChip = document.querySelector('.ej-chip-active');
+                    if (activeChip && activeChip.dataset.grupo !== 'all') {
+                        filterCards(activeChip.dataset.grupo);
+                    }
+                }
+            });
+
+            // Clear chips active state when user searches by text
+            document.getElementById('busqueda')?.addEventListener('input', () => {
+                chips.forEach(c => c.classList.remove('ej-chip-active'));
+                document.querySelector('[data-grupo="all"]')?.classList.add('ej-chip-active');
+            });
+        })();
+    </script>
+</body>
+</html>
