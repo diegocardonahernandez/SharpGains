@@ -43,8 +43,7 @@ namespace SharpGains.Controllers
             }
 
             ViewBag.MENSAJE = "Usuario creado correctamente";
-            ModelState.Clear();
-            return View();
+            return RedirectToAction("Login");
         }
 
         [HttpGet]
