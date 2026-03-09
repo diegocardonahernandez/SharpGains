@@ -1,0 +1,648 @@
+﻿/* ================================================
+   SHARPGAINS — Crear Rutina
+   Two-panel layout · Dark · Emerald accent
+   Follows the existing design system (--ej- / --l-)
+   Scoped to work INSIDE _Layout.cshtml (Bootstrap)
+   ================================================ */
+
+:root {
+    --cr-bg:          #0b0b0b;
+    --cr-bg-raised:   #111111;
+    --cr-bg-card:     #161616;
+    --cr-bg-card-h:   #1c1c1c;
+    --cr-border:      rgba(255, 255, 255, 0.05);
+    --cr-border-h:    rgba(255, 255, 255, 0.10);
+    --cr-border-focus:rgba(52, 211, 153, 0.4);
+
+    --cr-text:        #ededed;
+    --cr-text-2:      #8a8a8a;
+    --cr-text-3:      #505050;
+
+    --cr-accent:      #34d399;
+    --cr-accent-h:    #6ee7b7;
+    --cr-accent-dim:  rgba(52, 211, 153, 0.07);
+    --cr-accent-glow: rgba(52, 211, 153, 0.15);
+
+    --cr-ff:          'Inter', system-ui, -apple-system, sans-serif;
+    --cr-ff-display:  'Oswald', var(--cr-ff);
+
+    --cr-r-sm:  6px;
+    --cr-r-md:  10px;
+    --cr-r-lg:  14px;
+    --cr-r-pill:9999px;
+
+    --cr-ease: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Override Bootstrap body/layout for this page ── */
+body:has(.cr-page) {
+    background: var(--cr-bg) !important;
+    color: var(--cr-text) !important;
+    font-family: var(--cr-ff) !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Navbar overrides ── */
+body:has(.cr-page) .sg-navbar {
+    background: rgba(11, 11, 11, 0.92) !important;
+    border-bottom: 1px solid var(--cr-border) !important;
+    box-shadow: none !important;
+}
+
+body:has(.cr-page) .sg-navbar .navbar-brand {
+    font-family: var(--cr-ff-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--cr-text) !important;
+    letter-spacing: 2px;
+}
+
+body:has(.cr-page) .sg-brand-accent {
+    color: var(--cr-accent) !important;
+}
+
+body:has(.cr-page) .sg-navbar .nav-link {
+    font-family: var(--cr-ff);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--cr-text-2) !important;
+    letter-spacing: 0.2px;
+    transition: color var(--cr-ease);
+}
+
+body:has(.cr-page) .sg-navbar .nav-link:hover {
+    color: var(--cr-text) !important;
+}
+
+body:has(.cr-page) .sg-navbar .btn-sg {
+    font-family: var(--cr-ff);
+    font-size: 0.78rem;
+    font-weight: 600;
+    border-radius: var(--cr-r-pill);
+    letter-spacing: 0.2px;
+    transition: all var(--cr-ease);
+}
+
+body:has(.cr-page) .sg-navbar .btn-sg-primary {
+    background: var(--cr-accent) !important;
+    color: #0b0b0b !important;
+    border: none !important;
+}
+
+body:has(.cr-page) .sg-navbar .btn-sg-primary:hover {
+    background: var(--cr-accent-h) !important;
+    box-shadow: 0 4px 20px rgba(52, 211, 153, 0.25);
+}
+
+body:has(.cr-page) .sg-navbar .navbar-toggler {
+    border: 1px solid var(--cr-border) !important;
+    padding: 4px 8px;
+    border-radius: var(--cr-r-sm);
+}
+
+body:has(.cr-page) .sg-navbar .navbar-toggler-icon {
+    filter: invert(1);
+}
+
+body:has(.cr-page) .sg-navbar .navbar-collapse {
+    background: var(--cr-bg) !important;
+    border-radius: var(--cr-r-md);
+    padding: 8px 0;
+}
+
+@media (min-width: 576px) {
+    body:has(.cr-page) .sg-navbar .navbar-collapse {
+        background: transparent !important;
+        padding: 0;
+    }
+}
+
+/* ── Footer overrides ── */
+body:has(.cr-page) .sg-footer {
+    background: transparent !important;
+    border-top: 1px solid var(--cr-border);
+    color: var(--cr-text-3) !important;
+    padding: 16px 0;
+}
+
+body:has(.cr-page) .sg-footer a {
+    color: var(--cr-text-3) !important;
+    text-decoration: none;
+    transition: color var(--cr-ease);
+}
+
+body:has(.cr-page) .sg-footer a:hover {
+    color: var(--cr-accent) !important;
+}
+
+/* ================================================
+   PAGE
+   ================================================ */
+.cr-page {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    padding: 24px 0 48px;
+    color: var(--cr-text);
+}
+
+/* ── Header ── */
+.cr-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cr-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cr-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cr-eyebrow-line {
+    width: 24px;
+    height: 1px;
+    background: var(--cr-accent);
+}
+
+.cr-eyebrow-text {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--cr-text-2);
+}
+
+.cr-title {
+    font-family: var(--cr-ff-display);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--cr-text);
+    margin: 0;
+    line-height: 1.1;
+    letter-spacing: -0.3px;
+}
+
+.cr-subtitle {
+    font-size: 0.88rem;
+    color: var(--cr-text-2);
+    line-height: 1.65;
+    margin: 0;
+    max-width: 520px;
+}
+
+/* ================================================
+   TWO-PANEL LAYOUT
+   ================================================ */
+.cr-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cr-panel {
+    background: var(--cr-bg-raised);
+    border: 1px solid var(--cr-border);
+    border-radius: var(--cr-r-lg);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-height: 320px;
+}
+
+.cr-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--cr-border);
+}
+
+.cr-panel-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background: var(--cr-accent-dim);
+    border: 1px solid rgba(52, 211, 153, 0.08);
+    border-radius: var(--cr-r-sm);
+    color: var(--cr-accent);
+    font-size: 0.85rem;
+}
+
+.cr-panel-title {
+    font-family: var(--cr-ff-display);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--cr-text);
+    margin: 0;
+    letter-spacing: 0.3px;
+}
+
+/* ================================================
+   MUSCLE GROUP CHIPS
+   ================================================ */
+.cr-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.cr-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    background: var(--cr-bg-card);
+    border: 1px solid var(--cr-border);
+    border-radius: var(--cr-r-pill);
+    color: var(--cr-text-2);
+    font-family: var(--cr-ff);
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--cr-ease);
+    white-space: nowrap;
+    user-select: none;
+    line-height: 1.4;
+}
+
+.cr-chip:hover {
+    border-color: var(--cr-border-h);
+    color: var(--cr-text);
+    background: var(--cr-bg-card-h);
+}
+
+.cr-chip-active {
+    background: var(--cr-accent-dim);
+    border-color: rgba(52, 211, 153, 0.25);
+    color: var(--cr-accent);
+}
+
+.cr-chip-active:hover {
+    color: var(--cr-accent-h);
+    background: rgba(52, 211, 153, 0.10);
+}
+
+/* ================================================
+   LOADING SPINNER (HTMX)
+   ================================================ */
+.cr-spinner {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 24px 0;
+    font-size: 0.82rem;
+    color: var(--cr-accent);
+}
+
+.cr-spinner i {
+    animation: cr-spin 0.7s linear infinite;
+}
+
+.cr-spinner.htmx-request {
+    display: flex;
+}
+
+@keyframes cr-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ================================================
+   EMPTY STATE
+   ================================================ */
+.cr-empty,
+.cr-rutina-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 48px 24px;
+    text-align: center;
+    flex: 1;
+}
+
+.cr-empty-icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: var(--cr-accent-dim);
+    border: 1px solid rgba(52, 211, 153, 0.08);
+    border-radius: var(--cr-r-md);
+    color: var(--cr-accent);
+    font-size: 1.2rem;
+    margin-bottom: 4px;
+}
+
+.cr-empty-title {
+    font-family: var(--cr-ff-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--cr-text-2);
+    margin: 0;
+}
+
+.cr-empty-text {
+    font-size: 0.8rem;
+    color: var(--cr-text-3);
+    margin: 0;
+    max-width: 280px;
+    line-height: 1.5;
+}
+
+/* ================================================
+   EXERCISE LIST
+   ================================================ */
+.cr-ejercicios {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.cr-ej-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* ── Exercise card ── */
+.cr-ej-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background: var(--cr-bg-card);
+    border: 1px solid var(--cr-border);
+    border-radius: var(--cr-r-md);
+    transition: all var(--cr-ease);
+    cursor: default;
+}
+
+.cr-ej-card:hover {
+    background: var(--cr-bg-card-h);
+    border-color: var(--cr-border-h);
+}
+
+.cr-ej-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    background: var(--cr-accent-dim);
+    border: 1px solid rgba(52, 211, 153, 0.08);
+    border-radius: var(--cr-r-sm);
+    color: var(--cr-accent);
+    font-size: 0.95rem;
+    transition: all var(--cr-ease);
+}
+
+.cr-ej-card:hover .cr-ej-icon {
+    background: rgba(52, 211, 153, 0.12);
+    border-color: rgba(52, 211, 153, 0.18);
+}
+
+.cr-ej-body {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+    flex: 1;
+}
+
+.cr-ej-name {
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--cr-text);
+    margin: 0;
+    line-height: 1.3;
+    white-space: normal;
+    word-break: break-word;
+}
+
+.cr-ej-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.cr-ej-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: var(--cr-r-pill);
+    font-size: 0.66rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.cr-ej-tag-grupo {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--cr-border);
+    color: var(--cr-text-2);
+}
+
+.cr-ej-tag-equip {
+    background: var(--cr-accent-dim);
+    border: 1px solid rgba(52, 211, 153, 0.1);
+    color: var(--cr-accent);
+}
+
+/* ── Add button ── */
+.cr-ej-add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    background: transparent;
+    border: 1px solid var(--cr-border);
+    border-radius: var(--cr-r-sm);
+    color: var(--cr-text-3);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all var(--cr-ease);
+    padding: 0;
+}
+
+.cr-ej-add:hover {
+    background: var(--cr-accent-dim);
+    border-color: rgba(52, 211, 153, 0.25);
+    color: var(--cr-accent);
+    transform: scale(1.08);
+}
+
+.cr-ej-add:active {
+    transform: scale(0.95);
+}
+
+/* ================================================
+   PAGINATION
+   ================================================ */
+.cr-pag {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--cr-border);
+}
+
+.cr-pag-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    background: var(--cr-bg-card);
+    border: 1px solid var(--cr-border);
+    border-radius: var(--cr-r-sm);
+    color: var(--cr-text-2);
+    font-size: 0.82rem;
+    text-decoration: none;
+    transition: all var(--cr-ease);
+    cursor: pointer;
+    flex-shrink: 0;
+    padding: 0;
+    font-family: inherit;
+}
+
+.cr-pag-btn:hover {
+    background: var(--cr-bg-card-h);
+    border-color: var(--cr-border-h);
+    color: var(--cr-accent);
+}
+
+.cr-pag-btn:active {
+    transform: scale(0.94);
+}
+
+.cr-pag-info {
+    font-family: var(--cr-ff-display);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--cr-text-3);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0 8px;
+    user-select: none;
+}
+
+/* ================================================
+   RIGHT PANEL — RUTINA PLACEHOLDER
+   ================================================ */
+.cr-panel-right {
+    border-style: dashed;
+    border-color: var(--cr-border);
+}
+
+.cr-rutina-empty {
+    opacity: 0.6;
+}
+
+/* ================================================
+   SCROLLBAR
+   ================================================ */
+.cr-ejercicios::-webkit-scrollbar {
+    width: 4px;
+}
+
+.cr-ejercicios::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.cr-ejercicios::-webkit-scrollbar-thumb {
+    background: var(--cr-border-h);
+    border-radius: var(--cr-r-pill);
+}
+
+.cr-ejercicios::-webkit-scrollbar-thumb:hover {
+    background: var(--cr-text-3);
+}
+
+/* ================================================
+   RESPONSIVE ≥ 640px
+   ================================================ */
+@media (min-width: 640px) {
+    .cr-title {
+        font-size: 2.4rem;
+    }
+}
+
+/* ================================================
+   RESPONSIVE ≥ 960px
+   ================================================ */
+@media (min-width: 960px) {
+    .cr-layout {
+        flex-direction: row;
+        gap: 20px;
+    }
+
+    .cr-panel-left {
+        flex: 1;
+        max-width: 50%;
+    }
+
+    .cr-panel-right {
+        flex: 1;
+        max-width: 50%;
+    }
+
+    .cr-title {
+        font-size: 2.6rem;
+    }
+}
+
+/* ================================================
+   ANIMATIONS
+   ================================================ */
+@media (prefers-reduced-motion: no-preference) {
+    .cr-header,
+    .cr-chips {
+        animation: cr-enter 0.5s ease-out both;
+    }
+
+    .cr-chips {
+        animation-delay: 0.05s;
+    }
+
+    .cr-panel {
+        animation: cr-enter 0.45s ease-out both;
+    }
+
+    .cr-panel-right {
+        animation-delay: 0.06s;
+    }
+
+    .cr-ej-card {
+        animation: cr-enter 0.35s ease-out both;
+    }
+}
+
+@keyframes cr-enter {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

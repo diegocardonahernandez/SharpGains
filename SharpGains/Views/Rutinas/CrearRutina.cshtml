@@ -1,1 +1,232 @@
-﻿
+﻿@model SharpGains.Models.ModelEjerciciosPaginados?
+@{
+    ViewData["Title"] = "Crear Rutina";
+
+    int ultimo = ViewData["ULTIMO"] != null ? (int)ViewData["ULTIMO"] : 0;
+    int siguiente = ViewData["SIGUIENTE"] != null ? (int)ViewData["SIGUIENTE"] : 0;
+    int anterior = ViewData["ANTERIOR"] != null ? (int)ViewData["ANTERIOR"] : 0;
+    string grupoActual = ViewData["GRUPO"] as string ?? "";
+
+    static string GetGrupoIcon(string grupo)
+    {
+        return grupo.ToLowerInvariant() switch
+        {
+            var g when g.Contains("pecho")                              => "bi-heart-pulse",
+            var g when g.Contains("espalda")                            => "bi-layout-sidebar-reverse",
+            var g when g.Contains("hombro") || g.Contains("deltoid")    => "bi-arrows-fullscreen",
+            var g when g.Contains("bícep") || g.Contains("bicep")       => "bi-lightning-charge",
+            var g when g.Contains("trícep") || g.Contains("tricep")     => "bi-lightning-charge-fill",
+            var g when g.Contains("cuádr") || g.Contains("pierna")      => "bi-person-walking",
+            var g when g.Contains("glúteo") || g.Contains("gluteo")     => "bi-person-standing",
+            var g when g.Contains("gemelo") || g.Contains("pantorrilla")=> "bi-arrow-down-square",
+            var g when g.Contains("core") || g.Contains("abdom")        => "bi-circle-half",
+            var g when g.Contains("isquio") || g.Contains("femoral")    => "bi-arrow-down-up",
+            _                                                            => "bi-activity"
+        };
+    }
+
+    var gruposPrincipales = new[]
+    {
+        ("Bíceps",          "bi-lightning-charge"),
+        ("Core",            "bi-circle-half"),
+        ("Cuádriceps",      "bi-person-walking"),
+        ("Espalda",         "bi-layout-sidebar-reverse"),
+        ("Gemelos",         "bi-arrow-down-square"),
+        ("Glúteos",         "bi-person-standing"),
+        ("Hombros",         "bi-arrows-fullscreen"),
+        ("Isquiotibiales",  "bi-arrow-down-up"),
+        ("Pecho",           "bi-heart-pulse"),
+        ("Tríceps",         "bi-lightning-charge-fill")
+    };
+}
+
+@section Styles {
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/css/rutina.css" asp-append-version="true" />
+}
+
+<div class="cr-page">
+
+    <!-- ── Page header ── -->
+    <div class="cr-header">
+        <div class="cr-header-left">
+            <div class="cr-eyebrow">
+                <span class="cr-eyebrow-line"></span>
+                <span class="cr-eyebrow-text">Nueva rutina</span>
+            </div>
+            <h1 class="cr-title">Crear Rutina</h1>
+            <p class="cr-subtitle">
+                Selecciona un grupo muscular, explora los ejercicios y
+                construye tu rutina paso a paso.
+            </p>
+        </div>
+    </div>
+
+    <!-- ── Two-panel layout ── -->
+    <div class="cr-layout">
+
+        <!-- ============================== -->
+        <!-- LEFT PANEL — Ejercicios -->
+        <!-- ============================== -->
+        <div class="cr-panel cr-panel-left">
+            <div class="cr-panel-header">
+                <i class="bi bi-collection cr-panel-icon"></i>
+                <h2 class="cr-panel-title">Ejercicios</h2>
+            </div>
+
+            <!-- Grupo muscular chips -->
+            <div class="cr-chips" id="crChips">
+                @foreach (var (nombre, icono) in gruposPrincipales)
+                {
+                    <button class="cr-chip @(nombre == grupoActual ? "cr-chip-active" : "")"
+                            data-grupo="@nombre"
+                            hx-get="@Url.Action("CrearRutina", "Rutinas", new { grupoMuscular = nombre, posicion = 1 })"
+                            hx-target="#cr-ejercicios"
+                            hx-select="#cr-ejercicios-content"
+                            hx-swap="innerHTML"
+                            hx-indicator="#cr-spinner">
+                        <i class="bi @icono"></i>
+                        @nombre
+                    </button>
+                }
+            </div>
+
+            <!-- Loading spinner -->
+            <div class="cr-spinner" id="cr-spinner">
+                <i class="bi bi-arrow-repeat"></i>
+                <span>Cargando ejercicios…</span>
+            </div>
+
+            <!-- Ejercicios list -->
+            <div class="cr-ejercicios" id="cr-ejercicios">
+                <div id="cr-ejercicios-content">
+                    @if (Model == null || Model.Ejercicios == null || !Model.Ejercicios.Any())
+                    {
+                        <!-- Empty state -->
+                        <div class="cr-empty">
+                            <div class="cr-empty-icon-wrap">
+                                <i class="bi bi-hand-index-thumb"></i>
+                            </div>
+                            <p class="cr-empty-title">Selecciona un grupo muscular</p>
+                            <p class="cr-empty-text">
+                                Elige una categoría arriba para ver los ejercicios disponibles.
+                            </p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="cr-ej-list">
+                            @{
+                                var idx = 0;
+                            }
+                            @foreach (var ejercicio in Model.Ejercicios)
+                            {
+                                <div class="cr-ej-card" style="animation-delay: @(idx * 0.03)s">
+                                    <div class="cr-ej-icon">
+                                        <i class="bi @GetGrupoIcon(ejercicio.GrupoMuscular)"></i>
+                                    </div>
+                                    <div class="cr-ej-body">
+                                        <p class="cr-ej-name">@ejercicio.Nombre</p>
+                                        <div class="cr-ej-meta">
+                                            <span class="cr-ej-tag cr-ej-tag-grupo">
+                                                @ejercicio.GrupoMuscular
+                                            </span>
+                                            @if (!string.IsNullOrWhiteSpace(ejercicio.Equipamiento))
+                                            {
+                                                <span class="cr-ej-tag cr-ej-tag-equip">
+                                                    <i class="bi bi-tools"></i> @ejercicio.Equipamiento
+                                                </span>
+                                            }
+                                        </div>
+                                    </div>
+                                    <button class="cr-ej-add" title="Añadir a la rutina">
+                                        <i class="bi bi-plus-lg"></i>
+                                    </button>
+                                </div>
+                                idx++;
+                            }
+                        </div>
+
+                        <!-- Pagination (HTMX — no page reload) -->
+                        <div class="cr-pag">
+                            <button class="cr-pag-btn" title="Primero"
+                                    hx-get="@Url.Action("CrearRutina", "Rutinas", new { grupoMuscular = grupoActual, posicion = 1 })"
+                                    hx-target="#cr-ejercicios"
+                                    hx-select="#cr-ejercicios-content"
+                                    hx-swap="innerHTML"
+                                    hx-indicator="#cr-spinner">
+                                <i class="bi bi-chevron-bar-left"></i>
+                            </button>
+                            <button class="cr-pag-btn" title="Anterior"
+                                    hx-get="@Url.Action("CrearRutina", "Rutinas", new { grupoMuscular = grupoActual, posicion = anterior })"
+                                    hx-target="#cr-ejercicios"
+                                    hx-select="#cr-ejercicios-content"
+                                    hx-swap="innerHTML"
+                                    hx-indicator="#cr-spinner">
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
+                            <span class="cr-pag-info">
+                                @grupoActual
+                            </span>
+                            <button class="cr-pag-btn" title="Siguiente"
+                                    hx-get="@Url.Action("CrearRutina", "Rutinas", new { grupoMuscular = grupoActual, posicion = siguiente })"
+                                    hx-target="#cr-ejercicios"
+                                    hx-select="#cr-ejercicios-content"
+                                    hx-swap="innerHTML"
+                                    hx-indicator="#cr-spinner">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                            <button class="cr-pag-btn" title="Último"
+                                    hx-get="@Url.Action("CrearRutina", "Rutinas", new { grupoMuscular = grupoActual, posicion = ultimo })"
+                                    hx-target="#cr-ejercicios"
+                                    hx-select="#cr-ejercicios-content"
+                                    hx-swap="innerHTML"
+                                    hx-indicator="#cr-spinner">
+                                <i class="bi bi-chevron-bar-right"></i>
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================== -->
+        <!-- RIGHT PANEL — Rutina (placeholder) -->
+        <!-- ============================== -->
+        <div class="cr-panel cr-panel-right">
+            <div class="cr-panel-header">
+                <i class="bi bi-clipboard2-check cr-panel-icon"></i>
+                <h2 class="cr-panel-title">Tu Rutina</h2>
+            </div>
+            <div class="cr-rutina-empty">
+                <div class="cr-empty-icon-wrap">
+                    <i class="bi bi-clipboard2-plus"></i>
+                </div>
+                <p class="cr-empty-title">Rutina vacía</p>
+                <p class="cr-empty-text">
+                    Añade ejercicios desde el panel izquierdo para
+                    empezar a construir tu rutina.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        (function () {
+            const chips = document.querySelectorAll('.cr-chip');
+
+            chips.forEach(chip => {
+                chip.addEventListener('click', () => {
+                    chips.forEach(c => c.classList.remove('cr-chip-active'));
+                    chip.classList.add('cr-chip-active');
+                });
+            });
+        })();
+    </script>
+
+
+}

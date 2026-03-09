@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SharpGains.Data;
 using SharpGains.Repositories;
+using SharpGains.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<RepositoryUsuarios>();
 builder.Services.AddTransient<RepositoryEjercicios>();
 builder.Services.AddTransient<RepositoryRutinas>();
+builder.Services.AddTransient<CrearRutinaService>();
 builder.Services.AddDbContext<SharpGainsContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SQLServerConnection")));
 
