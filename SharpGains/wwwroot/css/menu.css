@@ -1,0 +1,286 @@
+﻿/* ================================================
+   SHARPGAINS — Shared Navigation & Footer
+   Single source of truth for nav/menu/footer styles.
+   Uses sg- prefix to avoid conflicts.
+   ================================================ */
+
+:root {
+    --sg-bg:          #0a0a0a;
+    --sg-border:      rgba(255, 255, 255, 0.05);
+    --sg-border-h:    rgba(255, 255, 255, 0.10);
+
+    --sg-text:        #ededed;
+    --sg-text-2:      #8a8a8a;
+    --sg-text-3:      #444444;
+
+    --sg-accent:      #34d399;
+    --sg-accent-h:    #6ee7b7;
+    --sg-accent-dim:  rgba(52, 211, 153, 0.07);
+
+    --sg-ff:          'Inter', system-ui, -apple-system, sans-serif;
+    --sg-ff-display:  'Oswald', var(--sg-ff);
+
+    --sg-r-sm:   6px;
+    --sg-r-pill: 9999px;
+    --sg-ease:   0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --sg-nav-h:  56px;
+}
+
+/* ================================================
+   NAV BAR
+   ================================================ */
+.sg-nav {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 1000;
+    height: var(--sg-nav-h);
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--sg-border);
+}
+
+.sg-nav-container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.sg-nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--sg-nav-h);
+}
+
+/* ── Logo ── */
+.sg-logo {
+    font-family: var(--sg-ff-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--sg-text);
+    text-decoration: none;
+    letter-spacing: 2px;
+}
+
+.sg-logo-accent {
+    color: var(--sg-accent);
+}
+
+/* ── Desktop links ── */
+.sg-nav-links {
+    display: none;
+    align-items: center;
+    gap: 24px;
+}
+
+.sg-nav-link {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--sg-text-2);
+    text-decoration: none;
+    letter-spacing: 0.2px;
+    transition: color var(--sg-ease);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.sg-nav-link:hover {
+    color: var(--sg-text);
+}
+
+.sg-nav-link-active {
+    color: var(--sg-accent);
+}
+
+/* ── Nav buttons ── */
+.sg-nav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--sg-ff);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 7px 16px;
+    border-radius: var(--sg-r-pill);
+    border: none;
+    cursor: pointer;
+    transition: all var(--sg-ease);
+    white-space: nowrap;
+    letter-spacing: 0.2px;
+}
+
+.sg-nav-btn-primary {
+    background: var(--sg-accent);
+    color: #0a0a0a;
+}
+
+.sg-nav-btn-primary:hover {
+    background: var(--sg-accent-h);
+    color: #0a0a0a;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(52, 211, 153, 0.25);
+}
+
+.sg-nav-btn-outline {
+    background: transparent;
+    color: var(--sg-text);
+    border: 1px solid var(--sg-border-h);
+}
+
+.sg-nav-btn-outline:hover {
+    border-color: var(--sg-accent);
+    color: var(--sg-accent);
+}
+
+.sg-nav-btn-block {
+    width: 100%;
+    text-align: center;
+}
+
+/* ── Hamburger toggle ── */
+.sg-nav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: 1px solid var(--sg-border);
+    border-radius: var(--sg-r-sm);
+    color: var(--sg-text);
+    font-size: 1.15rem;
+    cursor: pointer;
+    transition: border-color var(--sg-ease);
+}
+
+.sg-nav-toggle:hover {
+    border-color: var(--sg-border-h);
+}
+
+/* ================================================
+   MOBILE MENU OVERLAY
+   ================================================ */
+.sg-mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(10, 10, 10, 0.97);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.sg-mobile-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.sg-mobile-menu-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+    padding: 40px;
+}
+
+.sg-mobile-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--sg-border);
+    border-radius: var(--sg-r-sm);
+    color: var(--sg-text);
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.sg-mobile-link {
+    font-family: var(--sg-ff-display);
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--sg-text-2);
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: color var(--sg-ease);
+}
+
+.sg-mobile-link:hover {
+    color: var(--sg-text);
+}
+
+/* ================================================
+   FOOTER
+   ================================================ */
+.sg-footer {
+    padding: 20px 0;
+    border-top: 1px solid var(--sg-border);
+    background: var(--sg-bg);
+}
+
+.sg-footer .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+    font-size: 0.72rem;
+    color: var(--sg-text-3);
+}
+
+.sg-footer a {
+    color: var(--sg-text-3);
+    text-decoration: none;
+    transition: color var(--sg-ease);
+}
+
+.sg-footer a:hover {
+    color: var(--sg-accent);
+}
+
+/* ================================================
+   RESPONSIVE ≥ 640px
+   ================================================ */
+@media (min-width: 640px) {
+    .sg-nav-container {
+        padding: 0 32px;
+    }
+
+    .sg-footer .container {
+        padding: 0 32px;
+    }
+}
+
+/* ================================================
+   RESPONSIVE ≥ 960px — show desktop links
+   ================================================ */
+@media (min-width: 960px) {
+    .sg-nav-container {
+        padding: 0 40px;
+    }
+
+    .sg-nav-links {
+        display: flex;
+    }
+
+    .sg-nav-toggle {
+        display: none;
+    }
+
+    .sg-footer .container {
+        padding: 0 40px;
+    }
+}

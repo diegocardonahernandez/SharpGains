@@ -7,18 +7,15 @@ namespace SharpGains.Controllers
     public class EjerciciosController : Controller
     {
         private RepositoryEjercicios repo;
-        private RepositoryUsuarios repoUsuarios;
 
-        public EjerciciosController(RepositoryEjercicios repo, RepositoryUsuarios repoUsuarios)
+        public EjerciciosController(RepositoryEjercicios repo)
         {
             this.repo = repo;
-            this.repoUsuarios = repoUsuarios;
         }
 
         public async Task<IActionResult> Ejercicios()
         {
             List<Ejercicio> ejercicios = await this.repo.GetEjercicios();
-            ViewBag.USUARIO = await this.GetUsuarioLogueado();
             return View(ejercicios);
         }
 
@@ -35,13 +32,6 @@ namespace SharpGains.Controllers
             }
 
             return PartialView("_ResultadosBusquedaEjercicios", resultados.ToList());
-        }
-
-        private async Task<Usuario?> GetUsuarioLogueado()
-        {
-            string? userId = HttpContext.Session.GetString("IDUSUARIOLOGEADO");
-            if (userId == null) return null;
-            return await this.repoUsuarios.GetUsuario(int.Parse(userId));
         }
     }
 }

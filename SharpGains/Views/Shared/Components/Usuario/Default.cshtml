@@ -1,0 +1,72 @@
+﻿@model SharpGains.Models.Usuario
+@{
+    bool isLogged = Model != null;
+    string nombreUsuario = Model?.Nombre ?? "";
+}
+
+<!-- ============================== -->
+<!-- NAV -->
+<!-- ============================== -->
+<nav class="sg-nav">
+    <div class="sg-nav-container sg-nav-inner">
+        <a class="sg-logo" asp-controller="Home" asp-action="Index">
+            SHARP<span class="sg-logo-accent">GAINS</span>
+        </a>
+        <div class="sg-nav-links">
+            <a class="sg-nav-link" asp-controller="Ejercicios" asp-action="Ejercicios">Ejercicios</a>
+            @if (isLogged)
+            {
+                <a class="sg-nav-link" asp-controller="Rutinas" asp-action="CrearRutina">Mis Rutinas</a>
+                <a class="sg-nav-link" asp-controller="Usuarios" asp-action="Perfil">
+                    <i class="bi bi-person-circle"></i> @nombreUsuario
+                </a>
+                <a class="sg-nav-btn sg-nav-btn-outline"
+                   asp-controller="Usuarios" asp-action="CerrarSesion">Salir</a>
+            }
+            else
+            {
+                <a class="sg-nav-link" asp-controller="Usuarios" asp-action="Login">Iniciar Sesión</a>
+                <a class="sg-nav-btn sg-nav-btn-primary"
+                   asp-controller="Usuarios" asp-action="Registro">Crear Cuenta</a>
+            }
+        </div>
+        <button class="sg-nav-toggle" id="sgNavToggle" aria-label="Abrir menú">
+            <i class="bi bi-list"></i>
+        </button>
+    </div>
+</nav>
+
+<!-- Mobile menu -->
+<div class="sg-mobile-menu" id="sgMobileMenu">
+    <div class="sg-mobile-menu-inner">
+        <button class="sg-mobile-close" id="sgMobileClose" aria-label="Cerrar menú">
+            <i class="bi bi-x-lg"></i>
+        </button>
+        <a class="sg-mobile-link" asp-controller="Ejercicios" asp-action="Ejercicios">Ejercicios</a>
+        @if (isLogged)
+        {
+            <a class="sg-mobile-link" asp-controller="Rutinas" asp-action="CrearRutina">Mis Rutinas</a>
+            <a class="sg-mobile-link" asp-controller="Usuarios" asp-action="Perfil">Mi Perfil</a>
+            <a class="sg-nav-btn sg-nav-btn-outline sg-nav-btn-block"
+               asp-controller="Usuarios" asp-action="CerrarSesion">Cerrar Sesión</a>
+        }
+        else
+        {
+            <a class="sg-mobile-link" asp-controller="Usuarios" asp-action="Login">Iniciar Sesión</a>
+            <a class="sg-nav-btn sg-nav-btn-primary sg-nav-btn-block"
+               asp-controller="Usuarios" asp-action="Registro">Crear Cuenta</a>
+        }
+    </div>
+</div>
+
+<script>
+    (function () {
+        const toggle = document.getElementById('sgNavToggle');
+        const menu   = document.getElementById('sgMobileMenu');
+        const close  = document.getElementById('sgMobileClose');
+        if (toggle && menu) toggle.addEventListener('click', () => menu.classList.add('is-open'));
+        if (close  && menu) close.addEventListener('click',  () => menu.classList.remove('is-open'));
+        menu?.querySelectorAll('a').forEach(l =>
+            l.addEventListener('click', () => menu.classList.remove('is-open')));
+    })();
+</script>

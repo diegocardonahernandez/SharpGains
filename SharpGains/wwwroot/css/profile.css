@@ -1,7 +1,7 @@
 ﻿/* ================================================
    SHARPGAINS — Profile
    Standalone dark theme · Minimal · Emerald accent
-   Follows landing / login / register / ejercicios
+   Nav styles removed — now handled by menu.css
    ================================================ */
 
 :root {
@@ -59,178 +59,6 @@
     max-width: var(--pf-max-w);
     margin: 0 auto;
     padding: 0 20px;
-}
-
-/* ================================================
-   NAV
-   ================================================ */
-.pf-nav {
-    position: fixed;
-    inset: 0 0 auto 0;
-    z-index: 1000;
-    background: rgba(11, 11, 11, 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--pf-border);
-    height: 56px;
-}
-
-.pf-nav-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 56px;
-}
-
-.pf-logo {
-    font-family: var(--pf-ff-display);
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--pf-text);
-    text-decoration: none;
-    letter-spacing: 2px;
-}
-
-.pf-logo-accent {
-    color: var(--pf-accent);
-}
-
-.pf-nav-links {
-    display: none;
-    align-items: center;
-    gap: 28px;
-}
-
-.pf-nav-link {
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: var(--pf-text-2);
-    text-decoration: none;
-    letter-spacing: 0.2px;
-    transition: color var(--pf-ease);
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.pf-nav-link:hover {
-    color: var(--pf-text);
-}
-
-.pf-nav-link-active {
-    color: var(--pf-accent);
-}
-
-.pf-nav-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-family: var(--pf-ff);
-    font-size: 0.78rem;
-    font-weight: 600;
-    text-decoration: none;
-    padding: 7px 16px;
-    border-radius: var(--pf-r-pill);
-    border: none;
-    cursor: pointer;
-    transition: all var(--pf-ease);
-    white-space: nowrap;
-    letter-spacing: 0.2px;
-}
-
-.pf-nav-btn-outline {
-    background: transparent;
-    color: var(--pf-text);
-    border: 1px solid var(--pf-border-h);
-}
-
-.pf-nav-btn-outline:hover {
-    border-color: var(--pf-accent);
-    color: var(--pf-accent);
-}
-
-.pf-nav-btn-block {
-    width: 100%;
-    text-align: center;
-}
-
-.pf-nav-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    background: transparent;
-    border: 1px solid var(--pf-border);
-    border-radius: var(--pf-r-sm);
-    color: var(--pf-text);
-    font-size: 1.15rem;
-    cursor: pointer;
-    transition: border-color var(--pf-ease);
-}
-
-.pf-nav-toggle:hover {
-    border-color: var(--pf-border-h);
-}
-
-/* ── Mobile Menu ── */
-.pf-mobile-menu {
-    position: fixed;
-    inset: 0;
-    z-index: 2000;
-    background: rgba(11, 11, 11, 0.97);
-    backdrop-filter: blur(20px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.25s ease, visibility 0.25s ease;
-}
-
-.pf-mobile-menu.is-open {
-    opacity: 1;
-    visibility: visible;
-}
-
-.pf-mobile-menu-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
-    padding: 40px;
-}
-
-.pf-mobile-close {
-    position: absolute;
-    top: 14px;
-    right: 16px;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: 1px solid var(--pf-border);
-    border-radius: var(--pf-r-sm);
-    color: var(--pf-text);
-    font-size: 1rem;
-    cursor: pointer;
-}
-
-.pf-mobile-link {
-    font-family: var(--pf-ff-display);
-    font-size: 1.35rem;
-    font-weight: 500;
-    color: var(--pf-text-2);
-    text-decoration: none;
-    letter-spacing: 1px;
-    transition: color var(--pf-ease);
-}
-
-.pf-mobile-link:hover {
-    color: var(--pf-text);
 }
 
 /* ================================================
@@ -584,6 +412,19 @@
     gap: 6px;
 }
 
+.pf-logo {
+    font-family: var(--pf-ff-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--pf-text);
+    text-decoration: none;
+    letter-spacing: 2px;
+}
+
+.pf-logo-accent {
+    color: var(--pf-accent);
+}
+
 .pf-footer-tagline {
     font-size: 0.78rem;
     color: var(--pf-text-3);
@@ -622,66 +463,23 @@
    RESPONSIVE ≥ 640px
    ================================================ */
 @media (min-width: 640px) {
-    .pf-container {
-        padding: 0 32px;
-    }
-
-    .pf-name {
-        font-size: 2.4rem;
-    }
-
-    .pf-avatar {
-        width: 84px;
-        height: 84px;
-    }
-
-    .pf-avatar-text {
-        font-size: 1.7rem;
-    }
-
-    .pf-stats {
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-    .pf-cards {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .pf-footer-inner {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: flex-start;
-    }
+    .pf-container { padding: 0 32px; }
+    .pf-name { font-size: 2.4rem; }
+    .pf-avatar { width: 84px; height: 84px; }
+    .pf-avatar-text { font-size: 1.7rem; }
+    .pf-stats { grid-template-columns: repeat(4, 1fr); }
+    .pf-cards { grid-template-columns: repeat(2, 1fr); }
+    .pf-footer-inner { flex-direction: row; justify-content: space-between; align-items: flex-start; }
 }
 
 /* ================================================
    RESPONSIVE ≥ 960px
    ================================================ */
 @media (min-width: 960px) {
-    .pf-container {
-        padding: 0 40px;
-    }
-
-    .pf-nav-links {
-        display: flex;
-    }
-
-    .pf-nav-toggle {
-        display: none;
-    }
-
-    .pf-name {
-        font-size: 2.6rem;
-    }
-
-    .pf-avatar {
-        width: 92px;
-        height: 92px;
-    }
-
-    .pf-avatar-text {
-        font-size: 1.9rem;
-    }
+    .pf-container { padding: 0 40px; }
+    .pf-name { font-size: 2.6rem; }
+    .pf-avatar { width: 92px; height: 92px; }
+    .pf-avatar-text { font-size: 1.9rem; }
 }
 
 /* ================================================
@@ -691,9 +489,7 @@
     .pf-header,
     .pf-stats,
     .pf-cards,
-    .pf-actions {
-        animation: pf-enter 0.5s ease-out both;
-    }
+    .pf-actions { animation: pf-enter 0.5s ease-out both; }
 
     .pf-stats   { animation-delay: 0.06s; }
     .pf-cards   { animation-delay: 0.12s; }
@@ -701,12 +497,6 @@
 }
 
 @keyframes pf-enter {
-    from {
-        opacity: 0;
-        transform: translateY(16px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
 }

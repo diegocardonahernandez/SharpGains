@@ -1,7 +1,7 @@
 ﻿/* ================================================
    SHARPGAINS — Ejercicios
    Standalone dark theme · Minimal · Emerald accent
-   Follows landing / login / register design system
+   Nav styles removed — now handled by menu.css
    ================================================ */
 
 :root {
@@ -57,187 +57,6 @@
     max-width: var(--ej-max-w);
     margin: 0 auto;
     padding: 0 20px;
-}
-
-/* ================================================
-   NAV (mirrors landing-nav)
-   ================================================ */
-.ej-nav {
-    position: fixed;
-    inset: 0 0 auto 0;
-    z-index: 1000;
-    background: rgba(11, 11, 11, 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--ej-border);
-    height: 56px;
-}
-
-.ej-nav-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 56px;
-}
-
-.ej-logo {
-    font-family: var(--ej-ff-display);
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--ej-text);
-    text-decoration: none;
-    letter-spacing: 2px;
-}
-
-.ej-logo-accent {
-    color: var(--ej-accent);
-}
-
-.ej-nav-links {
-    display: none;
-    align-items: center;
-    gap: 28px;
-}
-
-.ej-nav-link {
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: var(--ej-text-2);
-    text-decoration: none;
-    letter-spacing: 0.2px;
-    transition: color var(--ej-ease);
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.ej-nav-link:hover {
-    color: var(--ej-text);
-}
-
-/* Nav buttons */
-.ej-nav-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-family: var(--ej-ff);
-    font-size: 0.78rem;
-    font-weight: 600;
-    text-decoration: none;
-    padding: 7px 16px;
-    border-radius: var(--ej-r-pill);
-    border: none;
-    cursor: pointer;
-    transition: all var(--ej-ease);
-    white-space: nowrap;
-    letter-spacing: 0.2px;
-}
-
-.ej-nav-btn-primary {
-    background: var(--ej-accent);
-    color: #0b0b0b;
-}
-
-.ej-nav-btn-primary:hover {
-    background: var(--ej-accent-h);
-    color: #0b0b0b;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 20px rgba(52, 211, 153, 0.25);
-}
-
-.ej-nav-btn-outline {
-    background: transparent;
-    color: var(--ej-text);
-    border: 1px solid var(--ej-border-h);
-}
-
-.ej-nav-btn-outline:hover {
-    border-color: var(--ej-accent);
-    color: var(--ej-accent);
-}
-
-.ej-nav-btn-block {
-    width: 100%;
-    text-align: center;
-}
-
-.ej-nav-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    background: transparent;
-    border: 1px solid var(--ej-border);
-    border-radius: var(--ej-r-sm);
-    color: var(--ej-text);
-    font-size: 1.15rem;
-    cursor: pointer;
-    transition: border-color var(--ej-ease);
-}
-
-.ej-nav-toggle:hover {
-    border-color: var(--ej-border-h);
-}
-
-/* ── Mobile Menu ── */
-.ej-mobile-menu {
-    position: fixed;
-    inset: 0;
-    z-index: 2000;
-    background: rgba(11, 11, 11, 0.97);
-    backdrop-filter: blur(20px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.25s ease, visibility 0.25s ease;
-}
-
-.ej-mobile-menu.is-open {
-    opacity: 1;
-    visibility: visible;
-}
-
-.ej-mobile-menu-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
-    padding: 40px;
-}
-
-.ej-mobile-close {
-    position: absolute;
-    top: 14px;
-    right: 16px;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: 1px solid var(--ej-border);
-    border-radius: var(--ej-r-sm);
-    color: var(--ej-text);
-    font-size: 1rem;
-    cursor: pointer;
-}
-
-.ej-mobile-link {
-    font-family: var(--ej-ff-display);
-    font-size: 1.35rem;
-    font-weight: 500;
-    color: var(--ej-text-2);
-    text-decoration: none;
-    letter-spacing: 1px;
-    transition: color var(--ej-ease);
-}
-
-.ej-mobile-link:hover {
-    color: var(--ej-text);
 }
 
 /* ================================================
@@ -500,7 +319,6 @@
     gap: 10px;
 }
 
-/* ── Exercise card ── */
 .ej-ex-card {
     display: flex;
     align-items: center;
@@ -623,7 +441,7 @@
 }
 
 /* ================================================
-   FOOTER (mirrors landing-footer)
+   FOOTER
    ================================================ */
 .ej-footer {
     padding: 40px 0 0;
@@ -641,6 +459,19 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
+}
+
+.ej-logo {
+    font-family: var(--ej-ff-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--ej-text);
+    text-decoration: none;
+    letter-spacing: 2px;
+}
+
+.ej-logo-accent {
+    color: var(--ej-accent);
 }
 
 .ej-footer-tagline {
@@ -681,55 +512,20 @@
    RESPONSIVE ≥ 640px
    ================================================ */
 @media (min-width: 640px) {
-    .ej-container {
-        padding: 0 32px;
-    }
-
-    .ej-page-header {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: flex-end;
-    }
-
-    .ej-page-title {
-        font-size: 2.4rem;
-    }
-
-    .ej-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .ej-footer-inner {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: flex-start;
-    }
+    .ej-container { padding: 0 32px; }
+    .ej-page-header { flex-direction: row; justify-content: space-between; align-items: flex-end; }
+    .ej-page-title { font-size: 2.4rem; }
+    .ej-grid { grid-template-columns: repeat(2, 1fr); }
+    .ej-footer-inner { flex-direction: row; justify-content: space-between; align-items: flex-start; }
 }
 
 /* ================================================
    RESPONSIVE ≥ 960px
    ================================================ */
 @media (min-width: 960px) {
-    .ej-container {
-        padding: 0 40px;
-    }
-
-    /* Nav */
-    .ej-nav-links {
-        display: flex;
-    }
-
-    .ej-nav-toggle {
-        display: none;
-    }
-
-    .ej-page-title {
-        font-size: 2.6rem;
-    }
-
-    .ej-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
+    .ej-container { padding: 0 40px; }
+    .ej-page-title { font-size: 2.6rem; }
+    .ej-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 /* ================================================
@@ -738,25 +534,15 @@
 @media (prefers-reduced-motion: no-preference) {
     .ej-page-header,
     .ej-search-wrap,
-    .ej-chips {
-        animation: ej-enter 0.5s ease-out both;
-    }
+    .ej-chips { animation: ej-enter 0.5s ease-out both; }
 
     .ej-search-wrap { animation-delay: 0.05s; }
     .ej-chips       { animation-delay: 0.1s; }
 
-    .ej-ex-card {
-        animation: ej-enter 0.35s ease-out both;
-    }
+    .ej-ex-card { animation: ej-enter 0.35s ease-out both; }
 }
 
 @keyframes ej-enter {
-    from {
-        opacity: 0;
-        transform: translateY(16px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
 }

@@ -1,6 +1,7 @@
 ﻿/* ================================================
    SHARPGAINS — Landing v2
    Dark · Bento · Bold typography · Emerald accent
+   Nav styles removed — now handled by menu.css
    ================================================ */
 
 :root {
@@ -32,27 +33,6 @@
 .landing-body{margin:0;padding:0;background:var(--l-bg);color:var(--l-text);font-family:var(--l-ff);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 .landing-body *,.landing-body *::before,.landing-body *::after{box-sizing:border-box}
 .l-container{width:100%;max-width:var(--l-max-w);margin:0 auto;padding:0 20px}
-
-/* ================================================
-   NAV
-   ================================================ */
-.l-nav{position:fixed;inset:0 0 auto 0;z-index:1000;height:56px;background:rgba(10,10,10,0.8);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--l-border)}
-.l-nav-inner{display:flex;align-items:center;justify-content:space-between;height:56px}
-.l-logo{font-family:var(--l-ff-d);font-size:1.1rem;font-weight:700;color:var(--l-text);text-decoration:none;letter-spacing:2px}
-.l-logo-accent{color:var(--l-accent)}
-.l-nav-links{display:none;align-items:center;gap:24px}
-.l-nav-link{font-size:0.78rem;font-weight:500;color:var(--l-text-2);text-decoration:none;transition:color var(--l-ease);display:inline-flex;align-items:center;gap:4px}
-.l-nav-link:hover{color:var(--l-text)}
-.l-nav-toggle{display:flex;align-items:center;justify-content:center;width:36px;height:36px;background:0;border:1px solid var(--l-border);border-radius:var(--l-r-sm);color:var(--l-text);font-size:1.1rem;cursor:pointer;transition:border-color var(--l-ease)}
-.l-nav-toggle:hover{border-color:var(--l-border-h)}
-
-/* Mobile menu */
-.l-mobile-menu{position:fixed;inset:0;z-index:2000;background:rgba(10,10,10,0.97);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
-.l-mobile-menu.is-open{opacity:1;visibility:visible}
-.l-mobile-inner{display:flex;flex-direction:column;align-items:center;gap:22px;padding:40px}
-.l-mobile-close{position:absolute;top:14px;right:16px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:0;border:1px solid var(--l-border);border-radius:var(--l-r-sm);color:var(--l-text);font-size:1rem;cursor:pointer}
-.l-mobile-link{font-family:var(--l-ff-d);font-size:1.3rem;font-weight:500;color:var(--l-text-2);text-decoration:none;letter-spacing:1px;transition:color var(--l-ease)}
-.l-mobile-link:hover{color:var(--l-text)}
 
 /* ================================================
    BUTTONS
@@ -118,13 +98,11 @@
 .l-quote-cta{padding:56px 0 64px}
 .l-quote-cta .l-container{display:flex;flex-direction:column;gap:48px}
 
-/* Quote */
 .l-quote{padding:36px 28px;background:var(--l-bg-2);border:1px solid var(--l-border);border-radius:var(--l-r-lg);position:relative}
 .l-quote-mark{font-family:var(--l-ff-d);font-size:4rem;line-height:1;color:var(--l-accent);opacity:.3;position:absolute;top:12px;left:20px}
 .l-quote-text{font-family:var(--l-ff-d);font-size:1.1rem;font-weight:500;line-height:1.4;color:var(--l-text);margin:0;padding-left:8px;font-style:italic;letter-spacing:.3px}
 .l-quote-author{display:block;margin-top:14px;font-size:.72rem;font-weight:600;color:var(--l-text-3);letter-spacing:1px;text-transform:uppercase;font-style:normal;padding-left:8px}
 
-/* CTA */
 .l-cta{text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px}
 .l-cta-title{font-family:var(--l-ff-d);font-size:1.6rem;font-weight:700;line-height:1.1;color:var(--l-text);margin:0}
 .l-cta-sub{font-size:.88rem;color:var(--l-text-2);margin:0}
@@ -136,6 +114,18 @@
 .l-footer{padding:36px 0 0;border-top:1px solid var(--l-border)}
 .l-footer-inner{display:flex;flex-direction:column;gap:20px;padding-bottom:20px}
 .l-footer-left{display:flex;flex-direction:column;gap:4px}
+
+.l-logo {
+    font-family: var(--l-ff-d);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--l-text);
+    text-decoration: none;
+    letter-spacing: 2px;
+}
+
+.l-logo-accent { color: var(--l-accent); }
+
 .l-footer-tagline{font-size:.74rem;color:var(--l-text-3);margin:0}
 .l-footer-right{display:flex;flex-wrap:wrap;gap:18px}
 .l-footer-link{font-size:.78rem;color:var(--l-text-3);text-decoration:none;transition:color var(--l-ease)}
@@ -163,17 +153,12 @@
    ================================================ */
 @media(min-width:960px){
     .l-container{padding:0 40px}
-    .l-nav-links{display:flex}
-    .l-nav-toggle{display:none}
-
     .l-hero{padding:150px 0 0}
 
-    /* Bento 4-col */
     .l-bento{padding:72px 0}
     .l-bento-grid{grid-template-columns:repeat(4,1fr);gap:12px}
     .l-bento-wide{grid-column:span 2}
 
-    /* Quote + CTA side-by-side */
     .l-quote-cta{padding:72px 0 80px}
     .l-quote-cta .l-container{flex-direction:row;gap:24px;align-items:stretch}
     .l-quote{flex:1}
