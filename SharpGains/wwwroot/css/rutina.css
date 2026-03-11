@@ -1,8 +1,7 @@
 ﻿/* ================================================
    SHARPGAINS — Crear Rutina
-   Two-panel layout · Dark · Emerald accent
-   Follows the existing design system (--ej- / --l-)
-   Scoped to work INSIDE _Layout.cshtml (Bootstrap)
+   Standalone dark theme · Minimal · Emerald accent
+   Follows landing / ejercicios / profile design
    ================================================ */
 
 :root {
@@ -23,6 +22,9 @@
     --cr-accent-dim:  rgba(52, 211, 153, 0.07);
     --cr-accent-glow: rgba(52, 211, 153, 0.15);
 
+    --cr-error:       #f87171;
+    --cr-error-dim:   rgba(248, 113, 113, 0.07);
+
     --cr-ff:          'Inter', system-ui, -apple-system, sans-serif;
     --cr-ff-display:  'Oswald', var(--cr-ff);
 
@@ -32,108 +34,225 @@
     --cr-r-pill:9999px;
 
     --cr-ease: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --cr-max-w: 1080px;
 }
 
-/* ── Override Bootstrap body/layout for this page ── */
-body:has(.cr-page) {
-    background: var(--cr-bg) !important;
-    color: var(--cr-text) !important;
-    font-family: var(--cr-ff) !important;
+/* ── Base ── */
+.cr-body {
+    margin: 0;
+    padding: 0;
+    background: var(--cr-bg);
+    color: var(--cr-text);
+    font-family: var(--cr-ff);
+    font-size: 15px;
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
 }
 
-/* ── Navbar overrides ── */
-body:has(.cr-page) .sg-navbar {
-    background: rgba(11, 11, 11, 0.92) !important;
-    border-bottom: 1px solid var(--cr-border) !important;
-    box-shadow: none !important;
+.cr-body *, .cr-body *::before, .cr-body *::after {
+    box-sizing: border-box;
 }
 
-body:has(.cr-page) .sg-navbar .navbar-brand {
+.cr-container {
+    width: 100%;
+    max-width: var(--cr-max-w);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ================================================
+   NAV
+   ================================================ */
+.cr-nav {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 1000;
+    background: rgba(11, 11, 11, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--cr-border);
+    height: 56px;
+}
+
+.cr-nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+}
+
+.cr-logo {
     font-family: var(--cr-ff-display);
     font-size: 1.15rem;
     font-weight: 700;
-    color: var(--cr-text) !important;
+    color: var(--cr-text);
+    text-decoration: none;
     letter-spacing: 2px;
 }
 
-body:has(.cr-page) .sg-brand-accent {
-    color: var(--cr-accent) !important;
+.cr-logo-accent {
+    color: var(--cr-accent);
 }
 
-body:has(.cr-page) .sg-navbar .nav-link {
-    font-family: var(--cr-ff);
+.cr-nav-links {
+    display: none;
+    align-items: center;
+    gap: 28px;
+}
+
+.cr-nav-link {
     font-size: 0.8rem;
     font-weight: 500;
-    color: var(--cr-text-2) !important;
+    color: var(--cr-text-2);
+    text-decoration: none;
     letter-spacing: 0.2px;
     transition: color var(--cr-ease);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
 }
 
-body:has(.cr-page) .sg-navbar .nav-link:hover {
-    color: var(--cr-text) !important;
+.cr-nav-link:hover {
+    color: var(--cr-text);
 }
 
-body:has(.cr-page) .sg-navbar .btn-sg {
+.cr-nav-link-active {
+    color: var(--cr-accent);
+}
+
+/* Nav buttons */
+.cr-nav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     font-family: var(--cr-ff);
     font-size: 0.78rem;
     font-weight: 600;
+    text-decoration: none;
+    padding: 7px 16px;
     border-radius: var(--cr-r-pill);
-    letter-spacing: 0.2px;
+    border: none;
+    cursor: pointer;
     transition: all var(--cr-ease);
+    white-space: nowrap;
+    letter-spacing: 0.2px;
 }
 
-body:has(.cr-page) .sg-navbar .btn-sg-primary {
-    background: var(--cr-accent) !important;
-    color: #0b0b0b !important;
-    border: none !important;
+.cr-nav-btn-primary {
+    background: var(--cr-accent);
+    color: #0b0b0b;
 }
 
-body:has(.cr-page) .sg-navbar .btn-sg-primary:hover {
-    background: var(--cr-accent-h) !important;
+.cr-nav-btn-primary:hover {
+    background: var(--cr-accent-h);
+    color: #0b0b0b;
+    transform: translateY(-1px);
     box-shadow: 0 4px 20px rgba(52, 211, 153, 0.25);
 }
 
-body:has(.cr-page) .sg-navbar .navbar-toggler {
-    border: 1px solid var(--cr-border) !important;
-    padding: 4px 8px;
+.cr-nav-btn-outline {
+    background: transparent;
+    color: var(--cr-text);
+    border: 1px solid var(--cr-border-h);
+}
+
+.cr-nav-btn-outline:hover {
+    border-color: var(--cr-accent);
+    color: var(--cr-accent);
+}
+
+.cr-nav-btn-block {
+    width: 100%;
+    text-align: center;
+}
+
+.cr-nav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: 1px solid var(--cr-border);
     border-radius: var(--cr-r-sm);
+    color: var(--cr-text);
+    font-size: 1.15rem;
+    cursor: pointer;
+    transition: border-color var(--cr-ease);
 }
 
-body:has(.cr-page) .sg-navbar .navbar-toggler-icon {
-    filter: invert(1);
+.cr-nav-toggle:hover {
+    border-color: var(--cr-border-h);
 }
 
-body:has(.cr-page) .sg-navbar .navbar-collapse {
-    background: var(--cr-bg) !important;
-    border-radius: var(--cr-r-md);
-    padding: 8px 0;
+/* ── Mobile Menu ── */
+.cr-mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(11, 11, 11, 0.97);
+    backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
 }
 
-@media (min-width: 576px) {
-    body:has(.cr-page) .sg-navbar .navbar-collapse {
-        background: transparent !important;
-        padding: 0;
-    }
+.cr-mobile-menu.is-open {
+    opacity: 1;
+    visibility: visible;
 }
 
-/* ── Footer overrides ── */
-body:has(.cr-page) .sg-footer {
-    background: transparent !important;
-    border-top: 1px solid var(--cr-border);
-    color: var(--cr-text-3) !important;
-    padding: 16px 0;
+.cr-mobile-menu-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 40px;
 }
 
-body:has(.cr-page) .sg-footer a {
-    color: var(--cr-text-3) !important;
+.cr-mobile-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--cr-border);
+    border-radius: var(--cr-r-sm);
+    color: var(--cr-text);
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.cr-mobile-link {
+    font-family: var(--cr-ff-display);
+    font-size: 1.35rem;
+    font-weight: 500;
+    color: var(--cr-text-2);
     text-decoration: none;
+    letter-spacing: 1px;
     transition: color var(--cr-ease);
 }
 
-body:has(.cr-page) .sg-footer a:hover {
-    color: var(--cr-accent) !important;
+.cr-mobile-link:hover {
+    color: var(--cr-text);
+}
+
+/* ================================================
+   MAIN WRAPPER
+   ================================================ */
+.cr-main {
+    padding: 96px 0 64px;
+    min-height: 100dvh;
 }
 
 /* ================================================
@@ -143,7 +262,7 @@ body:has(.cr-page) .sg-footer a:hover {
     display: flex;
     flex-direction: column;
     gap: 28px;
-    padding: 24px 0 48px;
+    padding: 0 0 48px;
     color: var(--cr-text);
 }
 
@@ -246,6 +365,29 @@ body:has(.cr-page) .sg-footer a:hover {
     color: var(--cr-text);
     margin: 0;
     letter-spacing: 0.3px;
+    flex: 1;
+}
+
+/* ── Badge ── */
+.cr-rutina-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--cr-border);
+    border-radius: var(--cr-r-pill);
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--cr-text-3);
+    letter-spacing: 0.5px;
+    transition: all var(--cr-ease);
+    white-space: nowrap;
+}
+
+.cr-rutina-badge-active {
+    background: rgba(52, 211, 153, 0.12);
+    border-color: rgba(52, 211, 153, 0.25);
+    color: var(--cr-accent);
 }
 
 /* ================================================
@@ -364,7 +506,7 @@ body:has(.cr-page) .sg-footer a:hover {
 }
 
 /* ================================================
-   EXERCISE LIST
+   EXERCISE LIST (LEFT)
    ================================================ */
 .cr-ejercicios {
     display: flex;
@@ -378,7 +520,6 @@ body:has(.cr-page) .sg-footer a:hover {
     gap: 8px;
 }
 
-/* ── Exercise card ── */
 .cr-ej-card {
     display: flex;
     align-items: center;
@@ -492,6 +633,20 @@ body:has(.cr-page) .sg-footer a:hover {
     transform: scale(0.95);
 }
 
+.cr-ej-add-done {
+    background: rgba(52, 211, 153, 0.12);
+    border-color: rgba(52, 211, 153, 0.30);
+    color: var(--cr-accent);
+    cursor: default;
+}
+
+.cr-ej-add-done:hover {
+    background: rgba(52, 211, 153, 0.12);
+    border-color: rgba(52, 211, 153, 0.30);
+    color: var(--cr-accent);
+    transform: none;
+}
+
 /* ================================================
    PAGINATION
    ================================================ */
@@ -546,34 +701,603 @@ body:has(.cr-page) .sg-footer a:hover {
 }
 
 /* ================================================
-   RIGHT PANEL — RUTINA PLACEHOLDER
+   RIGHT PANEL — ROUTINE NAME INPUT
    ================================================ */
-.cr-panel-right {
-    border-style: dashed;
-    border-color: var(--cr-border);
+.cr-rutina-name-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
-.cr-rutina-empty {
-    opacity: 0.6;
+.cr-rutina-name-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--cr-text-2);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.cr-rutina-name-inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.cr-rutina-name-icon {
+    position: absolute;
+    left: 13px;
+    font-size: 0.85rem;
+    color: var(--cr-text-3);
+    pointer-events: none;
+    transition: color var(--cr-ease);
+}
+
+.cr-rutina-name-inner:focus-within .cr-rutina-name-icon {
+    color: var(--cr-accent);
+}
+
+.cr-rutina-name-input {
+    width: 100%;
+    padding: 11px 14px 11px 36px;
+    background: var(--cr-bg-card);
+    border: 1px solid var(--cr-border);
+    border-radius: var(--cr-r-sm);
+    color: var(--cr-text);
+    font-family: var(--cr-ff);
+    font-size: 0.88rem;
+    outline: none;
+    transition: border-color var(--cr-ease), box-shadow var(--cr-ease);
+}
+
+.cr-rutina-name-input::placeholder {
+    color: var(--cr-text-3);
+}
+
+.cr-rutina-name-input:hover {
+    border-color: var(--cr-border-h);
+}
+
+.cr-rutina-name-input:focus {
+    border-color: var(--cr-border-focus);
+    box-shadow: 0 0 0 3px var(--cr-accent-dim);
+}
+
+/* ================================================
+   RIGHT PANEL — ROUTINE EXERCISE LIST
+   ================================================ */
+.cr-rutina-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.cr-rutina-ej {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: var(--cr-bg-card);
+    border: 1px solid var(--cr-border);
+    border-radius: var(--cr-r-md);
+    transition: all var(--cr-ease);
+    animation: cr-enter 0.25s ease-out both;
+}
+
+.cr-rutina-ej:hover {
+    background: var(--cr-bg-card-h);
+    border-color: var(--cr-border-h);
+}
+
+.cr-rutina-ej-num {
+    font-family: var(--cr-ff-display);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--cr-text-3);
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+    min-width: 20px;
+    text-align: right;
+}
+
+.cr-rutina-ej-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    background: var(--cr-accent-dim);
+    border: 1px solid rgba(52, 211, 153, 0.08);
+    border-radius: var(--cr-r-sm);
+    color: var(--cr-accent);
+    font-size: 0.85rem;
+}
+
+.cr-rutina-ej-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    flex: 1;
+}
+
+.cr-rutina-ej-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--cr-text);
+    margin: 0;
+    line-height: 1.3;
+    white-space: normal;
+    word-break: break-word;
+}
+
+.cr-rutina-ej-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.cr-rutina-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 1px 7px;
+    border-radius: var(--cr-r-pill);
+    font-size: 0.62rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.cr-rutina-tag-grupo {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--cr-border);
+    color: var(--cr-text-2);
+}
+
+.cr-rutina-tag-equip {
+    background: var(--cr-accent-dim);
+    border: 1px solid rgba(52, 211, 153, 0.1);
+    color: var(--cr-accent);
+}
+
+/* ── Stats row (series × reps) ── */
+.cr-rutina-ej-stats {
+    display: flex;
+    gap: 10px;
+    margin-top: 2px;
+}
+
+.cr-rutina-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.64rem;
+    font-weight: 600;
+    color: var(--cr-accent);
+    letter-spacing: 0.3px;
+}
+
+.cr-rutina-stat i {
+    font-size: 0.6rem;
+    opacity: 0.7;
+}
+
+/* ── Remove button ── */
+.cr-rutina-ej-remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--cr-r-sm);
+    color: var(--cr-text-3);
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all var(--cr-ease);
+    padding: 0;
+}
+
+.cr-rutina-ej-remove:hover {
+    background: var(--cr-error-dim);
+    border-color: rgba(248, 113, 113, 0.2);
+    color: var(--cr-error);
+}
+
+/* ================================================
+   RIGHT PANEL — FINISH BUTTON
+   ================================================ */
+.cr-rutina-footer {
+    padding-top: 16px;
+    border-top: 1px solid var(--cr-border);
+    margin-top: auto;
+}
+
+.cr-btn-finish {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 24px;
+    background: var(--cr-accent);
+    color: #0b0b0b;
+    border: none;
+    border-radius: var(--cr-r-sm);
+    font-family: var(--cr-ff);
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--cr-ease);
+    letter-spacing: 0.2px;
+}
+
+.cr-btn-finish:hover:not(:disabled) {
+    background: var(--cr-accent-h);
+    box-shadow: 0 4px 20px rgba(52, 211, 153, 0.3);
+    transform: translateY(-1px);
+}
+
+.cr-btn-finish:active:not(:disabled) {
+    transform: scale(0.99);
+}
+
+.cr-btn-finish:disabled {
+    background: var(--cr-bg-card);
+    color: var(--cr-text-3);
+    border: 1px solid var(--cr-border);
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* ── Button spinner (while submitting) ── */
+.cr-btn-spin {
+    animation: cr-spin 0.7s linear infinite;
+}
+
+/* ================================================
+   INLINE FORM — OVERLAY + CARD
+   ================================================ */
+.cr-form-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.cr-form-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.cr-form-card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--cr-bg-card);
+    border: 1px solid var(--cr-border-h);
+    border-radius: var(--cr-r-lg);
+    overflow: hidden;
+    transform: translateY(12px) scale(0.97);
+    transition: transform 0.25s ease;
+}
+
+.cr-form-overlay.is-open .cr-form-card {
+    transform: translateY(0) scale(1);
+}
+
+/* ── Form header ── */
+.cr-form-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 20px 22px 16px;
+    border-bottom: 1px solid var(--cr-border);
+}
+
+.cr-form-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.cr-form-ej-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    background: var(--cr-accent-dim);
+    border: 1px solid rgba(52, 211, 153, 0.08);
+    border-radius: var(--cr-r-sm);
+    color: var(--cr-accent);
+    font-size: 0.95rem;
+}
+
+.cr-form-ej-name {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--cr-text);
+    margin: 0;
+    line-height: 1.3;
+    word-break: break-word;
+}
+
+.cr-form-ej-grupo {
+    font-size: 0.7rem;
+    color: var(--cr-text-3);
+    margin: 0;
+}
+
+.cr-form-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    background: transparent;
+    border: 1px solid var(--cr-border);
+    border-radius: var(--cr-r-sm);
+    color: var(--cr-text-3);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all var(--cr-ease);
+    padding: 0;
+}
+
+.cr-form-close:hover {
+    border-color: var(--cr-border-h);
+    color: var(--cr-text);
+}
+
+/* ── Form body ── */
+.cr-form-body {
+    padding: 20px 22px;
+}
+
+.cr-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.cr-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.cr-form-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--cr-text-2);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.cr-form-input {
+    width: 100%;
+    padding: 10px 14px;
+    background: var(--cr-bg-raised);
+    border: 1px solid var(--cr-border);
+    border-radius: var(--cr-r-sm);
+    color: var(--cr-text);
+    font-family: var(--cr-ff);
+    font-size: 0.9rem;
+    font-weight: 600;
+    outline: none;
+    text-align: center;
+    transition: border-color var(--cr-ease), box-shadow var(--cr-ease);
+    -moz-appearance: textfield;
+}
+
+.cr-form-input::-webkit-inner-spin-button,
+.cr-form-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.cr-form-input:hover {
+    border-color: var(--cr-border-h);
+}
+
+.cr-form-input:focus {
+    border-color: var(--cr-border-focus);
+    box-shadow: 0 0 0 3px var(--cr-accent-dim);
+}
+
+/* ── Form footer ── */
+.cr-form-footer {
+    display: flex;
+    gap: 10px;
+    padding: 16px 22px 20px;
+    border-top: 1px solid var(--cr-border);
+}
+
+.cr-form-btn-cancel {
+    flex: 1;
+    padding: 10px 16px;
+    background: transparent;
+    border: 1px solid var(--cr-border);
+    border-radius: var(--cr-r-sm);
+    color: var(--cr-text-2);
+    font-family: var(--cr-ff);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--cr-ease);
+}
+
+.cr-form-btn-cancel:hover {
+    border-color: var(--cr-border-h);
+    color: var(--cr-text);
+}
+
+.cr-form-btn-confirm {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 16px;
+    background: var(--cr-accent);
+    border: none;
+    border-radius: var(--cr-r-sm);
+    color: #0b0b0b;
+    font-family: var(--cr-ff);
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--cr-ease);
+}
+
+.cr-form-btn-confirm:hover {
+    background: var(--cr-accent-h);
+    box-shadow: 0 2px 12px rgba(52, 211, 153, 0.25);
+}
+
+/* ================================================
+   TOAST NOTIFICATION — TOP CENTER
+   ================================================ */
+.cr-toast {
+    position: fixed;
+    top: 72px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    z-index: 4000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 22px;
+    border-radius: var(--cr-r-md);
+    font-family: var(--cr-ff);
+    font-size: 0.82rem;
+    font-weight: 600;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+    cursor: pointer;
+}
+
+.cr-toast-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+}
+
+.cr-toast-success {
+    background: rgba(52, 211, 153, 0.12);
+    border: 1px solid rgba(52, 211, 153, 0.25);
+    color: var(--cr-accent);
+    box-shadow: 0 8px 32px rgba(52, 211, 153, 0.15);
+}
+
+.cr-toast-error {
+    background: var(--cr-error-dim);
+    border: 1px solid rgba(248, 113, 113, 0.2);
+    color: var(--cr-error);
+    box-shadow: 0 8px 32px rgba(248, 113, 113, 0.1);
+}
+
+.cr-toast i {
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+/* ================================================
+   FOOTER
+   ================================================ */
+.cr-footer {
+    padding: 40px 0 0;
+    border-top: 1px solid var(--cr-border);
+}
+
+.cr-footer-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-bottom: 24px;
+}
+
+.cr-footer-left {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.cr-footer-tagline {
+    font-size: 0.78rem;
+    color: var(--cr-text-3);
+    margin: 0;
+}
+
+.cr-footer-right {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.cr-footer-link {
+    font-size: 0.8rem;
+    color: var(--cr-text-3);
+    text-decoration: none;
+    transition: color var(--cr-ease);
+}
+
+.cr-footer-link:hover {
+    color: var(--cr-accent);
+}
+
+.cr-footer-bottom {
+    padding: 16px 0;
+    border-top: 1px solid var(--cr-border);
+}
+
+.cr-footer-bottom p {
+    font-size: 0.7rem;
+    color: var(--cr-text-3);
+    margin: 0;
 }
 
 /* ================================================
    SCROLLBAR
    ================================================ */
-.cr-ejercicios::-webkit-scrollbar {
+.cr-ejercicios::-webkit-scrollbar,
+.cr-rutina-list::-webkit-scrollbar {
     width: 4px;
 }
 
-.cr-ejercicios::-webkit-scrollbar-track {
+.cr-ejercicios::-webkit-scrollbar-track,
+.cr-rutina-list::-webkit-scrollbar-track {
     background: transparent;
 }
 
-.cr-ejercicios::-webkit-scrollbar-thumb {
+.cr-ejercicios::-webkit-scrollbar-thumb,
+.cr-rutina-list::-webkit-scrollbar-thumb {
     background: var(--cr-border-h);
     border-radius: var(--cr-r-pill);
 }
 
-.cr-ejercicios::-webkit-scrollbar-thumb:hover {
+.cr-ejercicios::-webkit-scrollbar-thumb:hover,
+.cr-rutina-list::-webkit-scrollbar-thumb:hover {
     background: var(--cr-text-3);
 }
 
@@ -581,8 +1305,18 @@ body:has(.cr-page) .sg-footer a:hover {
    RESPONSIVE ≥ 640px
    ================================================ */
 @media (min-width: 640px) {
+    .cr-container {
+        padding: 0 32px;
+    }
+
     .cr-title {
         font-size: 2.4rem;
+    }
+
+    .cr-footer-inner {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
     }
 }
 
@@ -590,9 +1324,22 @@ body:has(.cr-page) .sg-footer a:hover {
    RESPONSIVE ≥ 960px
    ================================================ */
 @media (min-width: 960px) {
+    .cr-container {
+        padding: 0 40px;
+    }
+
+    .cr-nav-links {
+        display: flex;
+    }
+
+    .cr-nav-toggle {
+        display: none;
+    }
+
     .cr-layout {
         flex-direction: row;
         gap: 20px;
+        align-items: flex-start;
     }
 
     .cr-panel-left {
@@ -603,6 +1350,8 @@ body:has(.cr-page) .sg-footer a:hover {
     .cr-panel-right {
         flex: 1;
         max-width: 50%;
+        position: sticky;
+        top: 80px;
     }
 
     .cr-title {

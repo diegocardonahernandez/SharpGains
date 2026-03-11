@@ -14,20 +14,14 @@ namespace SharpGains.Services
             this.repoRutinas = repoRutinas;
         }
 
-        public async Task<List<Ejercicio>> GetEjerciciosAsync()
-        {
-            return await this.repoEjercicios.GetEjercicios();
-        }
-
-        public async Task<List<Ejercicio>> GetEjerciciosGrupoMuscularAsync(string grupoMuscular)
-        {
-            return await this.repoEjercicios.GetEjerciciosGrupoMuscular(grupoMuscular);
-        }
-
         public async Task<ModelEjerciciosPaginados> GetEjerciciosGPpaginados(string grupoMuscular, int posicion)
         {
             return await this.repoEjercicios.GetEjerciciosGrupoMuscularPaginados(grupoMuscular, posicion);
         }
 
+        public async Task<int> CrearRutinaAsync(int idUsuario, string nombreRutina, string jsonEjercicios)
+        {
+            return await this.repoRutinas.CrearRutinaAsync(idUsuario, nombreRutina, jsonEjercicios);
+        }
     }
 }
