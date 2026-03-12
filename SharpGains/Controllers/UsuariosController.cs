@@ -120,6 +120,16 @@ namespace SharpGains.Controllers
             return View(usuario);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> RutinasUsuario()
+        {
+            int idUsuario = int.Parse(HttpContext.Session.GetString("IDUSUARIOLOGEADO"));
+
+            List<Rutina> rutinas = await this.repo.GetRutinasUsuario(idUsuario);
+
+            return PartialView("_RutinasUsuario", rutinas);
+        }
+
         public IActionResult CerrarSesion()
         {
             HttpContext.Session.Remove("IDUSUARIOLOGEADO");

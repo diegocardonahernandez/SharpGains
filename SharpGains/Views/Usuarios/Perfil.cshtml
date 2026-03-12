@@ -28,6 +28,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Oswald:wght@400;500;700&display=swap"
           rel="stylesheet" />
     <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/rutinas.css" asp-append-version="true" />
 }
 
 <body class="pf-body">
@@ -183,6 +184,35 @@
                 </a>
             </section>
 
+            <!-- ============================== -->
+            <!-- DYNAMIC CONTENT PANEL          -->
+            <!-- ============================== -->
+            <section class="pf-content-section">
+
+                <!-- ── Chip selector bar ── -->
+                <div class="pf-chip-bar">
+                    <button class="pf-chip"
+                            id="pf-chip-rutinas"
+                            data-url="@Url.Action("RutinasUsuario", "Usuarios")"
+                            onclick="toggleContentPanel(this)">
+                        <i class="bi bi-journal-text"></i>
+                        <span>Mis Rutinas</span>
+                        <span class="pf-chip-count">@totalRutinas</span>
+                    </button>
+                    @* Futuras chips: Sesiones, Progreso, etc. *@
+                </div>
+
+                <!-- ── Loading spinner ── -->
+                <div class="pf-content-spinner" id="pf-content-spinner">
+                    <i class="bi bi-arrow-repeat"></i>
+                    <span>Cargando…</span>
+                </div>
+
+                <!-- ── Injection target ── -->
+                <div id="pf-content-panel"></div>
+
+            </section>
+
         </div>
     </main>
 
@@ -211,3 +241,42 @@
     </footer>
 
 </body>
+
+@section Scripts {
+    <script>
+        function toggleContentPanel(chip) {
+            const panel = document.getElementById('pf-content-panel');
+            const spinner = document.getElementById('pf-content-spinner');
+            const allChips = document.querySelectorAll('.pf-chip');
+            const isActive = chip.classList.contains('pf-chip-active');
+
+            // Si ya está activo → cerrar el panel
+            if (isActive) {
+                chip.classList.remove('pf-chip-active');
+                panel.innerHTML = '';
+                return;
+            }
+
+            // Desactivar todos los chips y activar el seleccionado
+            allChips.forEach(c => c.classList.remove('pf-chip-active'));
+            chip.classList.add('pf-chip-active');
+
+            // Mostrar spinner, ocultar contenido anterior
+            spinner.style.display = 'flex';
+            panel.innerHTML = '';
+
+            // Petición HTMX manual via fetch (más control que hx-get para toggle)
+            const url = chip.getAttribute('data-url');
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    spinner.style.display = 'none';
+                    panel.innerHTML = html;
+                })
+                .catch(() => {
+                    spinner.style.display = 'none';
+                    panel.innerHTML = '<p style="text-align:center;color:var(--pf-text-3);padding:24px;">Error al cargar el contenido.</p>';
+                });
+        }
+    </script>
+}

@@ -1,0 +1,155 @@
+﻿@model List<SharpGains.Models.Rutina>
+
+@{
+    static string GetGrupoIcon(string grupo)
+    {
+        return grupo.ToLowerInvariant() switch
+        {
+            var g when g.Contains("pecho")                               => "bi-heart-pulse",
+            var g when g.Contains("espalda")                             => "bi-layout-sidebar-reverse",
+            var g when g.Contains("hombro") || g.Contains("deltoid")     => "bi-arrows-fullscreen",
+            var g when g.Contains("bícep")  || g.Contains("bicep")       => "bi-lightning-charge",
+            var g when g.Contains("trícep") || g.Contains("tricep")      => "bi-lightning-charge-fill",
+            var g when g.Contains("cuádr")  || g.Contains("pierna")      => "bi-person-walking",
+            var g when g.Contains("glúteo") || g.Contains("gluteo")      => "bi-person-standing",
+            var g when g.Contains("gemelo") || g.Contains("pantorrilla") => "bi-arrow-down-square",
+            var g when g.Contains("core")   || g.Contains("abdom")       => "bi-circle-half",
+            var g when g.Contains("isquio") || g.Contains("femoral")     => "bi-arrow-down-up",
+            _                                                             => "bi-activity"
+        };
+    }
+}
+
+<div class="ru-panel">
+
+    <!-- ── Panel header ── -->
+    <div class="ru-panel-header">
+        <div class="ru-panel-icon">
+            <i class="bi bi-journal-text"></i>
+        </div>
+        <h2 class="ru-panel-title">Mis Rutinas</h2>
+        <span class="ru-badge">@Model.Count @(Model.Count == 1 ? "rutina" : "rutinas")</span>
+    </div>
+
+    <!-- ── Empty state ── -->
+    @if (!Model.Any())
+    {
+        <div class="ru-empty">
+            <div class="ru-empty-icon">
+                <i class="bi bi-clipboard2-plus"></i>
+            </div>
+            <p class="ru-empty-title">Sin rutinas todavía</p>
+            <p class="ru-empty-text">
+                Crea tu primera rutina y empieza a entrenar con un plan definido.
+            </p>
+            <a class="ru-btn-create"
+               asp-controller="Rutinas" asp-action="CrearRutina">
+                <i class="bi bi-plus-lg"></i> Crear rutina
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="ru-grid">
+            @foreach (var rutina in Model)
+            {
+                var ejercicios  = rutina.EjercicioRutinas
+                                        .OrderBy(er => er.Orden)
+                                        .ToList();
+                var numSesiones = rutina.Sesions.Count;
+                var grupos      = ejercicios
+                                        .Select(er => er.IdEjercicioNavigation.GrupoMuscular)
+                                        .Distinct()
+                                        .Take(3)
+                                        .ToList();
+                var totalGrupos = ejercicios
+                                        .Select(er => er.IdEjercicioNavigation.GrupoMuscular)
+                                        .Distinct()
+                                        .Count();
+                var restantes   = ejercicios.Count - 4;
+
+                <article class="ru-card">
+
+                    <!-- Card header -->
+                    <div class="ru-card-header">
+                        <div class="ru-card-icon">
+                            <i class="bi bi-clipboard2-check"></i>
+                        </div>
+                        <div class="ru-card-meta">
+                            <h3 class="ru-card-name">@rutina.Nombre</h3>
+                            <div class="ru-card-tags">
+                                @foreach (var grupo in grupos)
+                                {
+                                    <span class="ru-tag">
+                                        <i class="bi @GetGrupoIcon(grupo)"></i>
+                                        @grupo
+                                    </span>
+                                }
+                                @if (totalGrupos > 3)
+                                {
+                                    <span class="ru-tag ru-tag-more">
+                                        +@(totalGrupos - 3) más
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats row -->
+                    <div class="ru-card-stats">
+                        <div class="ru-stat">
+                            <i class="bi bi-layers"></i>
+                            <span>@ejercicios.Count @(ejercicios.Count == 1 ? "ejercicio" : "ejercicios")</span>
+                        </div>
+                        <div class="ru-stat">
+                            <i class="bi bi-calendar-check"></i>
+                            <span>@numSesiones @(numSesiones == 1 ? "sesión" : "sesiones")</span>
+                        </div>
+                        <div class="ru-stat">
+                            <i class="bi bi-lightning-charge"></i>
+                            <span>@ejercicios.Sum(er => er.SeriesObjetivo) series totales</span>
+                        </div>
+                    </div>
+
+                    <!-- Exercise list preview (primeros 4) -->
+                    @if (ejercicios.Any())
+                    {
+                        <ul class="ru-ej-list">
+                            @foreach (var er in ejercicios.Take(4))
+                            {
+                                <li class="ru-ej-item">
+                                    <span class="ru-ej-icon">
+                                        <i class="bi @GetGrupoIcon(er.IdEjercicioNavigation.GrupoMuscular)"></i>
+                                    </span>
+                                    <span class="ru-ej-name">@er.IdEjercicioNavigation.Nombre</span>
+                                    <span class="ru-ej-detail">
+                                        @er.SeriesObjetivo×@er.RepeticionesObjetivo
+                                    </span>
+                                </li>
+                            }
+                        </ul>
+
+                        @* ── Indicador informativo si hay más ejercicios ── *@
+                        @if (restantes > 0)
+                        {
+                            <p class="ru-ej-extra">
+                                <i class="bi bi-plus-circle"></i>
+                                @restantes @(restantes == 1 ? "ejercicio más" : "ejercicios más") en esta rutina
+                            </p>
+                        }
+                    }
+
+                    <!-- Card footer -->
+                    <div class="ru-card-footer">
+                        <button class="ru-btn-start" disabled title="Disponible próximamente">
+                            <i class="bi bi-play-fill"></i>
+                            Iniciar rutina
+                        </button>
+                    </div>
+
+                </article>
+            }
+        </div>
+    }
+
+</div>

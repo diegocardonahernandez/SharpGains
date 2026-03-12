@@ -137,5 +137,16 @@ namespace SharpGains.Repositories
                 .Where(u => u.Id == id)
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<List<Rutina>> GetRutinasUsuario(int idUsuario)
+        {
+            return await this.context.Rutinas
+                .Include(r => r.EjercicioRutinas)
+                    .ThenInclude(er => er.IdEjercicioNavigation)
+                .Include(r => r.Sesions)
+                .Where(r => r.IdUsuario == idUsuario)
+                .OrderBy(r => r.Nombre)
+                .ToListAsync();
+        }
     }
 }

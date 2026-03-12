@@ -392,6 +392,115 @@
 }
 
 /* ================================================
+   DYNAMIC CONTENT SECTION
+   ================================================ */
+.pf-content-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* ── Chip selector bar ── */
+.pf-chip-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-bottom: 16px;
+}
+
+.pf-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 16px;
+    background: var(--pf-bg-card);
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-r-pill);
+    color: var(--pf-text-3);
+    font-family: var(--pf-ff);
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--pf-ease);
+    white-space: nowrap;
+    user-select: none;
+    line-height: 1.3;
+}
+
+.pf-chip i {
+    font-size: 0.82rem;
+    transition: color var(--pf-ease);
+}
+
+.pf-chip:hover {
+    border-color: var(--pf-border-h);
+    color: var(--pf-text-2);
+    background: var(--pf-bg-card-h);
+}
+
+.pf-chip-active {
+    background: var(--pf-accent-dim);
+    border-color: rgba(52, 211, 153, 0.25);
+    color: var(--pf-accent);
+}
+
+.pf-chip-active:hover {
+    background: rgba(52, 211, 153, 0.10);
+    color: var(--pf-accent-h);
+}
+
+.pf-chip-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: var(--pf-r-pill);
+    font-size: 0.6rem;
+    font-weight: 700;
+    line-height: 1;
+    transition: all var(--pf-ease);
+}
+
+.pf-chip-active .pf-chip-count {
+    background: rgba(52, 211, 153, 0.15);
+    color: var(--pf-accent);
+}
+
+/* ── Loading spinner ── */
+.pf-content-spinner {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 48px 0;
+    font-size: 0.82rem;
+    color: var(--pf-accent);
+}
+
+.pf-content-spinner i {
+    animation: pf-spin 0.7s linear infinite;
+}
+
+@keyframes pf-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ── Content panel ── */
+#pf-content-panel {
+    background: var(--pf-bg-card);
+    border: 1px solid var(--pf-border);
+    border-radius: var(--pf-r-md);
+    padding: 24px;
+}
+
+#pf-content-panel:empty {
+    display: none;
+}
+
+/* ================================================
    FOOTER
    ================================================ */
 .pf-footer {
@@ -494,6 +603,7 @@
     .pf-stats   { animation-delay: 0.06s; }
     .pf-cards   { animation-delay: 0.12s; }
     .pf-actions { animation-delay: 0.18s; }
+    .pf-content-section { animation: pf-enter 0.5s ease-out 0.24s both; }
 }
 
 @keyframes pf-enter {
