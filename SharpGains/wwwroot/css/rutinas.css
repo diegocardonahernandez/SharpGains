@@ -366,11 +366,12 @@
     font-family: var(--pf-ff);
     font-size: 0.85rem;
     font-weight: 700;
-    cursor: not-allowed;
+    cursor: pointer; /* fixed: was not-allowed */
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     letter-spacing: 0.2px;
     position: relative;
     overflow: hidden;
+    text-decoration: none; /* keeps anchor style consistent */
 }
 
 /* Efecto de brillo animado al hover */

@@ -141,10 +141,13 @@
 
                     <!-- Card footer -->
                     <div class="ru-card-footer">
-                        <button class="ru-btn-start" disabled title="Disponible próximamente">
+                        <a class="ru-btn-start"
+                           asp-controller="Sesiones"
+                           asp-action="Sesion"
+                           asp-route-idRutina="@rutina.Id">
                             <i class="bi bi-play-fill"></i>
                             Iniciar rutina
-                        </button>
+                        </a>
                     </div>
 
                 </article>

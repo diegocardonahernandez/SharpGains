@@ -1,0 +1,199 @@
+﻿@model Rutina
+
+@{
+    ViewData["Title"] = "Sesión de entrenamiento";
+    var ejercicios = Model.EjercicioRutinas.OrderBy(er => er.Orden).ToList();
+    var totalSeries = ejercicios.Sum(e => e.SeriesObjetivo);
+    var totalEjercicios = ejercicios.Count;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/sesion.css" asp-append-version="true" />
+}
+
+<body class="se-body">
+    <main class="se-main">
+        <div class="se-container">
+
+            <input type="hidden" id="idRutinaSeleccionada" value="@Model.Id" />
+
+            <header class="se-header">
+                <div class="se-kicker">
+                    <span class="se-kicker-line"></span>
+                    <span class="se-kicker-text">Hoy se entrena</span>
+                </div>
+
+                <h1 class="se-title">@Model.Nombre</h1>
+
+                <p class="se-subtitle">
+                    Mantén el foco, ejecuta con técnica y registra cada serie para medir progreso real.
+                </p>
+
+                <div class="se-summary">
+                    <span class="se-pill">
+                        <i class="bi bi-list-check"></i>
+                        @totalEjercicios @(totalEjercicios == 1 ? "ejercicio" : "ejercicios")
+                    </span>
+                    <span class="se-pill">
+                        <i class="bi bi-layers"></i>
+                        @totalSeries @(totalSeries == 1 ? "serie objetivo" : "series objetivo")
+                    </span>
+                </div>
+            </header>
+
+            @if (TempData["ERROR"] is string error && !string.IsNullOrWhiteSpace(error))
+            {
+                <div class="se-alert">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    <span>@error</span>
+                </div>
+            }
+
+            @if (!ejercicios.Any())
+            {
+                <section class="se-empty">
+                    <i class="bi bi-clipboard2-x"></i>
+                    <h2>Esta rutina no tiene ejercicios</h2>
+                    <p>Vuelve a “Mis rutinas” y añade ejercicios antes de iniciar la sesión.</p>
+                </section>
+            }
+            else
+            {
+                <section class="se-exercises">
+                    @foreach (var er in ejercicios)
+                    {
+                        <article class="se-card">
+                            <div class="se-card-head">
+                                <div class="se-order">@er.Orden.ToString("00")</div>
+                                <div class="se-head-content">
+                                    <h2 class="se-ex-name">@er.IdEjercicioNavigation.Nombre</h2>
+                                    <p class="se-ex-meta">
+                                        @er.IdEjercicioNavigation.GrupoMuscular ·
+                                        Objetivo: @er.SeriesObjetivo x @er.RepeticionesObjetivo reps
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="se-series-block">
+                                <p class="se-series-title">
+                                    <i class="bi bi-pencil-square"></i>
+                                    Registra tus series
+                                </p>
+
+                                <form class="se-series-form" autocomplete="off">
+                                    @for (int numeroSerie = 1; numeroSerie <= er.SeriesObjetivo; numeroSerie++)
+                                    {
+                                        <div class="se-series-row"
+                                             data-id-ejercicio="@er.IdEjercicio"
+                                             data-numero-serie="@numeroSerie">
+                                            <div class="se-field se-field-sm">
+                                                <label>Nº serie</label>
+                                                <input type="number"
+                                                       value="@numeroSerie"
+                                                       readonly />
+                                            </div>
+
+                                            <div class="se-field">
+                                                <label>Peso (kg)</label>
+                                                <input type="number"
+                                                       step="0.25"
+                                                       min="0"
+                                                       data-field="peso"
+                                                       name="Series[@er.IdEjercicio][@numeroSerie].Peso"
+                                                       placeholder="0.00" />
+                                            </div>
+
+                                            <div class="se-field">
+                                                <label>Repeticiones</label>
+                                                <input type="number"
+                                                       min="0"
+                                                       data-field="repeticiones"
+                                                       name="Series[@er.IdEjercicio][@numeroSerie].Repeticiones"
+                                                       placeholder="@er.RepeticionesObjetivo" />
+                                            </div>
+
+                                            <div class="se-field se-field-sm">
+                                                <label>RPE</label>
+                                                <input type="number"
+                                                       min="1"
+                                                       max="10"
+                                                       data-field="rpe"
+                                                       name="Series[@er.IdEjercicio][@numeroSerie].Rpe"
+                                                       placeholder="8" />
+                                            </div>
+
+                                            <div class="se-series-actions">
+                                                <button type="button"
+                                                        class="se-series-confirm"
+                                                        aria-pressed="false"
+                                                        title="Guardar serie en el dispositivo">
+                                                    <i class="bi bi-check2-circle"></i>
+                                                    Completada
+                                                </button>
+
+                                                <button type="button"
+                                                        class="se-series-clear"
+                                                        title="Limpiar serie guardada"
+                                                        disabled>
+                                                    <i class="bi bi-trash3"></i>
+                                                    Limpiar
+                                                </button>
+                                            </div>
+
+                                            <input type="hidden"
+                                                   name="Series[@er.IdEjercicio][@numeroSerie].IdEjercicio"
+                                                   value="@er.IdEjercicio" />
+
+                                            <input type="hidden"
+                                                   name="Series[@er.IdEjercicio][@numeroSerie].NumeroSerie"
+                                                   value="@numeroSerie" />
+                                        </div>
+                                    }
+                                </form>
+                            </div>
+                        </article>
+                    }
+                </section>
+
+                <div class="se-notes-card">
+                    <label class="se-notes-label" for="se-notas-sesion">
+                        <i class="bi bi-journal-text"></i>
+                        Notas de la sesión
+                    </label>
+                    <textarea id="se-notas-sesion"
+                              name="Notas"
+                              class="se-notes-input"
+                              rows="4"
+                              maxlength="2000"
+                              placeholder="Ejemplo: buen rendimiento en press banca, bajar 2.5 kg en la última serie de sentadilla, molestias leves en hombro derecho..."></textarea>
+                    <p class="se-notes-help">
+                        Estas notas te ayudarán a recordar sensaciones y ajustes para próximos entrenos.
+                    </p>
+                </div>
+
+                <div class="se-session-footer">
+                    <button type="button"
+                            id="se-btn-finish"
+                            class="se-btn-finish"
+                            disabled
+                            aria-disabled="true"
+                            title="Completa todas las series para habilitar este botón">
+                        <i class="bi bi-flag-fill"></i>
+                        Finalizar rutina
+                    </button>
+                    <p class="se-finish-hint">
+                        Se habilitará cuando completes todas las series de todos los ejercicios.
+                    </p>
+                </div>
+            }
+        </div>
+        <div id="se-toast" class="se-toast" role="status" aria-live="polite">
+            <i id="se-toast-icon" class="bi bi-info-circle"></i>
+            <span id="se-toast-text"></span>
+        </div>
+    </main>
+</body>
+
+@section Scripts {
+    <script src="~/js/sesion.js" asp-append-version="true"></script>
+}
